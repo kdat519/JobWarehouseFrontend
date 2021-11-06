@@ -42,12 +42,13 @@ const NavCollapse = () => (
   >
     <ul className="navbar-nav">
       <NavItem to="/">Tạo CV của bạn</NavItem>
-      <NavItem to="/" className="fw-bold text-primary">
+      <NavItem
+        to="/"
+        className="d-none d-lg-block fw-bold text-primary border-end"
+      >
         Đăng nhập
       </NavItem>
-      <NavItem to="/" className="border-start">
-        Nhà tuyển dụng/Đăng việc làm
-      </NavItem>
+      <NavItem to="/">Nhà tuyển dụng/Đăng việc làm</NavItem>
     </ul>
   </div>
 );
@@ -56,7 +57,15 @@ const NavBar = () => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
     <div className="container">
       <BrandName />
-      <CollapseButton />
+      <div className="navbar-nav flex-row justify-content-end">
+        <NavItem
+          to="/"
+          className="d-lg-none btn btn-primary fw-bold text-white mx-3"
+        >
+          Đăng nhập
+        </NavItem>
+        <CollapseButton />
+      </div>
       <NavCollapse />
     </div>
   </nav>

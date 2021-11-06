@@ -5,7 +5,9 @@ import doodle from "./doodle.svg";
 const SearchForm = () => {
   const InputGroup = (props) => (
     <div className="input-group">
-      <span className="input-group-text">{props.label}</span>
+      <span className="input-group-text" style={{ width: "5.5em" }}>
+        {props.label}
+      </span>
       <input
         type="text"
         className="form-control"
