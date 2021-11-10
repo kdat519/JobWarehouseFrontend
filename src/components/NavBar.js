@@ -1,15 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import brandNameLogo from "./brandname.svg";
 
 const BrandName = () => {
-  const brandNameClass = "border border-primary px-1";
+  // const brandNameClass = "border border-primary px-1";
   return (
-    <Link className="navbar-brand fw-bold text-primary" to="/">
-      <span className={brandNameClass}>Job</span>
-      <span className={brandNameClass + " bg-primary text-light"}>
-        Warehouse
-      </span>
-    </Link>
+    <NavLink className="navbar-brand fw-bold text-primary" to="/">
+      <img src={brandNameLogo} alt="" height="30"></img>
+    </NavLink>
+  );
+};
+
+const NavItem = (props) => {
+  const className = "nav-link " + (props.className || "");
+  return (
+    <li className="nav-item">
+      <NavLink
+        className={({ isActive }) =>
+          className + " px-2" + (isActive ? " active" : "")
+        }
+        to={props.to}
+      >
+        {props.children}
+      </NavLink>
+    </li>
   );
 };
 
@@ -24,22 +38,24 @@ const CollapseButton = () => (
   </button>
 );
 
-const NavItem = (props) => {
-  const className = "nav-link " + props.className;
-  return (
-    <li className="nav-item">
-      <Link className={className + " px-3"} to={props.to} style={props.style}>
-        {props.children}
-      </Link>
-    </li>
-  );
-};
+const SmallScreenNav = () => (
+  <div className="navbar-nav flex-row justify-content-end">
+    <NavItem
+      to="/"
+      className="d-lg-none btn btn-primary fw-bold text-white mx-1"
+    >
+      Đăng nhập
+    </NavItem>
+    <CollapseButton />
+  </div>
+);
 
 const NavCollapse = () => (
-  <div
-    className="collapse navbar-collapse justify-content-end"
-    id="nav-collapse"
-  >
+  <div className="collapse navbar-collapse" id="nav-collapse">
+    <ul className="navbar-nav me-auto">
+      <NavItem to="/">Tìm việc</NavItem>
+      <NavItem to="/">Tìm nhà tuyển dụng</NavItem>
+    </ul>
     <ul className="navbar-nav">
       <NavItem to="/">Tạo CV của bạn</NavItem>
       <NavItem
@@ -57,15 +73,7 @@ const NavBar = () => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light">
     <div className="container">
       <BrandName />
-      <div className="navbar-nav flex-row justify-content-end">
-        <NavItem
-          to="/"
-          className="d-lg-none btn btn-primary fw-bold text-white mx-3"
-        >
-          Đăng nhập
-        </NavItem>
-        <CollapseButton />
-      </div>
+      <SmallScreenNav />
       <NavCollapse />
     </div>
   </nav>
