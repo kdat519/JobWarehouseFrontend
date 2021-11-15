@@ -44,10 +44,6 @@ const data = [
 ];
 
 const Employer = (props) => {
-  const activeClass = props.followed ? "active" : "";
-  const FollowText = () =>
-    props.followed ? <>Đã&nbsp;theo&nbsp;dõi</> : <>Theo&nbsp;dõi</>;
-
   const SmallInfo = () => (
     <div className="row d-lg-none align-items-center">
       <div className="col">
@@ -57,14 +53,6 @@ const Employer = (props) => {
       <div className="col">
         <div className="text-secondary fw-bold">Quy mô</div>
         <div>15000</div>
-      </div>
-      <div className="col">
-        <button
-          className={"btn btn-outline-primary px-2 " + activeClass}
-          type="button"
-        >
-          <i class="bi bi-bookmark"></i>
-        </button>
       </div>
     </div>
   );
@@ -88,17 +76,8 @@ const Employer = (props) => {
         </div>
         <div className="col-1 d-none d-lg-block">{props.category}</div>
         <div className="col-1 d-none d-lg-block">{props.numOfEmployees}</div>
-        <div className="col-12 col-lg-6 mt-3 mt-lg-0">
+        <div className="col-12 col-lg-7 mt-3 mt-lg-0">
           <p className="my-0">{props.about}</p>
-        </div>
-        <div className="col-1 d-none d-lg-block px-0">
-          <button
-            className={"btn btn-outline-primary px-1 " + activeClass}
-            type="button"
-            style={{ width: "6.1em" }}
-          >
-            <FollowText />
-          </button>
         </div>
       </div>
       <hr className="my-3" />
@@ -118,7 +97,7 @@ const EmployerTable = () => {
         <div className="col-2 fw-bold fs-5">Nhà tuyển dụng</div>
         <div className="col-1 fw-bold fs-5">Lĩnh vực</div>
         <div className="col-1 fw-bold fs-5">Quy mô</div>
-        <div className="col-6 fw-bold fs-5">Giới thiệu</div>
+        <div className="col-7 fw-bold fs-5">Giới thiệu</div>
         <div className="col-1"></div>
       </div>
       {rows}
