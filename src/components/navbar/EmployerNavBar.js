@@ -4,7 +4,7 @@ import brandNameLogo from "./brandname-white.svg";
 import { GenericNavBar, NavItem } from "./NavBar";
 
 const BrandName = () => (
-  <NavLink className="navbar-brand" to="/for-employers">
+  <NavLink className="navbar-brand" to="/for-employers" end>
     <img src={brandNameLogo} alt="" height="30"></img>
     <span className="text-muted fs-6 fw-light d-none d-lg-inline">
       {" "}
@@ -16,7 +16,7 @@ const BrandName = () => (
 const NavCollapse = () => (
   <div className="collapse navbar-collapse" id="nav-collapse">
     <ul className="navbar-nav ms-auto">
-      <NavItem to="/for-employers">Đăng việc làm</NavItem>
+      <NavItem to="/for-employers/post-job">Đăng việc làm</NavItem>
       <NavItem to="/for-employers">Tìm ứng viên</NavItem>
       <NavItem
         to="/for-employers"

@@ -16,8 +16,12 @@ const EmployerHomePage = () => (
         <p className="lead text-light text-center">
           Bạn biết bạn đang tìm kiếm ai. Chúng tôi sẽ giúp bạn tìm&nbsp;họ.
         </p>
-        <div className="mx-auto" style={{width: "fit-content"}}>
-          <Link className="btn btn-light fw-bold text-dark btn-lg" to="/hire">
+        <div className="mx-auto" style={{ width: "fit-content" }}>
+          <Link
+            className="btn btn-light fw-bold text-dark btn-lg"
+            to="/for-employers/post-job"
+            end
+          >
             Đăng việc làm
           </Link>
         </div>
