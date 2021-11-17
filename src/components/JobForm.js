@@ -1,20 +1,11 @@
-import { useFormik } from "formik";
-import React, { useState } from "react";
+import { Form, Formik, useField } from "formik";
 import { useNavigate } from "react-router";
 
-const useInputProps = (name, formik, type, className) => {
-  const [changed, setChanged] = useState(false);
-  const handleChange = (event) => {
-    setChanged(true);
-    console.log(event.target.value);
-    formik.handleChange(event);
-  };
+const useInputProps = (name, type, className) => {
+  const [field, meta] = useField(name);
 
-  const validationClassName = (name) => {
-    if (!changed) return "";
-    return formik.touched[name] && formik.errors[name]
-      ? "is-invalid"
-      : "is-valid";
+  const validationClassName = () => {
+    return meta.touched && meta.error ? "is-invalid" : "";
   };
 
   return {
@@ -22,42 +13,47 @@ const useInputProps = (name, formik, type, className) => {
     name: name,
     type: type,
     className: className + " form-control " + validationClassName(name),
-    onChange: handleChange,
-    onBlur: formik.handleBlur,
-    value: formik.values[name],
+    onChange: field.onChange,
+    onBlur: field.onBlur,
+    value: field.value,
   };
 };
 
-const Input = (props) => (
-  <div className="row mb-2">
-    <label htmlFor={props.name} className="form-label col-2 col-form-label">
-      {props.label}
-    </label>
-    <div className="col-10">
-      <input
-        {...useInputProps(
-          props.name,
-          props.formik,
-          props.type,
-          props.className
-        )}
-        {...props.htmlAttr}
-      />
+const Input = (props) => {
+  const [, meta] = useField(props.name);
+  return (
+    <div className="row mb-2">
+      <label
+        htmlFor={props.name}
+        className="form-label col-12 col-md-3 col-xl-2 col-form-label pe-0"
+      >
+        {props.label}
+      </label>
+      <div className="col-12 col-md-9 col-xl-10">
+        <input
+          {...useInputProps(props.name, props.type, props.className)}
+          {...props.htmlAttr}
+        />
+        <div className="invalid-feedback">{meta.error}</div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-const Textarea = (props) => (
-  <div>
-    <label htmlFor="detail" className="form-label">
-      {props.label}
-    </label>
-    <textarea
-      {...useInputProps(props.name, props.formik)}
-      {...props.htmlAttr}
-    />
-  </div>
-);
+const Textarea = (props) => {
+  const [, meta] = useField(props.name);
+  return (
+    <div className="row mb-2">
+      <div className="col">
+        <label htmlFor="detail" className="form-label">
+          {props.label}
+        </label>
+        <textarea {...useInputProps(props.name)} {...props.htmlAttr} />
+        <div className="invalid-feedback">{meta.error}</div>
+      </div>
+    </div>
+  );
+};
 
 const validate = (values) => {
   const error = {};
@@ -124,52 +120,41 @@ const CancelButton = () => {
 };
 
 const JobForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      jobName: "",
-      category: "",
-      address: "",
-      minSalary: "",
-      detail: "",
-      requirement: "",
-    },
-    validate,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
-    },
-  });
-
   return (
-    <form onSubmit={formik.handleSubmit} noValidate>
-      <Input name="jobName" label="Tên công việc" type="text" formik={formik} />
-      <Input name="category" label="Lĩnh vực" type="text" formik={formik} />
-      <Input name="address" label="Địa điểm" type="text" formik={formik} />
-      <Input
-        name="minSalary"
-        label="Lương khởi điểm"
-        type="number"
-        formik={formik}
-        htmlAttr={{ min: "0" }}
-      />
-      <Textarea
-        name="detail"
-        label="Mô tả"
-        formik={formik}
-        htmlAttr={{ row: "3" }}
-      />
-      <Textarea
-        name="requirement"
-        label="Yêu cầu"
-        formik={formik}
-        htmlAttr={{ row: "3" }}
-      />
-      <div className="d-flex justify-content-end mt-3">
-        <CancelButton />
-        <button type="submit" className="btn btn-primary">
-          Đăng
-        </button>
-      </div>
-    </form>
+    <Formik
+      initialValues={{
+        jobName: "",
+        category: "",
+        address: "",
+        minSalary: "",
+        detail: "",
+        requirement: "",
+      }}
+      validate={validate}
+      onSubmit={(values) => {
+        alert(JSON.stringify(values));
+      }}
+    >
+      <Form noValidate>
+        <Input name="jobName" label="Tên công việc" type="text" />
+        <Input name="category" label="Lĩnh vực" type="text" />
+        <Input name="address" label="Địa điểm" type="text" />
+        <Input
+          name="minSalary"
+          label="Lương khởi điểm"
+          type="number"
+          htmlAttr={{ min: 0 }}
+        />
+        <Textarea name="detail" label="Mô tả" htmlAttr={{ rows: 4 }} />
+        <Textarea name="requirement" label="Yêu cầu" htmlAttr={{ rows: 4 }} />
+        <div className="d-flex justify-content-end mt-3">
+          <CancelButton />
+          <button type="submit" className="btn btn-primary">
+            Đăng
+          </button>
+        </div>
+      </Form>
+    </Formik>
   );
 };
 

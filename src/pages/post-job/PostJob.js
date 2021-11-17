@@ -8,12 +8,12 @@ const PostJob = () => (
       <EmployerNavBar />
     </header>
     <main className="container">
-      <h1 className="fw-bold  pb-3 mb-4">Đăng tin tuyển dụng</h1>
+      <h1 className="fw-bold pb-3 mb-4">Đăng tin tuyển dụng</h1>
       <div className="row">
-        <div className="col-9">
+        <div className="col-12 col-lg-9">
           <JobForm />
         </div>
-        <div className="col-3">
+        <div className="d-none d-lg-block col-3">
           <div className="card border-success mb-3">
             <div className="card-body text-success">
               <h5 className="card-title">
