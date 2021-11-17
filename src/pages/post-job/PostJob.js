@@ -1,5 +1,5 @@
 import React from "react";
-import JobForm from "../../components/JobForm";
+import JobForm from "../../components/job-form/JobForm";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 
 const PostJob = () => (
@@ -17,7 +17,7 @@ const PostJob = () => (
           <div className="card border-success mb-3">
             <div className="card-body text-success">
               <h5 className="card-title">
-                <i class="bi bi-lightbulb"></i> Mẹo tuyển dụng hiệu quả
+                <i className="bi bi-lightbulb"></i> Mẹo tuyển dụng hiệu quả
               </h5>
               <p className="card-text">
                 Sử dụng chức danh công việc được biết đến rộng rãi. Cung cấp

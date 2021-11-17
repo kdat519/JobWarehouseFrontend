@@ -20,7 +20,6 @@ const EmployerHomePage = () => (
           <Link
             className="btn btn-light fw-bold text-dark btn-lg"
             to="/for-employers/post-job"
-            end
           >
             Đăng việc làm
           </Link>

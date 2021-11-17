@@ -58,9 +58,13 @@ const Textarea = (props) => {
 const validate = (values) => {
   const error = {};
   for (let field in values) {
+    console.log(values[field]);
     if (!values[field]) {
       error[field] = "Không được để trống";
     }
+  }
+  if (!values.minSalary || values.minSalary < 0) {
+    error.minSalary = "Lương phải là số dương và không được để trống.";
   }
   return error;
 };
@@ -119,17 +123,18 @@ const CancelButton = () => {
   );
 };
 
-const JobForm = () => {
+const JobForm = (props) => {
+  const initialValues = props.initialValues || {
+    jobName: "",
+    category: "",
+    address: "",
+    minSalary: "",
+    detail: "",
+    requirement: "",
+  };
   return (
     <Formik
-      initialValues={{
-        jobName: "",
-        category: "",
-        address: "",
-        minSalary: "",
-        detail: "",
-        requirement: "",
-      }}
+      initialValues={initialValues}
       validate={validate}
       onSubmit={(values) => {
         alert(JSON.stringify(values));
@@ -150,7 +155,7 @@ const JobForm = () => {
         <div className="d-flex justify-content-end mt-3">
           <CancelButton />
           <button type="submit" className="btn btn-primary">
-            Đăng
+            {props.initialValues ? "Lưu" : "Đăng"}
           </button>
         </div>
       </Form>
