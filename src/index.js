@@ -6,6 +6,7 @@ import NavBar from "./components/navbar/NavBar";
 import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
 import Employers from "./pages/employers/Employers";
 import HomePage from "./pages/homepage/HomePage";
+import PostJob from "./pages/post-job/PostJob";
 import "./styles.scss";
 
 const EmptyPage = () => (
@@ -24,8 +25,9 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="for-employers" element={<EmployerHomePage />}></Route>
-        <Route path="employers" element={<Employers />}></Route>
+        <Route path="/employers" element={<Employers />}></Route>
+        <Route path="/for-employers" element={<EmployerHomePage />}></Route>
+        <Route path="/for-employers/post-job" element={<PostJob />}></Route>
         <Route path="*" element={<EmptyPage />}></Route>
       </Routes>
     </BrowserRouter>

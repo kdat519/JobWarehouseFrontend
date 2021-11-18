@@ -2,12 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import brandNameLogo from "./brandname.svg";
 
-const BrandName = () => (
-  <NavLink className="navbar-brand" to="/">
-    <img src={brandNameLogo} alt="" height="30"></img>
-  </NavLink>
-);
-
 export const NavItem = (props) => {
   const className = "nav-link " + (props.className || "");
   return (
@@ -17,6 +11,7 @@ export const NavItem = (props) => {
           className + " px-2" + (isActive ? " active" : "")
         }
         to={props.to}
+        end
       >
         {props.children}
       </NavLink>
@@ -51,6 +46,27 @@ const SmallScreenNav = (props) => {
   );
 };
 
+export const GenericNavBar = (props) => {
+  const navClassName =
+    "navbar navbar-expand-lg " +
+    (props.theme === "light" ? "navbar-light bg-light" : "navbar-dark bg-dark");
+  return (
+    <nav className={navClassName}>
+      <div className="container">
+        {props.brandName}
+        <SmallScreenNav theme={props.theme} />
+        {props.navCollapse}
+      </div>
+    </nav>
+  );
+};
+
+const BrandName = () => (
+  <NavLink className="navbar-brand" to="/" end>
+    <img src={brandNameLogo} alt="" height="30"></img>
+  </NavLink>
+);
+
 const NavCollapse = () => (
   <div className="collapse navbar-collapse" id="nav-collapse">
     <ul className="navbar-nav me-auto">
@@ -69,21 +85,6 @@ const NavCollapse = () => (
     </ul>
   </div>
 );
-
-export const GenericNavBar = (props) => {
-  const navClassName =
-    "navbar navbar-expand-lg " +
-    (props.theme === "light" ? "navbar-light bg-light" : "navbar-dark bg-dark");
-  return (
-    <nav className={navClassName}>
-      <div className="container">
-        {props.brandName}
-        <SmallScreenNav theme={props.theme} />
-        {props.navCollapse}
-      </div>
-    </nav>
-  );
-};
 
 const NavBar = () => (
   <GenericNavBar
