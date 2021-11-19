@@ -45,7 +45,7 @@ const Textarea = (props) => {
   return (
     <div className="row mb-2">
       <div className="col">
-        <label htmlFor="detail" className="form-label">
+        <label htmlFor={props.name} className="form-label">
           {props.label}
         </label>
         <textarea {...useInputProps(props.name)} {...props.htmlAttr} />
@@ -58,7 +58,6 @@ const Textarea = (props) => {
 const validate = (values) => {
   const error = {};
   for (let field in values) {
-    console.log(values[field]);
     if (!values[field]) {
       error[field] = "Không được để trống";
     }
