@@ -1,97 +1,72 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Role, useAuth } from "../auth/AuthProvider";
+import AuthUserNavLayout from "./AuthUserNavLayout";
 import brandNameLogo from "./brandname.svg";
-
-export const NavItem = (props) => {
-  const className = "nav-link " + (props.className || "");
-  return (
-    <li className="nav-item">
-      <NavLink
-        className={({ isActive }) =>
-          className + " px-2" + (isActive ? " active" : "")
-        }
-        to={props.to}
-        end
-      >
-        {props.children}
-      </NavLink>
-    </li>
-  );
-};
-
-const CollapseButton = () => (
-  <button
-    className="navbar-toggler"
-    type="submit"
-    data-bs-toggle="collapse"
-    data-bs-target="#nav-collapse"
-  >
-    <span className="navbar-toggler-icon"></span>
-  </button>
-);
-
-const SmallScreenNav = (props) => {
-  const loginBtnClassName =
-    "d-lg-none btn fw-bold mx-1 " +
-    (props.theme === "light"
-      ? "btn-primary text-white"
-      : "btn-light text-dark");
-  return (
-    <div className="navbar-nav flex-row justify-content-end">
-      <NavItem to="/" className={loginBtnClassName}>
-        Đăng nhập
-      </NavItem>
-      <CollapseButton />
-    </div>
-  );
-};
-
-export const GenericNavBar = (props) => {
-  const navClassName =
-    "navbar navbar-expand-lg " +
-    (props.theme === "light" ? "navbar-light bg-light" : "navbar-dark bg-dark");
-  return (
-    <nav className={navClassName}>
-      <div className="container">
-        {props.brandName}
-        <SmallScreenNav theme={props.theme} />
-        {props.navCollapse}
-      </div>
-    </nav>
-  );
-};
+import GenericNavBar, { NavItem, ThemeContext } from "./GenericNavBar";
 
 const BrandName = () => (
-  <NavLink className="navbar-brand" to="/" end>
+  <NavLink className="navbar-brand" to="/">
     <img src={brandNameLogo} alt="" height="30"></img>
   </NavLink>
 );
 
-const NavCollapse = () => (
-  <div className="collapse navbar-collapse" id="nav-collapse">
-    <ul className="navbar-nav me-auto">
-      <NavItem to="/">Tìm việc</NavItem>
-      <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
-    </ul>
-    <ul className="navbar-nav">
-      <NavItem to="/">Tạo CV của bạn</NavItem>
-      <NavItem
-        to="/"
-        className="d-none d-lg-block fw-bold text-primary border-end"
-      >
-        Đăng nhập
-      </NavItem>
-      <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
-    </ul>
-  </div>
+const AuthUserNav = (props) => (
+  <AuthUserNavLayout username={props.username} logout={props.logout}>
+    <li>
+      <Link className="dropdown-item" to="/account">
+        Tài khoản
+      </Link>
+    </li>
+    <li>
+      <Link className="dropdown-item" to="/following">
+        Tin tuyển dụng đang theo dõi
+      </Link>
+    </li>
+  </AuthUserNavLayout>
 );
 
+const NavCollapse = () => {
+  const authContext = useAuth();
+
+  const GuestNav = () => (
+    <>
+      <NavItem to="/register">Tạo CV của bạn</NavItem>
+      <NavItem to="/login" className="d-none d-lg-block fw-bold text-primary">
+        Đăng nhập
+      </NavItem>
+    </>
+  );
+
+  const NavItems = () =>
+    authContext.username && authContext.role === Role.JobSeeker ? (
+      <AuthUserNav
+        username={authContext.username}
+        logout={authContext.logout}
+      />
+    ) : (
+      <GuestNav />
+    );
+
+  return (
+    <div className="collapse navbar-collapse" id="nav-collapse">
+      <ul className="navbar-nav me-auto">
+        <NavItem to="/">Tìm việc</NavItem>
+        <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
+      </ul>
+      <ul className="navbar-nav">
+        <NavItems />
+        <div className="vr text-dark d-none d-lg-block"></div>
+        <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
+      </ul>
+    </div>
+  );
+};
+
 const NavBar = () => (
-  <GenericNavBar
-    theme="light"
-    brandName={<BrandName />}
-    navCollapse={<NavCollapse />}
-  />
+  <ThemeContext.Provider value={{ value: Role.JobSeeker }}>
+    <GenericNavBar brandName={<BrandName />} navCollapse={<NavCollapse />} />
+  </ThemeContext.Provider>
 );
 
 export default NavBar;
