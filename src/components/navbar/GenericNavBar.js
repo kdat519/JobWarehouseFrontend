@@ -5,16 +5,13 @@ import { Role, useAuth } from "../auth/AuthProvider";
 export const ThemeContext = createContext(null);
 export const useTheme = () => useContext(ThemeContext);
 
-export const NavItem = (props) => {
-  const className = "nav-link " + (props.className || "");
-  return (
-    <li className="nav-item">
-      <NavLink className={className + " px-2"} to={props.to} end>
-        {props.children}
-      </NavLink>
-    </li>
-  );
-};
+export const NavItem = ({ className, to, children }) => (
+  <li className="nav-item">
+    <NavLink className={"nav-link px-2 " + (className || "")} to={to} end>
+      {children}
+    </NavLink>
+  </li>
+);
 
 const CollapseButton = () => (
   <button
@@ -23,7 +20,7 @@ const CollapseButton = () => (
     data-bs-toggle="collapse"
     data-bs-target="#nav-collapse"
   >
-    <span className="navbar-toggler-icon"></span>
+    <span className="navbar-toggler-icon" />
   </button>
 );
 
@@ -37,6 +34,7 @@ const SmallScreenNav = () => {
       ? "btn-primary text-white"
       : "btn-light text-dark") +
     (authContext.username ? " d-none" : "");
+
   return (
     <div className="navbar-nav flex-row justify-content-end">
       <NavItem to="/login" className={loginBtnClassName}>
@@ -47,20 +45,20 @@ const SmallScreenNav = () => {
   );
 };
 
-const GenericNavBar = (props) => {
+const GenericNavBar = ({ brandName, navCollapse }) => {
   const themeContext = useTheme();
-
   const navClassName =
     "navbar navbar-expand-lg " +
     (themeContext.value === Role.JobSeeker
       ? "navbar-light bg-light"
       : "navbar-dark bg-dark");
+
   return (
     <nav className={navClassName}>
       <div className="container">
-        {props.brandName}
+        {brandName}
         <SmallScreenNav />
-        {props.navCollapse}
+        {navCollapse}
       </div>
     </nav>
   );

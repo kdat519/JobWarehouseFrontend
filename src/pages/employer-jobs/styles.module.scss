@@ -26,9 +26,6 @@
 }
 
 @include media-breakpoint-down(md) {
-  .same-width {
-    width: 8em;
-  }
   .card-container {
     width: 100%;
   }
@@ -54,5 +51,5 @@
 }
 
 .mark-as-read:hover::after {
-  content: " Đánh dấu đã xem";
+  content: " Đánh dấu đã duyệt";
 }

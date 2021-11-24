@@ -1,10 +1,10 @@
 import React from "react";
 import { NavItem } from "./GenericNavBar";
 
-const AuthUserNavLayout = (props) => {
+const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
   const handleLogout = (event) => {
     event.preventDefault();
-    props.logout();
+    logout();
   };
   return (
     <>
@@ -16,14 +16,12 @@ const AuthUserNavLayout = (props) => {
           href="#"
           data-bs-toggle="dropdown"
         >
-          {props.username}
+          {username}
         </a>
         <ul
-          className={
-            "dropdown-menu dropdown-menu-end " + (props.dropdownTheme || "")
-          }
+          className={"dropdown-menu dropdown-menu-end " + (dropdownTheme || "")}
         >
-          {props.children}
+          {children}
           <li>
             <hr className="dropdown-divider" />
           </li>

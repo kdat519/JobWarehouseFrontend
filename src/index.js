@@ -25,31 +25,38 @@ const EmptyPage = () => (
   </div>
 );
 
+const RequireEmployer = ({ element }) => (
+  <RequireAuth requireRole={Role.Employer}>{element}</RequireAuth>
+);
+
+const App = () => (
+  <AuthProvider>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="login" element={<Login />} />
+      <Route path="/employers" element={<Employers />} />
+      <Route path="/for-employers" element={<EmployerHomePage />} />
+      <Route
+        path="/for-employers/post-job"
+        element={<RequireEmployer element={<PostJob />} />}
+      />
+      <Route
+        path="/for-employers/jobs"
+        element={<RequireEmployer element={<EmployerJobs />} />}
+      />
+      <Route
+        path="/for-employers/jobs/:id"
+        element={<RequireEmployer element={<CandidatesForJob />} />}
+      />
+      <Route path="*" element={<EmptyPage />} />
+    </Routes>
+  </AuthProvider>
+);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="login" element={<Login />} />
-          <Route path="/employers" element={<Employers />} />
-          <Route path="/for-employers" element={<EmployerHomePage />} />
-          <Route
-            path="/for-employers/post-job"
-            element={
-              <RequireAuth requireRole={Role.Employer}>
-                <PostJob />
-              </RequireAuth>
-            }
-          />
-          <Route path="/for-employers/jobs" element={<EmployerJobs />} />
-          <Route
-            path="/for-employers/jobs/:id"
-            element={<CandidatesForJob />}
-          />
-          <Route path="*" element={<EmptyPage />} />
-        </Routes>
-      </AuthProvider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.querySelector("#root")
