@@ -6,6 +6,8 @@ import AuthProvider, { Role } from "./components/auth/AuthProvider";
 import RequireAuth from "./components/auth/RequireAuth";
 import NavBar from "./components/navbar/NavBar";
 import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
+import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
+import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/employers/Employers";
 import HomePage from "./pages/homepage/HomePage";
 import Login from "./pages/Login";
@@ -28,10 +30,10 @@ ReactDOM.render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/employers" element={<Employers />}></Route>
-          <Route path="/for-employers" element={<EmployerHomePage />}></Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/employers" element={<Employers />} />
+          <Route path="/for-employers" element={<EmployerHomePage />} />
           <Route
             path="/for-employers/post-job"
             element={
@@ -39,8 +41,13 @@ ReactDOM.render(
                 <PostJob />
               </RequireAuth>
             }
-          ></Route>
-          <Route path="*" element={<EmptyPage />}></Route>
+          />
+          <Route path="/for-employers/jobs" element={<EmployerJobs />} />
+          <Route
+            path="/for-employers/jobs/:id"
+            element={<CandidatesForJob />}
+          />
+          <Route path="*" element={<EmptyPage />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
