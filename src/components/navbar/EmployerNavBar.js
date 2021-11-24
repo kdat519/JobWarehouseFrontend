@@ -27,7 +27,7 @@ const AuthUserNav = (props) => (
       </Link>
     </li>
     <li>
-      <Link className="dropdown-item" to="/following">
+      <Link className="dropdown-item" to="/for-employers/jobs">
         Quản lý tin tuyển dụng
       </Link>
     </li>

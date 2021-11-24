@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "../../components/navbar/NavBar";
+import TableHeaders, { makeHeader, Row } from "../../components/TableHeaders";
 
 const data = [
   {
@@ -48,60 +49,37 @@ const Employer = (props) => {
     <div className="row d-lg-none align-items-center">
       <div className="col">
         <div className="text-secondary fw-bold">Lĩnh vực</div>
-        <div>Internet</div>
+        <div>{props.category}</div>
       </div>
       <div className="col">
         <div className="text-secondary fw-bold">Quy mô</div>
-        <div>15000</div>
+        <div>{props.numOfEmployees}</div>
       </div>
     </div>
   );
 
   return (
-    <div>
-      <div className="row gy-0 align-items-center">
-        <div className="col-3 col-lg-1">
-          <img src={props.imgSrc} className="img-thumbnail" alt=""></img>
-        </div>
-        <div className="col-9 col-lg-2">
-          <a
-            href={props.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-decoration-none text-dark fw-bold"
-          >
-            {props.name}
-          </a>
-          <SmallInfo />
-        </div>
-        <div className="col-1 d-none d-lg-block">{props.category}</div>
-        <div className="col-1 d-none d-lg-block">{props.numOfEmployees}</div>
-        <div className="col-12 col-lg-7 mt-3 mt-lg-0">
-          <p className="my-0">{props.about}</p>
-        </div>
+    <Row>
+      <div className="col-3 col-lg-1">
+        <img src={props.imgSrc} className="img-thumbnail" alt=""></img>
       </div>
-      <hr className="my-3" />
-    </div>
-  );
-};
-
-const EmployerTable = () => {
-  const rows = data.map((employer) => (
-    <Employer key={employer.name} {...employer} />
-  ));
-
-  return (
-    <div>
-      <div className="row gy-0 d-none d-lg-flex border-bottom border-2 border-dark pb-2 mb-3">
-        <div className="col-1"></div>
-        <div className="col-2 fw-bold fs-5">Nhà tuyển dụng</div>
-        <div className="col-1 fw-bold fs-5">Lĩnh vực</div>
-        <div className="col-1 fw-bold fs-5">Quy mô</div>
-        <div className="col-7 fw-bold fs-5">Giới thiệu</div>
-        <div className="col-1"></div>
+      <div className="col-9 col-lg-2">
+        <a
+          href={props.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-decoration-none text-dark fw-bold"
+        >
+          {props.name}
+        </a>
+        <SmallInfo />
       </div>
-      {rows}
-    </div>
+      <div className="col-1 d-none d-lg-block">{props.category}</div>
+      <div className="col-1 d-none d-lg-block">{props.numOfEmployees}</div>
+      <div className="col-12 col-lg-7 mt-3 mt-lg-0">
+        <p className="my-0">{props.about}</p>
+      </div>
+    </Row>
   );
 };
 
@@ -122,7 +100,19 @@ const Employers = () => (
           Tìm kiếm
         </button>
       </form>
-      <EmployerTable />
+      <TableHeaders
+        headers={[
+          makeHeader(1, ""),
+          makeHeader(2, "Nhà tuyển dụng"),
+          makeHeader(1, "Lĩnh vực"),
+          makeHeader(1, "Quy mô"),
+          makeHeader(7, "Giới thiệu"),
+        ]}
+      >
+        {data.map((employer) => (
+          <Employer key={employer.name} {...employer} />
+        ))}
+      </TableHeaders>
     </main>
   </>
 );

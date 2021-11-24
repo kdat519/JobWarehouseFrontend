@@ -7,7 +7,7 @@ const PostJob = () => (
     <header className="mb-5">
       <EmployerNavBar />
     </header>
-    <main className="container">
+    <main className="container mb-5">
       <h1 className="fw-bold pb-3 mb-4">Đăng tin tuyển dụng</h1>
       <div className="row">
         <div className="col-12 col-lg-9">

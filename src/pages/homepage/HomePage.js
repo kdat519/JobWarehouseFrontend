@@ -1,11 +1,12 @@
 import React from "react";
 import NavBar from "../../components/navbar/NavBar";
 import doodle from "./doodle.svg";
+import styles from "./styles.module.scss";
 
 const SearchForm = () => {
   const InputGroup = (props) => (
     <div className="input-group">
-      <span className="input-group-text" style={{ width: "5.5em" }}>
+      <span className={`input-group-text ${styles["same-width"]}`}>
         {props.label}
       </span>
       <input
