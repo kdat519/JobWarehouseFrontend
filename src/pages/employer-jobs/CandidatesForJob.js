@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import doodle from "./no-one-doodle.svg";
 import styles from "./styles.module.scss";
 
 const CandidateType = {
-  AwaitReview: "await-review",
+  AwaitReview: "awaitReview",
   Reviewed: "reviewed",
   Hired: "hired",
   Rejected: "rejected",
@@ -189,63 +190,62 @@ const data = [
   },
 ];
 
-const Candidate = (props) => {
-  const ButtonGroup = () => (
-    <div className="btn-group">
+//#region Candidate
+const ButtonGroup = ({ id, clickHandle, type }) => (
+  <div className="btn-group">
+    <button
+      type="button"
+      className={`btn btn-success ${styles["accept"]}`}
+      onClick={clickHandle(id, CandidateType.Hired)}
+    >
+      <i className="bi bi-check" />
+    </button>
+    <button
+      type="button"
+      className={`btn btn-danger ${styles["reject"]}`}
+      onClick={clickHandle(id, CandidateType.Rejected)}
+    >
+      <i className="bi bi-x" />
+    </button>
+    {type === CandidateType.AwaitReview ? (
       <button
         type="button"
-        className={`btn btn-success ${styles["accept"]}`}
-        onClick={props.clickHandle(props.id, CandidateType.Hired)}
+        className={`btn btn-secondary ${styles["mark-as-read"]}`}
+        onClick={clickHandle(id, CandidateType.Reviewed)}
       >
-        <i className="bi bi-check"></i>
+        <i className="bi bi-file-earmark-check" />
       </button>
-      <button
-        type="button"
-        className={`btn btn-danger ${styles["reject"]}`}
-        onClick={props.clickHandle(props.id, CandidateType.Rejected)}
-      >
-        <i className="bi bi-x"></i>
-      </button>
-      {props.type === CandidateType.AwaitReview ? (
-        <button
-          type="button"
-          className={`btn btn-secondary ${styles["mark-as-read"]}`}
-          onClick={props.clickHandle(props.id, CandidateType.Reviewed)}
-        >
-          <i className="bi bi-file-earmark-check"></i>
-        </button>
-      ) : null}
-    </div>
-  );
+    ) : null}
+  </div>
+);
 
-  return (
-    <div className={`p-1 ${styles["card-container"]}`}>
-      <div className="card">
-        <div
-          className={`card-img-top bg-secondary ${styles["card-top-height"]}`}
+const Candidate = ({ imgSrc, name, qualification, type, id, clickHandle }) => (
+  <div className={`p-1 ${styles["card-container"]}`}>
+    <div className="card">
+      <div
+        className={`card-img-top bg-secondary ${styles["card-top-height"]}`}
+      />
+      <div className="card-body">
+        <img
+          src={imgSrc}
+          className={`rounded-circle mb-3 ${styles["negative-margin"]}`}
+          alt="Candidate"
         />
-        <div className="card-body">
-          <img
-            src={props.imgSrc}
-            className={`rounded-circle mb-3 ${styles["negative-margin"]}`}
-            alt="Candidate"
-          />
-          <h5 className="card-title">{props.name}</h5>
-          <div className={`${styles["card-content-container"]}`}>
-            <p className={`card-text ${styles["line-clamp"]}`}>
-              {props.qualification}
-            </p>
-          </div>
-          {props.type === CandidateType.AwaitReview ||
-          props.type === CandidateType.Reviewed ? (
-            <ButtonGroup />
-          ) : null}
+        <h5 className="card-title">{name}</h5>
+        <div className={`${styles["card-content-container"]}`}>
+          <p className={`card-text ${styles["line-clamp"]}`}>{qualification}</p>
         </div>
+        {type === CandidateType.AwaitReview ||
+        type === CandidateType.Reviewed ? (
+          <ButtonGroup id={id} type={type} clickHandle={clickHandle} />
+        ) : null}
       </div>
     </div>
-  );
-};
+  </div>
+);
+//#endregion
 
+//#region Candidate list
 const useCandidateLists = () => {
   const filterByCandidateType = (data, type) =>
     new Map(
@@ -271,10 +271,49 @@ const useCandidateLists = () => {
   });
 };
 
+const TabHeader = ({
+  activeTab,
+  candidateType,
+  changeActiveTab,
+  title,
+  candidateLists,
+}) => (
+  <button
+    className={
+      "nav-link text-dark " + (activeTab === candidateType ? "active" : "")
+    }
+    type="button"
+    onClick={changeActiveTab(candidateType)}
+  >
+    {title}{" "}
+    <span className="badge bg-light text-dark">
+      {candidateLists[candidateType].size}
+    </span>
+  </button>
+);
+
+const TabPane = ({ activeTab, candidateType, candidateComps }) => (
+  <div className={"tab-pane " + (activeTab === candidateType ? "active" : "")}>
+    {candidateComps(candidateType).length ? (
+      <div className="d-flex flex-wrap">{candidateComps(candidateType)}</div>
+    ) : (
+      <>
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-5">
+            <img src={doodle} alt="" />
+          </div>
+        </div>
+        <h3 className="text-muted text-center">Không có ứng viên nào!</h3>
+      </>
+    )}
+  </div>
+);
+
 const CandidatesForJob = () => {
   const [candidateLists, setCandidateLists] = useCandidateLists();
   const [activeTab, setActiveTab] = useState(CandidateType.AwaitReview);
 
+  //#region Helper function
   const changeCandidateType = (fromList) => (id, toList) => (event) => {
     event.preventDefault();
     const fromListCopy = new Map(candidateLists[fromList]);
@@ -290,51 +329,34 @@ const CandidatesForJob = () => {
     });
   };
 
-  const candidateComps = (candidateType) => {
-    console.log(candidateLists, candidateType);
-    return Array.from(candidateLists[candidateType].values()).map(
-      (candidate) => (
-        <Candidate
-          key={candidate.id}
-          clickHandle={changeCandidateType(candidateType)}
-          {...candidate}
-        />
-      )
-    );
-  };
+  const candidateComps = (candidateType) =>
+    Array.from(candidateLists[candidateType].values()).map((candidate) => (
+      <Candidate
+        key={candidate.id}
+        clickHandle={changeCandidateType(candidateType)}
+        {...candidate}
+      />
+    ));
 
   const changeActiveTab = (candidateType) => (event) => {
     event.preventDefault();
     setActiveTab(candidateType);
   };
 
-  const TabButton = (props) => (
-    <button
-      className={
-        "nav-link text-dark " +
-        (activeTab === props.candidateType ? "active" : "")
-      }
-      type="button"
-      onClick={changeActiveTab(props.candidateType)}
-    >
-      {props.name}{" "}
-      <span className="badge bg-light text-dark">
-        {candidateLists[props.candidateType].size}
-      </span>
-    </button>
-  );
+  const tabHeaderProps = (title, candidateType) => ({
+    title: title,
+    candidateType: candidateType,
+    activeTab: activeTab,
+    changeActiveTab: changeActiveTab,
+    candidateLists: candidateLists,
+  });
 
-  const TabPane = (props) => (
-    <div
-      className={
-        "tab-pane " + (activeTab === props.candidateType ? "active" : "")
-      }
-    >
-      <div className="d-flex flex-wrap">
-        {candidateComps(props.candidateType)}
-      </div>
-    </div>
-  );
+  const tabPaneProps = (candidateType) => ({
+    candidateType: candidateType,
+    activeTab: activeTab,
+    candidateComps: candidateComps,
+  });
+  //#endregion
 
   return (
     <>
@@ -345,27 +367,28 @@ const CandidatesForJob = () => {
         <h1 className="fw-bold mb-4">Danh sách ứng viên: "Lập trình viên"</h1>
         <nav>
           <div className="nav nav-tabs">
-            <TabButton
-              name="Chưa xem"
-              candidateType={CandidateType.AwaitReview}
+            <TabHeader
+              {...tabHeaderProps("Chưa xem", CandidateType.AwaitReview)}
             />
-            <TabButton name="Đã xem" candidateType={CandidateType.Reviewed} />
-            <TabButton name="Đã tuyển" candidateType={CandidateType.Hired} />
-            <TabButton
-              name="Đã từ chối"
-              candidateType={CandidateType.Rejected}
+            <TabHeader
+              {...tabHeaderProps("Đã duyệt", CandidateType.Reviewed)}
+            />
+            <TabHeader {...tabHeaderProps("Đã tuyển", CandidateType.Hired)} />
+            <TabHeader
+              {...tabHeaderProps("Đã từ chối", CandidateType.Rejected)}
             />
           </div>
         </nav>
         <div className="tab-content">
-          <TabPane candidateType={CandidateType.AwaitReview} />
-          <TabPane candidateType={CandidateType.Reviewed} />
-          <TabPane candidateType={CandidateType.Hired} />
-          <TabPane candidateType={CandidateType.Rejected} />
+          <TabPane {...tabPaneProps(CandidateType.AwaitReview)} />
+          <TabPane {...tabPaneProps(CandidateType.Reviewed)} />
+          <TabPane {...tabPaneProps(CandidateType.Hired)} />
+          <TabPane {...tabPaneProps(CandidateType.Rejected)} />
         </div>
       </main>
     </>
   );
 };
+//#endregion
 
 export default CandidatesForJob;

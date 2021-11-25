@@ -17,7 +17,7 @@ const PostJob = () => (
           <div className="card border-success mb-3">
             <div className="card-body text-success">
               <h5 className="card-title">
-                <i className="bi bi-lightbulb"></i> Mẹo tuyển dụng hiệu quả
+                <i className="bi bi-lightbulb" /> Mẹo tuyển dụng hiệu quả
               </h5>
               <p className="card-text">
                 Sử dụng chức danh công việc được biết đến rộng rãi. Cung cấp

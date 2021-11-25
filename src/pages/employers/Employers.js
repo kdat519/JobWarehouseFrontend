@@ -1,6 +1,10 @@
+import { Field, Form, Formik } from "formik";
 import React from "react";
 import NavBar from "../../components/navbar/NavBar";
-import TableHeaders, { makeHeader, Row } from "../../components/TableHeaders";
+import TableHeaders, {
+  makeHeader,
+  Row,
+} from "../../components/table-headers/TableHeaders";
 
 const data = [
   {
@@ -44,44 +48,63 @@ const data = [
   },
 ];
 
-const Employer = (props) => {
-  const SmallInfo = () => (
-    <div className="row d-lg-none align-items-center">
-      <div className="col">
-        <div className="text-secondary fw-bold">Lĩnh vực</div>
-        <div>{props.category}</div>
-      </div>
-      <div className="col">
-        <div className="text-secondary fw-bold">Quy mô</div>
-        <div>{props.numOfEmployees}</div>
-      </div>
+const SmallInfo = ({ category, numOfEmployees }) => (
+  <div className="row d-lg-none align-items-center">
+    <div className="col">
+      <div className="text-secondary fw-bold">Lĩnh vực</div>
+      <div>{category}</div>
     </div>
-  );
+    <div className="col">
+      <div className="text-secondary fw-bold">Quy mô</div>
+      <div>{numOfEmployees}</div>
+    </div>
+  </div>
+);
 
-  return (
-    <Row>
-      <div className="col-3 col-lg-1">
-        <img src={props.imgSrc} className="img-thumbnail" alt=""></img>
-      </div>
-      <div className="col-9 col-lg-2">
-        <a
-          href={props.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-decoration-none text-dark fw-bold"
-        >
-          {props.name}
-        </a>
-        <SmallInfo />
-      </div>
-      <div className="col-1 d-none d-lg-block">{props.category}</div>
-      <div className="col-1 d-none d-lg-block">{props.numOfEmployees}</div>
-      <div className="col-12 col-lg-7 mt-3 mt-lg-0">
-        <p className="my-0">{props.about}</p>
-      </div>
-    </Row>
-  );
-};
+const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
+  <Row>
+    <div className="col-3 col-lg-1">
+      <img src={imgSrc} className="img-thumbnail" alt="" />
+    </div>
+    <div className="col-9 col-lg-2">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-decoration-none text-dark fw-bold"
+      >
+        {name}
+      </a>
+      <SmallInfo category={category} numOfEmployees={numOfEmployees} />
+    </div>
+    <div className="col-1 d-none d-lg-block">{category}</div>
+    <div className="col-1 d-none d-lg-block">{numOfEmployees}</div>
+    <div className="col-12 col-lg-7 mt-3 mt-lg-0">
+      <p className="my-0">{about}</p>
+    </div>
+  </Row>
+);
+
+const SearchBox = () => (
+  <Formik
+    initialValues={{ search: "" }}
+    onSubmit={(values) => {
+      alert(JSON.stringify(values));
+    }}
+  >
+    <Form className="input-group mb-5">
+      <Field
+        type="text"
+        name="search"
+        className="form-control"
+        placeholder="Tên nhà tuyển dụng"
+      />
+      <button className="btn btn-outline-secondary" type="submit">
+        Tìm kiếm
+      </button>
+    </Form>
+  </Formik>
+);
 
 const Employers = () => (
   <>
@@ -90,16 +113,7 @@ const Employers = () => (
     </header>
     <main className="container">
       <h1 className="fw-bold">Tìm những nhà tuyển dụng tốt nhất</h1>
-      <form className="input-group mb-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Tên nhà tuyển dụng"
-        />
-        <button className="btn btn-outline-secondary" type="submit">
-          Tìm kiếm
-        </button>
-      </form>
+      <SearchBox />
       <TableHeaders
         headers={[
           makeHeader(1, ""),
