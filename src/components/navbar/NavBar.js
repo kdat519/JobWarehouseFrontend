@@ -7,12 +7,12 @@ import GenericNavBar, { NavItem, ThemeContext } from "./GenericNavBar";
 
 const BrandName = () => (
   <NavLink className="navbar-brand" to="/">
-    <img src={brandNameLogo} alt="" height="30"></img>
+    <img src={brandNameLogo} alt="" height="30" />
   </NavLink>
 );
 
-const AuthUserNav = (props) => (
-  <AuthUserNavLayout username={props.username} logout={props.logout}>
+const AuthUserNav = ({ username, logout }) => (
+  <AuthUserNavLayout username={username} logout={logout}>
     <li>
       <Link className="dropdown-item" to="/account">
         Tài khoản
@@ -26,42 +26,37 @@ const AuthUserNav = (props) => (
   </AuthUserNavLayout>
 );
 
-const NavCollapse = () => {
+const GuestNav = () => (
+  <>
+    <NavItem to="/register">Tạo CV của bạn</NavItem>
+    <NavItem to="/login" className="d-none d-lg-block fw-bold text-primary">
+      Đăng nhập
+    </NavItem>
+  </>
+);
+
+const NavItems = () => {
   const authContext = useAuth();
-
-  const GuestNav = () => (
-    <>
-      <NavItem to="/register">Tạo CV của bạn</NavItem>
-      <NavItem to="/login" className="d-none d-lg-block fw-bold text-primary">
-        Đăng nhập
-      </NavItem>
-    </>
-  );
-
-  const NavItems = () =>
-    authContext.username && authContext.role === Role.JobSeeker ? (
-      <AuthUserNav
-        username={authContext.username}
-        logout={authContext.logout}
-      />
-    ) : (
-      <GuestNav />
-    );
-
-  return (
-    <div className="collapse navbar-collapse" id="nav-collapse">
-      <ul className="navbar-nav me-auto">
-        <NavItem to="/">Tìm việc</NavItem>
-        <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
-      </ul>
-      <ul className="navbar-nav">
-        <NavItems />
-        <div className="vr text-dark d-none d-lg-block"></div>
-        <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
-      </ul>
-    </div>
+  return authContext.username && authContext.role === Role.JobSeeker ? (
+    <AuthUserNav username={authContext.username} logout={authContext.logout} />
+  ) : (
+    <GuestNav />
   );
 };
+
+const NavCollapse = () => (
+  <div className="collapse navbar-collapse" id="nav-collapse">
+    <ul className="navbar-nav me-auto">
+      <NavItem to="/">Tìm việc</NavItem>
+      <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
+    </ul>
+    <ul className="navbar-nav">
+      <NavItems />
+      <div className="vr text-dark d-none d-lg-block" />
+      <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
+    </ul>
+  </div>
+);
 
 const NavBar = () => (
   <ThemeContext.Provider value={{ value: Role.JobSeeker }}>

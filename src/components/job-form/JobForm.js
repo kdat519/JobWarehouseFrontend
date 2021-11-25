@@ -19,36 +19,33 @@ const useInputProps = (name, type, className) => {
   };
 };
 
-const Input = (props) => {
-  const [, meta] = useField(props.name);
+const Input = ({ name, label, type, className, htmlAttr }) => {
+  const [, meta] = useField(name);
   return (
     <div className="row mb-2">
       <label
-        htmlFor={props.name}
+        htmlFor={name}
         className="form-label col-12 col-md-3 col-xl-2 col-form-label pe-0"
       >
-        {props.label}
+        {label}
       </label>
       <div className="col-12 col-md-9 col-xl-10">
-        <input
-          {...useInputProps(props.name, props.type, props.className)}
-          {...props.htmlAttr}
-        />
+        <input {...useInputProps(name, type, className)} {...htmlAttr} />
         <div className="invalid-feedback">{meta.error}</div>
       </div>
     </div>
   );
 };
 
-const Textarea = (props) => {
-  const [, meta] = useField(props.name);
+const Textarea = ({ name, label, htmlAttr }) => {
+  const [, meta] = useField(name);
   return (
     <div className="row mb-2">
       <div className="col">
-        <label htmlFor={props.name} className="form-label">
-          {props.label}
+        <label htmlFor={name} className="form-label">
+          {label}
         </label>
-        <textarea {...useInputProps(props.name)} {...props.htmlAttr} />
+        <textarea {...useInputProps(name)} {...htmlAttr} />
         <div className="invalid-feedback">{meta.error}</div>
       </div>
     </div>
@@ -71,7 +68,7 @@ const validate = (values) => {
 const CancelButton = () => {
   const navigate = useNavigate();
   const handleConfirm = () => {
-    navigate(-1);
+    navigate("/for-employers/jobs");
   };
 
   return (
@@ -93,7 +90,7 @@ const CancelButton = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-              ></button>
+              />
             </div>
             <div className="modal-body">
               Bạn có thực sự muốn hủy bỏ thay đổi?
@@ -122,44 +119,38 @@ const CancelButton = () => {
   );
 };
 
-const JobForm = (props) => {
-  const initialValues = props.initialValues || {
-    jobName: "",
-    category: "",
-    address: "",
-    minSalary: "",
-    detail: "",
-    requirement: "",
-  };
-  return (
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={(values) => {
-        alert(JSON.stringify(values));
-      }}
-    >
-      <Form noValidate>
-        <Input name="jobName" label="Tên công việc" type="text" />
-        <Input name="category" label="Lĩnh vực" type="text" />
-        <Input name="address" label="Địa điểm" type="text" />
-        <Input
-          name="minSalary"
-          label="Lương khởi điểm"
-          type="number"
-          htmlAttr={{ min: 0 }}
-        />
-        <Textarea name="detail" label="Mô tả" htmlAttr={{ rows: 4 }} />
-        <Textarea name="requirement" label="Yêu cầu" htmlAttr={{ rows: 4 }} />
-        <div className="d-flex justify-content-end mt-3">
-          <CancelButton />
-          <button type="submit" className="btn btn-primary">
-            {props.initialValues ? "Lưu" : "Đăng"}
-          </button>
-        </div>
-      </Form>
-    </Formik>
-  );
-};
+const JobForm = ({ initialValues }) => (
+  <Formik
+    initialValues={
+      initialValues || {
+        jobName: "",
+        category: "",
+        address: "",
+        minSalary: "",
+        detail: "",
+        requirement: "",
+      }
+    }
+    validate={validate}
+    onSubmit={(values) => {
+      alert(JSON.stringify(values));
+    }}
+  >
+    <Form noValidate>
+      <Input name="jobName" label="Tên công việc" type="text" />
+      <Input name="category" label="Lĩnh vực" type="text" />
+      <Input name="address" label="Địa điểm" type="text" />
+      <Input name="minSalary" label="Lương khởi điểm" type="number" />
+      <Textarea name="detail" label="Mô tả" htmlAttr={{ rows: 4 }} />
+      <Textarea name="requirement" label="Yêu cầu" htmlAttr={{ rows: 4 }} />
+      <div className="d-flex justify-content-end mt-3">
+        <CancelButton />
+        <button type="submit" className="btn btn-primary">
+          {initialValues ? "Lưu" : "Đăng"}
+        </button>
+      </div>
+    </Form>
+  </Formik>
+);
 
 export default JobForm;

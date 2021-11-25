@@ -11,7 +11,7 @@ export const Role = {
   Employer: "employer",
 };
 
-const AuthProvider = (props) => {
+const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [role, setRole] = useState(null);
   const navigate = useNavigate();
@@ -30,9 +30,7 @@ const AuthProvider = (props) => {
 
   const context = { username, role, login: login, logout: logout };
   return (
-    <AuthContext.Provider value={context}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
 };
 
