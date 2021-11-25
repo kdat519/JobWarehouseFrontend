@@ -8,10 +8,12 @@ import NavBar from "./components/navbar/NavBar";
 import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
 import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
-import Employers from "./pages/employers/Employers";
+import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
 import Login from "./pages/Login";
+import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
+import PostJobLayout from "./pages/post-job/PostJobLayout";
 import "./styles.scss";
 
 const EmptyPage = () => (
@@ -38,8 +40,11 @@ const App = () => (
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route
         path="/for-employers/post-job"
-        element={<RequireEmployer element={<PostJob />} />}
-      />
+        element={<RequireEmployer element={<PostJobLayout />} />}
+      >
+        <Route index element={<PostJob />} />
+        <Route path=":id" element={<EditJob />} />
+      </Route>
       <Route
         path="/for-employers/jobs"
         element={<RequireEmployer element={<EmployerJobs />} />}

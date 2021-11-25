@@ -1,10 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import NavBar from "../../components/navbar/NavBar";
+import NavBar from "../components/navbar/NavBar";
 import TableHeaders, {
   makeHeader,
   Row,
-} from "../../components/table-headers/TableHeaders";
+} from "../components/table-headers/TableHeaders";
 
 const data = [
   {
@@ -112,7 +112,7 @@ const Employers = () => (
       <NavBar />
     </header>
     <main className="container">
-      <h1 className="fw-bold">Tìm những nhà tuyển dụng tốt nhất</h1>
+      <h6 className="display-6">Tìm những nhà tuyển dụng tốt nhất</h6>
       <SearchBox />
       <TableHeaders
         headers={[

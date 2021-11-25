@@ -2,7 +2,7 @@ import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import React from "react";
 import styles from "./styles.module.scss";
 
-const Order = {
+export const Order = {
   Asc: "asc",
   Desc: "desc",
 };
@@ -58,16 +58,14 @@ const SearchBox = ({ placeholder }) => {
   );
 };
 
-const SearchAndSort = ({ searchPlaceholder, orderOptions }) => (
+const SearchAndSort = ({ searchPlaceholder, orderOptions, submitHandle }) => (
   <Formik
     initialValues={{
       search: "",
       orderBy: orderOptions[0].value,
       order: Order.Asc,
     }}
-    onSubmit={(values) => {
-      alert(JSON.stringify(values));
-    }}
+    onSubmit={submitHandle}
   >
     <Form>
       <div className="row mb-4">
