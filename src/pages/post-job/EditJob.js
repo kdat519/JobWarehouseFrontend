@@ -1,7 +1,7 @@
 import React from "react";
-import JobForm from "./JobForm";
+import JobForm from "../../components/JobForm";
 
-const initValues = {
+const initialValues = {
   jobName: "Lập trình viên JavaScript",
   category: "Công nghệ thông tin",
   address: "Hà Nội",
@@ -10,9 +10,8 @@ const initValues = {
   requirement: "Thành thạo ReactJS",
 };
 
-const JobFormEdit = () => {
-  const initialValues = initValues;
+const EditJob = () => {
   return <JobForm initialValues={initialValues} />;
 };
 
-export default JobFormEdit;
+export default EditJob;

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import SearchAndSort, {
   makeOption,
+  Order,
 } from "../../components/table-headers/SearchAndSort";
 import TableHeaders, {
   makeHeader,
@@ -22,10 +23,27 @@ const data = [
     jobName: "Lập trình viên",
     createdAt: "12/12/2021",
     hired: 3,
-    awaitReview: 4,
+    candidates: 4,
+  },
+  {
+    id: 2,
+    status: Status.Close,
+    jobName: "Kiểm thử viên",
+    createdAt: "01/12/2021",
+    hired: 9,
+    candidates: 8,
+  },
+  {
+    id: 3,
+    status: Status.Open,
+    jobName: "Quản lý dự án",
+    createdAt: "05/12/2021",
+    hired: 0,
+    candidates: 6,
   },
 ];
 
+//#region Post
 const SelectStatus = ({ status }) => (
   <div className="row align-items-center">
     <div className="col-4 col-sm-3 col-md-2 d-lg-none fw-bold">Trạng thái:</div>
@@ -39,12 +57,15 @@ const SelectStatus = ({ status }) => (
 );
 
 const EditButton = ({ id }) => (
-  <Link className="text-decoration-none text-dark fw-bold" to={`${id}/edit`}>
+  <Link
+    className="text-decoration-none text-dark fw-bold"
+    to={`/for-employers/post-job/${id}`}
+  >
     <i className="bi bi-pencil-square" />
   </Link>
 );
 
-const Candidate = ({ id, awaitReview, hired }) => {
+const CandidatesInfo = ({ id, candidates, hired }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -56,7 +77,7 @@ const Candidate = ({ id, awaitReview, hired }) => {
           Ứng viên:
         </div>
         <div className="col-auto">
-          <strong>{awaitReview}</strong> Ứng tuyển
+          <strong>{candidates}</strong> Ứng tuyển
         </div>
         <div className="col-auto">
           <strong>{hired}</strong> Đã tuyển
@@ -66,7 +87,7 @@ const Candidate = ({ id, awaitReview, hired }) => {
   );
 };
 
-const Post = ({ jobName, id, createdAt, status, awaitReview, hired }) => (
+const Post = ({ jobName, id, createdAt, status, candidates, hired }) => (
   <Row>
     <div className="col-12 col-lg-2">
       <div className="row my-1 my-lg-0">
@@ -84,10 +105,10 @@ const Post = ({ jobName, id, createdAt, status, awaitReview, hired }) => (
         <div className="col-4 col-sm-3 col-md-2 d-lg-none fw-bold">
           Ngày đăng:
         </div>
-        <div className="col-auto">{createdAt}</div>
+        <div className="col-auto">{createdAt.toString()}</div>
       </div>
     </div>
-    <Candidate id={id} awaitReview={awaitReview} hired={hired} />
+    <CandidatesInfo id={id} candidates={candidates} hired={hired} />
     <div className="col-12 col-lg-2">
       <SelectStatus status={status} />
     </div>
@@ -96,38 +117,62 @@ const Post = ({ jobName, id, createdAt, status, awaitReview, hired }) => (
     </div>
   </Row>
 );
+//#endregion
 
-const EmployerDashboard = () => (
-  <>
-    <header className="mb-5">
-      <EmployerNavBar />
-    </header>
-    <main className="container">
-      <h1 className="fw-bold mb-4">Tin tuyển dụng của bạn</h1>
-      <SearchAndSort
-        searchPlaceholder="Tên công việc"
-        orderOptions={[
-          makeOption("jobName", "Tên công việc"),
-          makeOption("createdAt", "Ngày đăng"),
-          makeOption("status", "Trạng thái"),
-          makeOption("candidates", "Ứng viên"),
-        ]}
-      />
-      <TableHeaders
-        headers={[
-          makeHeader(2, "Tên công việc"),
-          makeHeader(2, "Ngày đăng"),
-          makeHeader(5, "Ứng viên"),
-          makeHeader(2, "Trạng thái"),
-          makeHeader(1, ""),
-        ]}
-      >
-        {data.map((candidate) => (
-          <Post key={candidate.id} {...candidate} />
-        ))}
-      </TableHeaders>
-    </main>
-  </>
-);
+const EmployerJobs = () => {
+  const [jobs, setJobs] = useState(
+    data.sort((a, b) => (a.jobName > b.jobName ? 1 : -1))
+  );
 
-export default EmployerDashboard;
+  const submitHandle = ({ search, orderBy, order }) => {
+    console.log(search, orderBy, order);
+    setJobs(
+      data
+        .filter((job) =>
+          search
+            ? job.jobName.toLowerCase().includes(search.toLowerCase())
+            : true
+        )
+        .sort((a, b) => {
+          const result = a[orderBy] > b[orderBy] ? 1 : -1;
+          return order === Order.Asc ? result : -result;
+        })
+    );
+  };
+
+  return (
+    <>
+      <header className="mb-5">
+        <EmployerNavBar />
+      </header>
+      <main className="container">
+        <h1 className="fw-bold mb-4">Tin tuyển dụng của bạn</h1>
+        <SearchAndSort
+          searchPlaceholder="Tên công việc"
+          orderOptions={[
+            makeOption("jobName", "Tên công việc"),
+            makeOption("createdAt", "Ngày đăng"),
+            makeOption("status", "Trạng thái"),
+            makeOption("candidates", "Ứng viên"),
+          ]}
+          submitHandle={submitHandle}
+        />
+        <TableHeaders
+          headers={[
+            makeHeader(2, "Tên công việc"),
+            makeHeader(2, "Ngày đăng"),
+            makeHeader(5, "Ứng viên"),
+            makeHeader(2, "Trạng thái"),
+            makeHeader(1, ""),
+          ]}
+        >
+          {jobs.map((candidate) => (
+            <Post key={candidate.id} {...candidate} />
+          ))}
+        </TableHeaders>
+      </main>
+    </>
+  );
+};
+
+export default EmployerJobs;
