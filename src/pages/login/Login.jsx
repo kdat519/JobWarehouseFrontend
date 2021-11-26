@@ -30,7 +30,6 @@ export default function Login() {
             <div className="invalid-feedback">{errors.email?.message}</div>
         </div>
 
-
         <div className="form-group col">
             <label>Mật khẩu</label>
             <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />

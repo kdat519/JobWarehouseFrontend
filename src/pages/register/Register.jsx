@@ -25,6 +25,11 @@ export default function Register() {
     <div className="card-body">
         <h1>Đăng ký</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
+
+        <div className="form-group col">
+            <label><input {...register('role')} type="radio" value="jobSeeker" />Tìm việc</label>
+            <label><input {...register('role')} type="radio" value="employer" />Tuyển dụng</label>
+        </div>
             
         <div className="form-group col">
             <label>Tên</label>
