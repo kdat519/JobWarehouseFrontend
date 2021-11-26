@@ -7,10 +7,8 @@ import './styles.css';
 
 export default function Login() {
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
         email: Yup.string().required('Email is required').email('Email is invalid'),
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -23,15 +21,8 @@ export default function Login() {
 
   return (
     <div className="card-body">
-        <h1>Đăng nhập</h1>
+        <h1 card-body>Đăng nhập</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-            
-        <div className="form-group col">
-            <label>Tên</label>
-            <input name="name" type="text" {...register('name')} className={`form-control ${errors.name ? 'is-invalid' : ''}`} />
-            <div className="invalid-feedback">{errors.name?.message}</div>
-        </div>
-
 
         <div className="form-group col">
             <label>Email</label>
@@ -45,22 +36,13 @@ export default function Login() {
             <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
             <div className="invalid-feedback">{errors.password?.message}</div>
         </div>
-        <div className="form-group col">
-            <label>Xác nhận mật khẩu</label>
-            <input name="confirmPassword" type="password" {...register('confirmPassword')} className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} />
-            <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
-        </div>
 
         <div className="form-group">
         <button type="submit" className="btn btn-primary mr-1">Đăng nhập</button>
         </div>
 
-
-        <Link to="/register">Chưa có tài khoản? Đăng ký</Link>
+        <Link to="/register">Đã có tài khoản? Đăng ký</Link>
         </form>
     </div>
   );
 }
-
-
-
