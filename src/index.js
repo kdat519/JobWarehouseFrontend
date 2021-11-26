@@ -10,7 +10,8 @@ import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
-import Login from "./pages/Login";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
@@ -35,7 +36,8 @@ const App = () => (
   <AuthProvider>
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="login" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route
