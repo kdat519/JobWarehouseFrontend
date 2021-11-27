@@ -7,10 +7,10 @@ import './styles.css';
 
 export default function Register() {
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string().required('Email is required').email('Email is invalid'),
-        password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
+        name: Yup.string().required('Tên là bắt buộc'),
+        email: Yup.string().required('Email là bắt buộc').email('Email không hợp lệ'),
+        password: Yup.string().min(6, 'Mật khẩu phải ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
+        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau').required('Xác nhận mật khẩu là bắt buộc'),
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -22,46 +22,55 @@ export default function Register() {
   };
 
   return (
-    <div className="card-body">
-        <h1>Đăng ký</h1>
+    <div className="card-body card">
+        <h2 className="title">Đăng ký</h2>
+        <Link className="link" to="/login">Đã có tài khoản? Đăng nhập</Link>
         <form onSubmit={handleSubmit(onSubmit)}>
 
-        <div className="form-group col">
-            <label><input {...register('role')} type="radio" value="jobSeeker" />Tìm việc</label>
+        <div className="form-group col" id="role">
+            <label><input {...register('role')} type="radio" value="jobSeeker" defaultChecked/>Tìm việc</label>
             <label><input {...register('role')} type="radio" value="employer" />Tuyển dụng</label>
         </div>
             
         <div className="form-group col">
             <label>Tên</label>
-            <input name="name" type="text" {...register('name')} className={`form-control ${errors.name ? 'is-invalid' : ''}`} />
+            <input name="name" type="text" {...register('name')} 
+            placeholder="Nhập tên"
+            className={`form-control ${errors.name ? 'is-invalid' : ''}`} />
             <div className="invalid-feedback">{errors.name?.message}</div>
         </div>
 
 
         <div className="form-group col">
             <label>Email</label>
-            <input name="email" type="text" {...register('email')} className={`form-control ${errors.email ? 'is-invalid' : ''}`} />
+            <input name="email" type="text" {...register('email')} 
+            placeholder="Nhập email"
+            className={`form-control ${errors.email ? 'is-invalid' : ''}`} />
             <div className="invalid-feedback">{errors.email?.message}</div>
         </div>
 
 
         <div className="form-group col">
             <label>Mật khẩu</label>
-            <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
+            <input name="password" type="password" {...register('password')} 
+            placeholder="Nhập mật khẩu"
+            className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
             <div className="invalid-feedback">{errors.password?.message}</div>
         </div>
         <div className="form-group col">
             <label>Xác nhận mật khẩu</label>
-            <input name="confirmPassword" type="password" {...register('confirmPassword')} className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} />
+            <input name="confirmPassword" type="password" {...register('confirmPassword')} 
+            placeholder="Nhập lại mật khẩu"
+            className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} />
             <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
         </div>
 
         <div className="form-group">
-        <button type="submit" className="btn btn-primary mr-1">Đăng ký</button>
+        <button id="submit" type="submit" className="btn btn-primary mr-1">Đăng ký</button>
         </div>
 
 
-        <Link to="/login">Chưa có tài khoản? Đăng nhập</Link>
+        
         </form>
     </div>
   );
