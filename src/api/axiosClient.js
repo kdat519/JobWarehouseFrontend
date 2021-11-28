@@ -1,32 +1,39 @@
 import axios from "axios";
 import queryString from "query-string";
 
-// Set up default config for http requests here
-// Please have a look at here `https://github.com/axios/axios#request- config` for the full list of configs
+// https://github.com/axios/axios#request
+
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  //baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "http://127.0.0.1:8000/api",
   headers: {
     "content-type": "application/json",
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });
 
-axiosClient.interceptors.request.use(async (config) => {
-  // Handle token here ...
-  return config;
-});
+axiosClient.interceptors.request.use(
+  function (config) {
+    const token = JSON.parse(localStorage.getItem("auth"))?.access_token;
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+    return config;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 axiosClient.interceptors.response.use(
-  (response) => {
+  function (response) {
     if (response && response.data) {
       return response.data;
     }
-
     return response;
   },
-  (error) => {
-    // Handle errors
-    throw error;
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
   }
 );
 

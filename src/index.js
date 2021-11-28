@@ -12,6 +12,7 @@ import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import Admin from "./pages/admin/Admin";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
@@ -38,6 +39,7 @@ const App = () => (
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route

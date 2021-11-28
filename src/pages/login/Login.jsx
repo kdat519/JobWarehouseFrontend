@@ -4,8 +4,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import './styles.css';
+import { useAuth } from "../../components/auth/AuthProvider";
 
 export default function Login() {
+    const auth = useAuth();
+    const { login } = auth;
+
+
     const validationSchema = Yup.object().shape({
       email: Yup.string().required('Email là bắt buộc').email('Email không hợp lệ'),
       password: Yup.string().min(6, 'Mật khẩu phải ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
@@ -16,7 +21,7 @@ export default function Login() {
     const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+    login(data.email, data.password);
   };
 
   return (
