@@ -1,26 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import authApi from "../../api/authApi";
 
 const AuthContext = React.createContext(null);
 
-export const useAuth = () => useContext(AuthContext);
-
 export const Role = {
   Admin: "admin",
-  JobSeeker: "jobSeeker",
+  JobSeeker: "jobseeker",
   Employer: "employer",
 };
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("auth"))?.user) {
-      setUser(JSON.parse(localStorage.getItem("auth"))?.user);
-    }
-  }, []);
 
   const login = (data) => {
     (async function (data) {
@@ -36,7 +28,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("auth");
-    setUser(null);
+    setUser(undefined);
     navigate("/");
   };
 
@@ -53,10 +45,14 @@ const AuthProvider = ({ children }) => {
     })(data);
   };
 
-  const context = { ...user, login: login, logout: logout, register: register };
+  const context = { ...user, login, logout, register };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
 };
 
+
+export const useAuth = () => useContext(AuthContext);
+
 export default AuthProvider;
+
