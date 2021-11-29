@@ -26,14 +26,18 @@ function UserFiltersForm(props) {
     }
 
     return (
-        <div>
-            <form >
-                <input 
+        <div className="input-group">
+            <form className="input-group mb-5">
+                <input
+                    className="form-control"
                     type="text"
                     value={searchTerm}
                     onChange={handleSearchTermChange}
+                    placeholder="Tìm tên, email, số điện thoại..."
                 />
-                <button onClick={handleClick}>
+                <button 
+                    onClick={handleClick}
+                    className="btn btn-outline-primary">
                     Tìm kiếm
                 </button>
             </form>

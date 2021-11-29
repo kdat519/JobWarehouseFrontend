@@ -7,24 +7,23 @@ const adminApi = {
   },
 
   getUser: (id) => {
-    const url = `auth/user/${id}`;
+    const url = `admin/user/${id}`;
     return axiosClient.get(url);
   },
 
   banUser: (id) => {
     const formData = new FormData();
     formData.append("status", 'banned');
-
-    const url = `auth/user/${id}`;
-    return axiosClient.post(url);
+    const url = `admin/user/${id}`;
+    return axiosClient.post(url, formData);
   },
 
   unbanUser: (id) => {
     const formData = new FormData();
     formData.append("status", 'active');
 
-    const url = `auth/user/${id}`;
-    return axiosClient.post(url);
+    const url = `admin/user/${id}`;
+    return axiosClient.post(url, formData);
   },
 };
 

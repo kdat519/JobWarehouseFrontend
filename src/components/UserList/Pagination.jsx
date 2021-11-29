@@ -19,9 +19,11 @@ function Pagination(props) {
     }
     return (
         <div>
+            <div className="navbar-nav flex-row justify-content-between">
             <button
                 disabled={current_page <= 1}
                 onClick={() => handlePageChange(current_page - 1)}
+                className="px-2 btn mx-1 btn-primary"
             >
                 Trang trước
             </button>
@@ -29,9 +31,14 @@ function Pagination(props) {
             <button
                 disabled={current_page >= last_page}
                 onClick={() => handlePageChange(current_page + 1)}
+                className="px-2 btn mx-1 btn-primary"
             >
                 Trang sau
             </button>
+            </div>
+            <div>
+                <br /><br /><br />
+            </div>
         </div>
     );
 }

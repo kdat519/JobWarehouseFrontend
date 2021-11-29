@@ -3,51 +3,73 @@ import adminApi from "../../api/adminApi";
 import UserList from "../../components/UserList/UserList";
 import Pagination from "../../components/UserList/Pagination";
 import UserFiltersForm from "../../components/UserList/UserFiltersForm";
+import AdminNavBar from "../../components/navbar/AdminNavBar";
 
 export default function Admin() {
-    const [userList, setUserList] = useState([]);
-    const [lastPage, setLastPage] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+  const [userList, setUserList] = useState([]);
+  const [lastPage, setLastPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-    const [filters, setFilters] = useState({
-        page: 1,
-        searchContent: '',
-    })
+  const [filters, setFilters] = useState({
+    page: 1,
+    searchContent: "",
+  });
 
-    function handlePageChange(newPage) {
-        setFilters({...filters, page: newPage});
-    }
+  function handlePageChange(newPage) {
+    setFilters({ ...filters, page: newPage });
+  }
 
-    function handleFiltersChange(newFilters) {
-        setFilters({...filters, page: 1, searchContent: newFilters.searchTerm});
-    }
+  function handleFiltersChange(newFilters) {
+    setFilters({ ...filters, page: 1, searchContent: newFilters.searchTerm });
+  }
 
-    useEffect(() => {
-        async function fetchUserList() {
-            try {
-                const response = await adminApi.getUserList(filters);
-                setUserList(response.users.data);
-                setLastPage(response.users.last_page);
-                setCurrentPage(response.users.current_page);
-            }
-            catch (error) {
-                console.log("Failed to fetch user list: ", error);
-            }
+  async function handleBanChange(id, status) {
+    let response;
+    if (status === "active") response = await adminApi.banUser(id);
+    else response = await adminApi.unbanUser(id);
+
+    if (response.success) {
+      let newUserList = [...userList];
+      for (const user of newUserList) {
+        if (user.user_id === Number(id)) {
+          if (user.status === "active") user.status = "banned";
+          else user.status = "active";
         }
+      }
+      setUserList(newUserList);
+    }
+  }
 
-        fetchUserList();
-    }, [filters]);
+  useEffect(() => {
+    async function fetchUserList() {
+      try {
+        const response = await adminApi.getUserList(filters);
+        setUserList(response.users.data);
+        setLastPage(response.users.last_page);
+        setCurrentPage(response.users.current_page);
+      } catch (error) {
+        console.log("Failed to fetch user list: ", error);
+      }
+    }
 
-    return (
-        <div>
-            <h2>JOBWAREHOUSE</h2><hr />
-            <UserFiltersForm onSubmit={handleFiltersChange}/>
-            <UserList users={userList} />
-            <Pagination 
-                last_page={lastPage}
-                current_page={currentPage}
-                onPageChange={handlePageChange}
-            />
-        </div>
-    );
+    fetchUserList();
+  }, [filters]);
+
+  return (
+    <div>
+      <header className="mb-5">
+        <AdminNavBar />
+      </header>
+      <div className="container">
+        <h6 className="display-6">Quản lý người dùng</h6>
+        <UserFiltersForm onSubmit={handleFiltersChange} />
+        <UserList users={userList} onBanChange={handleBanChange} />
+        <Pagination
+          last_page={lastPage}
+          current_page={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </div>
+  );
 }

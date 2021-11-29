@@ -11,6 +11,7 @@ import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
 import Login from "./pages/login/Login";
+import Logout from "./pages/login/Logout";
 import Register from "./pages/register/Register";
 import Admin from "./pages/admin/Admin";
 import EditJob from "./pages/post-job/EditJob";
@@ -38,6 +39,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<RequireAuth requireRole={Role.JobSeeker}><Admin /></RequireAuth>} />
       <Route path="/employers" element={<Employers />} />
