@@ -3,13 +3,15 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap";
 import "./index.scss";
-import HomePage from "./pages/homepages/HomePage";
+import ChatBox from "./pages/chatbox/chatPage";
+import RegisPage from "./pages/RegistrationPage";
+//import RegisPage from "./pages/RegistrationPage";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/" element={<ChatBox />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
