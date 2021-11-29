@@ -11,7 +11,7 @@ export default function Admin() {
 
     const [filters, setFilters] = useState({
         page: 1,
-        email: '',
+        searchContent: '',
     })
 
     function handlePageChange(newPage) {
@@ -19,7 +19,7 @@ export default function Admin() {
     }
 
     function handleFiltersChange(newFilters) {
-        setFilters({...filters, page: 1, email: newFilters.searchTerm});
+        setFilters({...filters, page: 1, searchContent: newFilters.searchTerm});
     }
 
     useEffect(() => {

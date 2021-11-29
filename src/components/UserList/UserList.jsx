@@ -15,7 +15,7 @@ function UserList(props) {
   return (
     <ul>
       {users.map((user) => (
-        <li key={user.user_id}>{user.email}</li>
+        <li key={user.user_id}>{user.email}{user.name}</li>
       ))}
     </ul>
   );

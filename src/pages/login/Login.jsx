@@ -10,7 +10,6 @@ export default function Login() {
     const auth = useAuth();
     const { login } = auth;
 
-
     const validationSchema = Yup.object().shape({
       email: Yup.string().required('Email là bắt buộc').email('Email không hợp lệ'),
       password: Yup.string().min(6, 'Mật khẩu phải ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
@@ -21,7 +20,7 @@ export default function Login() {
     const { errors } = formState;
 
   const onSubmit = (data) => {
-    login(data.email, data.password);
+    login(data);
   };
 
   return (

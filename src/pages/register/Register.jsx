@@ -4,13 +4,20 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import './styles.css';
+import { useAuth } from "../../components/auth/AuthProvider";
+
 
 export default function Register() {
+    const auth = useAuth();
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Tên là bắt buộc'),
         email: Yup.string().required('Email là bắt buộc').email('Email không hợp lệ'),
         password: Yup.string().min(6, 'Mật khẩu phải ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau').required('Xác nhận mật khẩu là bắt buộc'),
+        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau')
+        .required('Xác nhận mật khẩu là bắt buộc'),
+        address: Yup.string().required('Địa chỉ là bắt buộc'),
+        phonenumber: Yup.string().required('Số điện thoại là bắt buộc'),
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -18,7 +25,7 @@ export default function Register() {
     const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+    auth.register(data);
   };
 
   return (
@@ -65,11 +72,25 @@ export default function Register() {
             <div className="invalid-feedback">{errors.confirmPassword?.message}</div>
         </div>
 
+        <div className="form-group col">
+            <label>Địa chỉ</label>
+            <input name="address" type="text" {...register('address')} 
+            placeholder="Nhập địa chỉ"
+            className={`form-control ${errors.address ? 'is-invalid' : ''}`} />
+            <div className="invalid-feedback">{errors.address?.message}</div>
+        </div>
+
+        <div className="form-group col">
+            <label>Số điện thoại</label>
+            <input name="phonenumber" type="text" {...register('phonenumber')} 
+            placeholder="Nhập số điện thoại"
+            className={`form-control ${errors.phonenumber ? 'is-invalid' : ''}`} />
+            <div className="invalid-feedback">{errors.phonenumber?.message}</div>
+        </div>
+
         <div className="form-group">
         <button id="submit" type="submit" className="btn btn-primary mr-1">Đăng ký</button>
         </div>
-
-
         
         </form>
     </div>

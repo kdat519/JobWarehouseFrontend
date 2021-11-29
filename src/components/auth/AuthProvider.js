@@ -16,16 +16,16 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const login = (email, password) => {
-    (async function (email, password) {
-      const response = await authApi.login(email, password);
+  const login = (data) => {
+    (async function (data) {
+      const response = await authApi.login(data);
 
       if (response.access_token) {
         localStorage.setItem("auth", JSON.stringify(response));
         setUser(response.user);
         navigate("/");
       }
-    })(email, password);
+    })(data);
   };
 
   const logout = () => {
@@ -34,8 +34,14 @@ const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
-  const register = (name, email, password, role) => {
-    
+  const register = (data) => {
+    (async function (data) {
+      const response = await authApi.register(data);
+
+      if (response.success) {
+        navigate("/login");
+      }
+    })(data);
   };
 
   const context = { ...user, login: login, logout: logout, register: register };
