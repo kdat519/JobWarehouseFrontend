@@ -6,6 +6,8 @@ const RequireAuth = ({ requireRole, children }) => {
   const authContext = useAuth();
   const location = useLocation();
 
+  console.log(authContext);
+
   if (authContext.username && authContext.role === requireRole) {
     return children;
   }

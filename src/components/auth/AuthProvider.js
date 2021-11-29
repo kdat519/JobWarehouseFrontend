@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import authApi from "../../api/authApi";
 
@@ -15,6 +15,12 @@ export const Role = {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("auth"))?.user) {
+      setUser(JSON.parse(localStorage.getItem("auth"))?.user);
+    }
+  }, []);
 
   const login = (data) => {
     (async function (data) {
@@ -40,6 +46,9 @@ const AuthProvider = ({ children }) => {
 
       if (response.success) {
         navigate("/login");
+      }
+      else {
+        console.log("error");
       }
     })(data);
   };
