@@ -29,9 +29,9 @@ export default function Register() {
   };
 
   return (
-    <div className="card-body card">
+    <div className="card-body register__card">
         <h2 className="title">Đăng ký</h2>
-        <Link className="link" to="/login">Đã có tài khoản? Đăng nhập</Link>
+        
         <form onSubmit={handleSubmit(onSubmit)}>
 
         <div className="form-group col" id="role">
@@ -93,6 +93,7 @@ export default function Register() {
         </div>
         
         </form>
+        <div className="link"><Link to="/login">Đã có tài khoản? Đăng nhập</Link></div>
     </div>
   );
 }

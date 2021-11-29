@@ -24,9 +24,9 @@ export default function Login() {
   };
 
   return (
-    <div className="card-body card">
+    <div className="card-body login__card">
         <h2 className="title">Đăng nhập</h2>
-        <Link to="/register" className="link">Chưa có tài khoản? Đăng ký</Link>
+        
         <form onSubmit={handleSubmit(onSubmit)}>
 
         <div className="form-group">
@@ -52,6 +52,7 @@ export default function Login() {
         </div>
 
         </form>
+        <Link to="/register" className="link">Chưa có tài khoản? Đăng ký</Link>
     </div>
   );
 }
