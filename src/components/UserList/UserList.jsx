@@ -28,10 +28,10 @@ function UserList(props) {
             <div className="mr-auto">
               <input
                 type="button"
-                value={user.status}
+                value={user.status === 'active' ? "Active" : "Banned"}
                 data-user={user.user_id}
                 onClick={handleClick}
-                className="btn"
+                className="px-2 btn mx-1 btn-primary"
               />
             </div>
           </div>
@@ -47,7 +47,7 @@ function UserInfo(props) {
 
   return (
     <div>
-      <p>Tài khoản: {user.role}</p>
+      <p>Tài khoản: {user.role === 'jobseeker' ? 'Nguời tìm việc' : 'Nhà tuyển dụng'}</p>
       <p>Tên: {user.name}</p>
       <p>Email: {user.email}</p>
       <p>SĐT: {user.phonenumber}</p>
