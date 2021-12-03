@@ -1,0 +1,67 @@
+@use "sass:math";
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+.w-30 {
+  max-width: 30rem;
+}
+
+.w-13 {
+  max-width: 13rem;
+}
+
+.font-weight-bold {
+  font-weight: bolder;
+}
+
+.dd {
+  position: absolute;
+  right: 10px;
+}
+
+.size-085 {
+  font-size: 0.85rem;
+}
+
+.size-08 {
+  font-size: 0.8rem;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display:inline-block
+}
+
+.pl-05 {
+  padding-left: 0.5rem;
+}
+
+.ml-05 {
+  margin-left: 0.5rem;
+}
+
+.ml-03 {
+  margin-left: 0.3rem;
+}
+
+.ptb-05 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.pl-06 {
+  padding-left: 0.6rem;
+}
+
+.icon-purple {
+  color: rgb(171, 85, 228);
+}
+
+.list-circle {
+  list-style-type: circle;
+}

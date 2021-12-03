@@ -1,0 +1,17 @@
+@use "sass:math";
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+.mt-6 {
+  margin-top: 5rem;
+}
+
+.ml-10 {
+  margin-left: 10rem;
+}
+
+.inline-block {
+  display: inline-block;
+}

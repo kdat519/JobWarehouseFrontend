@@ -1,3 +1,9 @@
+@use "sass:math";
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
 .header {
   margin-top: 80px;
   margin-bottom: 40px;
@@ -5,9 +11,6 @@
   justify-content: center;
 }
 
-body {
-  background-color: #e6e6e6;
-}
 
 .auth-wrapper {
   display: flex;
@@ -24,6 +27,10 @@ body {
   padding: 40px 15px 45px 15px;
   border-radius: 15px;
   transition: all .3s;
+}
+
+.ab {
+  text-decoration: underline;
 }
 
 .auth-wrapper .form-control:focus {
@@ -79,5 +86,10 @@ div .auth-inner form button {
 .form-check label {
   font-weight: normal;
   padding: 0px 0px 0px 10px;
+}
+
+
+.red {
+  color: red;
 }
 

@@ -1,20 +1,20 @@
 import React from "react";
-import BrandName from "../components/BrandName";
-import "./regisPage.scss";
+import BrandName from "../../components/BrandName";
+import styles from './styles.module.scss';
 
 const RegisPage = () => {
   return (
     <>
-      <div class ="header">
-        <BrandName class ="brandName"></BrandName>
+      <div className ={styles.header}>
+        <BrandName className ={styles.brandName}></BrandName>
       </div>
 
-      <div className="auth-wrapper">
-        <div className="auth-inner">
+      <div className={styles["auth-wrapper"]}>
+        <div className={styles["auth-inner"]}>
         <form>
           <h3>Create an Account</h3>
 
-          <div className="form-group">
+          <div className={styles["form-group", "red"]}>
               <label>First name</label>
               <input type="text" className="form-control" placeholder="First name" />
           </div>
@@ -36,15 +36,15 @@ const RegisPage = () => {
 
           <div className="form-group">
             <label>Your role</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
-              <label class="form-check-label" for="gridRadios1">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
+              <label className="form-check-label" for="gridRadios1">
                 Employer
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-              <label class="form-check-label" for="gridRadios2">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
+              <label className="form-check-label" for="gridRadios2">
                 Job seeker
               </label>
             </div>
