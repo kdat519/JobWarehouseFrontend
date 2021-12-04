@@ -76,7 +76,7 @@ export default function UserDetail() {
               </div>
             </div>
             <hr />
-            <p>Giới tính: {user.gender}</p>
+            <p>Giới tính: {user.gender === 'male' ? "Nam" : "Nữ"}</p>
             <p>Ngày sinh: {user.birthday}</p>
             <hr />
             <p>Bằng cấp: {user.qualification}</p>
