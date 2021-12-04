@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 
 UserList.propTypes = {
   users: PropTypes.array,
@@ -22,8 +23,8 @@ function UserList(props) {
   return (
     <ul className="container">
       {users.map((user) => (
-        <div>
-          <div key={user.user_id} className="d-flex justify-content-between">
+        <div key={user.user_id}>
+          <div  className="d-flex justify-content-between">
             <UserInfo user={user}  />
             <div className="mr-auto">
               <input
@@ -52,6 +53,7 @@ function UserInfo(props) {
       <p>Email: {user.email}</p>
       <p>SĐT: {user.phonenumber}</p>
       <p>Đại chỉ: {user.address}</p>
+      <p><Link className="text-decoration-none" to={`/admin/user/${user.user_id}`}>Xem chi tiết</Link></p>
     </div>
   );
 }

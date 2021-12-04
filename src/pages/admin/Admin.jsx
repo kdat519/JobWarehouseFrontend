@@ -25,7 +25,7 @@ export default function Admin() {
 
   async function handleBanChange(id, status) {
     let response;
-    if (status === "active") response = await adminApi.banUser(id);
+    if (status === "Active") response = await adminApi.banUser(id);
     else response = await adminApi.unbanUser(id);
 
     if (response.success) {
@@ -61,7 +61,7 @@ export default function Admin() {
         <AdminNavBar />
       </header>
       <div className="container">
-        <h6 className="display-6">Quản lý người dùng</h6>
+        <h6 className="display-6">Quản lý tài khoản</h6>
         <UserFiltersForm onSubmit={handleFiltersChange} />
         <UserList users={userList} onBanChange={handleBanChange} />
         <Pagination

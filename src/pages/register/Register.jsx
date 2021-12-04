@@ -35,7 +35,7 @@ export default function Register() {
         <form onSubmit={handleSubmit(onSubmit)}>
 
         <div className="form-group col" id="role">
-            <label><input {...register('role')} type="radio" value="jobSeeker" defaultChecked/>Tìm việc</label>
+            <label><input {...register('role')} type="radio" value="jobseeker" defaultChecked/>Tìm việc</label>
             <label><input {...register('role')} type="radio" value="employer" />Tuyển dụng</label>
         </div>
             

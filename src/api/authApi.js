@@ -21,6 +21,7 @@ const authApi = {
     formData.append("password_confirmation", params.password_confirmation);
     formData.append("phonenumber", params.phonenumber);
     formData.append("address", params.address);
+    formData.append("role", params.role);
 
     return axiosClient.post(url, formData);
   },

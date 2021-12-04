@@ -14,6 +14,7 @@ import Login from "./pages/login/Login";
 import Logout from "./pages/login/Logout";
 import Register from "./pages/register/Register";
 import Admin from "./pages/admin/Admin";
+import UserDetail from "./pages/admin/UserDetail";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
@@ -41,7 +42,8 @@ const App = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/admin" element={<RequireAuth requireRole={Role.JobSeeker}><Admin /></RequireAuth>} />
+      <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>} />
+      <Route path="/admin/user/:userId" element={<RequireAuth requireRole={Role.Admin}><UserDetail /></RequireAuth>} />
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route
