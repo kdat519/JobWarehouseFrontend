@@ -21,6 +21,7 @@ import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
 import "./styles.scss";
 import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
+import Profile from "./pages/admin/Profile";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -44,6 +45,7 @@ const App = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/employers/profile" element={<RequireAuth requireRole={Role.Employer}><ProfileEmployer /></RequireAuth>}/>
       <Route path="/jobseekers/profile" element={<RequireAuth requireRole={Role.JobSeeker}><ProfileJobSeeker /></RequireAuth>}/>
       <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>} />
