@@ -1,37 +1,58 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import authApi from "../../api/authApi";
 
 const AuthContext = React.createContext(null);
 
-export const useAuth = () => useContext(AuthContext);
-
 export const Role = {
   Admin: "admin",
-  JobSeeker: "jobSeeker",
+  JobSeeker: "jobseeker",
   Employer: "employer",
 };
 
 const AuthProvider = ({ children }) => {
-  const [username, setUsername] = useState(null);
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
   const navigate = useNavigate();
 
-  const login = (username, role, callback) => {
-    setUsername(username);
-    setRole(role);
-    callback();
+  const login = (data) => {
+    (async function (data) {
+      const response = await authApi.login(data);
+
+      if (response.access_token) {
+        localStorage.setItem("auth", JSON.stringify(response));
+        setUser(response.user);
+        navigate("/");
+      }
+    })(data);
   };
 
   const logout = () => {
-    setUsername(null);
-    setRole(null);
+    localStorage.removeItem("auth");
+    setUser(undefined);
     navigate("/");
   };
 
-  const context = { username, role, login: login, logout: logout };
+  const register = (data) => {
+    (async function (data) {
+      const response = await authApi.register(data);
+
+      if (response.success) {
+        navigate("/login");
+      }
+      else {
+        console.log(response);
+      }
+    })(data);
+  };
+
+  const context = { ...user, login, logout, register };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
 };
 
+
+export const useAuth = () => useContext(AuthContext);
+
 export default AuthProvider;
+
