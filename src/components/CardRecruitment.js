@@ -4,22 +4,18 @@ import styles from './cardRecruitment.module.scss';
 const CardRecruit = () => {
   return (
     <>
-      <div className={`card mt-3 pt-2 pb-2 ${styles["w-30"]}`}>
+      <div className={`shadow-sm px-3 py-2 mb-4 border border-primary card ${styles["w-30"]}`}>
         <div className={`dropdown ${styles["dd"]}`}>
-          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           </button>
           <div className={`dropdown-menu ${styles["w-13"]}`} aria-labelledby="dropdownMenuButton">
-            <div className={`${styles["ptb-05"]} ${styles["pl-06"]}`}>
+            <div className={`dropdown-item ${styles["ptb-05"]} ${styles["pl-06"]}`}>
               <i className={`bi bi-heart ${styles["ml-05"]}`} ></i>
-              <a className={`dropdown-item ${styles["pl-05"]} ${styles["inline"]}`} href="#">Save job</a>
+              <a className={`text-dark text-decoration-none ${styles["pl-05"]} ${styles["inline"]}`} href="#">Save job</a>
             </div>
-            <div className={`${styles["ptb-05"]} ${styles["pl-06"]}`}>
-              <i className={`bi bi-slash-circle ${styles["ml-05"]}`} ></i>
-              <a className={`dropdown-item ${styles["pl-05"]} ${styles["inline"]}`} href="#">Not interested</a>
-            </div>
-            <div className={`${styles["ptb-05"]} ${styles["pl-06"]}`}>
+            <div className={`dropdown-item ${styles["ptb-05"]} ${styles["pl-06"]}`}>
               <i className={`bi bi-flag-fill ${styles["ml-05"]}`}></i>
-              <a className={`dropdown-item ${styles["pl-05"]} ${styles["inline"]}`} href="#">Report job</a>
+              <a className={`text-dark text-decoration-none ${styles["pl-05"]} ${styles["inline"]}`} href="#">Report job</a>
             </div>
           </div>
         </div>
