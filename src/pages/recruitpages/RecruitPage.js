@@ -4,9 +4,29 @@ import CardRecruit from "../../components/CardRecruitment";
 import SearchForm from "../../components/SearchForm";
 import styles from './styles.module.scss';
 
+const Paligation = () => {
+  return (
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+
 const JobDescription = () => {
   return (
-    <div className={`col-6 mt-5 ${styles["w-40"]} ${styles["mr-10"]} ${styles["position-sticky"]}`}>
+    <div className={`col-12 col-lg-5 mt-5 ${styles["position-sticky"]}`}>
       <div className={`shadow border-bottom-0 border-secondary card px-2 pt-4 pb-2 bg-white ${styles["border-radius-top"]}`}>
         <div className="card-body">
           <h5 className={`card-title ${styles["font-weight-bold"]} mb-4`}>Primary Phase Leader</h5>
@@ -52,13 +72,13 @@ const RecruitmentPage = () => {
     <>
       <NavBar />
       <div className={`row justify-content-center ${styles["mt-6"]} w-100`}>
-					<div className="col-12 col-lg-8">
-						<SearchForm />
-					</div>
-			</div>
-      
-      <div className={`row ${styles["mt-6"]} bg-light w-100`}>
-        <div className={`col ${styles["ml-10"]} ${styles["inline-block"]} mt-5 `}>
+        <div className="col-12 col-lg-8">
+          <SearchForm />
+        </div>
+      </div>
+
+      <div className={`row justify-content-center ${styles["mt-6"]} bg-light w-100`}>
+        <div className={`col-12 col-lg-5 mt-5 `}>
           <div className={`${styles["ml-1"]} ${styles["size-08"]} `}>
             <p className="text-muted mb-1 mt-2">999 công việc</p>
             <p className="mb-0">Sắp xếp theo: Ngày đăng tin</p>
@@ -70,7 +90,11 @@ const RecruitmentPage = () => {
           <CardRecruit />
         </div>
         <JobDescription />
+        <div className="d-flex justify-content-center mt-3">
+          <Paligation />
+        </div>
       </div>
+
     </>
   )
 }
