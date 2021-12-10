@@ -22,6 +22,7 @@ import PostJobLayout from "./pages/post-job/PostJobLayout";
 import "./styles.scss";
 import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
 import Profile from "./pages/admin/Profile";
+import RecruitmentPage from "./pages/recruitpages/RecruitPage";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -46,10 +47,39 @@ const App = () => (
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/employers/profile" element={<RequireAuth requireRole={Role.Employer}><ProfileEmployer /></RequireAuth>}/>
-      <Route path="/jobseekers/profile" element={<RequireAuth requireRole={Role.JobSeeker}><ProfileJobSeeker /></RequireAuth>}/>
-      <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>} />
-      <Route path="/admin/user/:userId" element={<RequireAuth requireRole={Role.Admin}><UserDetail /></RequireAuth>} />
+      <Route path="/recruitments" element={<RecruitmentPage />} />
+      <Route
+        path="/employers/profile"
+        element={
+          <RequireAuth requireRole={Role.Employer}>
+            <ProfileEmployer />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/jobseekers/profile"
+        element={
+          <RequireAuth requireRole={Role.JobSeeker}>
+            <ProfileJobSeeker />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <RequireAuth requireRole={Role.Admin}>
+            <Admin />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/user/:userId"
+        element={
+          <RequireAuth requireRole={Role.Admin}>
+            <UserDetail />
+          </RequireAuth>
+        }
+      />
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route
