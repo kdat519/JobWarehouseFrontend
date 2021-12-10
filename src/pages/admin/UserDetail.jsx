@@ -71,7 +71,7 @@ export default function UserDetail() {
                   value={user.status === "active" ? "Active" : "Banned"}
                   data-user={user.user_id}
                   onClick={handleClick}
-                  className="px-2 btn mx-1 btn-primary"
+                  className={`px-2 btn mx-1 ${user.status === "active" ? 'btn-success' : 'btn-danger'}`}
                 />
               </div>
             </div>

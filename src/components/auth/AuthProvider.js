@@ -13,6 +13,7 @@ export const Role = {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
   const navigate = useNavigate();
+  const [error, setError] = useState();
 
   const login = (data) => {
     (async function (data) {
@@ -22,13 +23,14 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("auth", JSON.stringify(response));
         setUser(response.user);
         navigate("/");
-      }
+      } 
     })(data);
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
     setUser(undefined);
+    setError(undefined);
     navigate("/");
   };
 
@@ -37,20 +39,20 @@ const AuthProvider = ({ children }) => {
       const response = await authApi.register(data);
 
       if (response.success) {
+        setError(undefined);
         navigate("/login");
       }
       else {
-        console.log(response);
+        setError(response.message);
       }
     })(data);
   };
 
-  const context = { ...user, login, logout, register };
+  const context = { ...user, error, login, logout, register };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => useContext(AuthContext);
 

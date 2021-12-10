@@ -93,6 +93,7 @@ export default function Register() {
         </div>
         
         </form>
+        <div className="text-danger">{auth.error}</div>
         <div className="link"><Link to="/login">Đã có tài khoản? Đăng nhập</Link></div>
     </div>
   );
