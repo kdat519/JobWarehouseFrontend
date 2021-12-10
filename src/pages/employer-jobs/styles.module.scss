@@ -1,0 +1,57 @@
+@use "sass:math";
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+.card-container {
+  width: math.div(100%, 3);
+}
+
+@include media-breakpoint-down(lg) {
+  .card-container {
+    width: 50%;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .card-container {
+    width: 100%;
+  }
+}
+
+.card-top-height {
+  height: 90px;
+}
+
+.negative-margin {
+  margin-top: -85px;
+  border: 3px solid white;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.card-content-container {
+  height: 9em;
+
+  .line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+  }
+}
+
+.accept:hover::after {
+  content: " Tuyển";
+}
+
+.reject:hover::after {
+  content: " Từ chối";
+}
+
+.mark-as-read:hover::after {
+  content: " Đánh dấu đã duyệt";
+}
