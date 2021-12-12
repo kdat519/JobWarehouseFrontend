@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import adminApi from "../../api/adminApi";
+import adminReportApi from "../../api/adminReportApi";
 import AdminNavBar from "../../components/navbar/AdminNavBar";
 import { useParams } from "react-router";
+import ReportList from "../../components/report/ReportList";
+import Pagination from "../../components/UserList/Pagination";
 
 
 export default function UserDetail() {
@@ -41,6 +44,53 @@ export default function UserDetail() {
     handleBanChange(e.target.dataset.user, e.target.value);
   }
 
+
+  // Report list to that user
+  const [reportList, setReportList] = useState([]);
+  const [lastPage, setLastPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const [filters, setFilters] = useState({
+    page: 1
+  });
+
+  function handlePageChange(newPage) {
+    setFilters({ page: newPage });
+  }
+
+  useEffect(() => {
+    async function fetchReportList(filters) {
+      try {
+        const response = await adminReportApi.getReportTo(userId);
+        setReportList(response.data.data);
+        setLastPage(response.data.last_page);
+        setCurrentPage(response.data.current_page);
+      } catch (error) {
+        console.log("Failed to fetch user list: ", error);
+      }
+    }
+
+    fetchReportList(filters);
+  }, [filters]);
+
+  return (
+    <>
+      <UserDetailView user={user} handleClick={handleClick}/>
+      <div className="container">
+        <h6 className="display-6">Quản lý báo cáo</h6>
+        <hr />
+        <ReportList reports={reportList} />
+        <Pagination
+          last_page={lastPage}
+          current_page={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </>
+  );
+}
+
+function UserDetailView({user, handleClick}) {
   return (
     <div>
       <header className="mb-5">

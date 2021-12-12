@@ -49,6 +49,7 @@ export default function Login() {
 
         <div className="form-group">
         <button id="submit" type="submit" className="btn btn-primary">Đăng nhập</button>
+        <div className="text-danger">{auth.loginError}</div>
         </div>
 
         </form>

@@ -5,6 +5,12 @@ const adminReportApi = {
     const url = "/report";
     return axiosClient.get(url, {params});
   },
+
+  getReportTo: (id) => {
+    const url = `report/to/${id}`;
+    return axiosClient.get(url);
+  },
+
 };
 
 export default adminReportApi;
