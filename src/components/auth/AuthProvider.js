@@ -13,7 +13,7 @@ export const Role = {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [registerError, setRegisterError] = useState();
   const [loginError, setLoginError] = useState();
 
   const login = (data) => {
@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
         }
       }
       else {
+        setRegisterError(undefined);
         setLoginError(response.message);
       }
     })(data);
@@ -39,9 +40,8 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("auth");
-    setUser(undefined);
+    setRegisterError(undefined);
     setLoginError(undefined);
-    setError(undefined);
     navigate("/");
   };
 
@@ -50,16 +50,17 @@ const AuthProvider = ({ children }) => {
       const response = await authApi.register(data);
 
       if (response.success) {
-        setError(undefined);
+        setRegisterError(undefined);
+        setLoginError(undefined);
         navigate("/login");
       }
       else {
-        setError(response.message);
+        setRegisterError(response.message);
       }
     })(data);
   };
 
-  const context = { ...user, error, loginError, login, logout, register };
+  const context = { ...user, registerError, loginError, login, logout, register };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );

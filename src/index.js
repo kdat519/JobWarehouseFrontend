@@ -10,9 +10,9 @@ import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
-import Login from "./pages/login/Login";
+import Login from "./pages/authentication/Login";
 import Logout from "./pages/login/Logout";
-import Register from "./pages/register/Register";
+import Register from "./pages/authentication/Register";
 import Admin from "./pages/admin/Admin";
 import ReportPage from "./pages/admin/ReportPage";
 import ProfileEmployer from "./pages/admin/ProfileEmployer";
@@ -53,7 +53,7 @@ const App = () => (
       <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>} />
       <Route path="/admin/report/" element={<RequireAuth requireRole={Role.Admin}><ReportPage /></RequireAuth>} />
       <Route path="/admin/user/:userId" element={<RequireAuth requireRole={Role.Admin}><UserDetail /></RequireAuth>} />
-      
+
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route
