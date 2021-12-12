@@ -7,7 +7,7 @@ const adminApi = {
   },
 
   getUser: (id) => {
-    const url = `admin/user/${id}`;
+    const url = `user/${id}`;
     return axiosClient.get(url);
   },
 

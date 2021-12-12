@@ -12,7 +12,7 @@ export default function UserDetail() {
     async function fetchUser() {
       try {
         const response = await adminApi.getUser(userId);
-        if (!response.error) setUser(response[0]);
+        if (response.success) setUser(response.data[0]);
       } catch (error) {
         console.log("Failed to fetch user: ", error);
       }

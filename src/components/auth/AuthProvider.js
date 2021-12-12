@@ -22,7 +22,12 @@ const AuthProvider = ({ children }) => {
       if (response.access_token) {
         localStorage.setItem("auth", JSON.stringify(response));
         setUser(response.user);
-        navigate("/");
+        if (response?.user?.role === "admin") {
+          navigate("/admin");
+        }
+        else {
+          navigate("/");
+        }
       } 
     })(data);
   };

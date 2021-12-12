@@ -9,7 +9,8 @@ const AdminNavBar = () => (
         <NavLink className="navbar-brand" to="/">
           <img src={brandNameLogo} alt="" height="30" />
         </NavLink>
-        <NavLink className="text-decoration-none text-dark" to="/admin">Tài khoản</NavLink>
+        <NavLink className="text-decoration-none text-dark mx-1" to="/admin">Tài khoản</NavLink>
+        <NavLink className="text-decoration-none text-dark mx-1" to="/admin/report">Báo cáo</NavLink>
       </div>
       <div className="navbar-nav flex-row justify-content-end">
         <NavLink
