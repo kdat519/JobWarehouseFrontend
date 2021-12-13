@@ -16,14 +16,23 @@
   font-weight: bolder;
 }
 
+.hover:hover {
+  cursor: pointer;
+  border-color: rgb(55, 148, 253) !important;
+}
+
 .dd {
   position: absolute;
   right: 20px;
-  top:20px
+  top: 20px;
 }
 
 .size-085 {
   font-size: 0.85rem;
+}
+
+.size-1 {
+  font-size: 1rem;
 }
 
 .size-08 {
@@ -35,7 +44,7 @@
 }
 
 .inline-block {
-  display:inline-block
+  display: inline-block;
 }
 
 .pl-05 {

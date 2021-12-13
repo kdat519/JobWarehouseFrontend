@@ -53,8 +53,8 @@ function UserInfo(props) {
         {user.role === "jobseeker"
           ? "Nguời tìm việc"
           : user.role === "admin"
-          ? "Admin"
-          : "Nhà tuyển dụng"}
+            ? "Admin"
+            : "Nhà tuyển dụng"}
       </p>
       <p>Tên: {user.name}</p>
       <p>Email: {user.email}</p>
