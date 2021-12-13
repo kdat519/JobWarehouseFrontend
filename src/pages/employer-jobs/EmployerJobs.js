@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { readJobs } from "../../api/jobApi";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import { fireErrorMessage } from "../../components/swalErrorMessage";
 import SearchAndSort, {
   makeOption,
   Order,
@@ -12,11 +14,11 @@ import TableHeaders, {
 import styles from "./styles.module.scss";
 
 const Status = {
-  Open: "open",
-  Close: "close",
+  Open: "opening",
+  Close: "closed",
 };
 
-const data = [
+/* const data = [
   {
     id: 1,
     status: Status.Open,
@@ -41,7 +43,7 @@ const data = [
     hired: 0,
     candidates: 6,
   },
-];
+]; */
 
 //#region Post
 const SelectStatus = ({ status }) => (
@@ -87,6 +89,16 @@ const CandidatesInfo = ({ id, candidates, hired }) => {
   );
 };
 
+const numberTo2CharsString = (num) =>
+  num >= 10 ? num.toString() : "0" + num.toString();
+
+const dateToString = (date) =>
+  numberTo2CharsString(date.getDay()) +
+  "/" +
+  numberTo2CharsString(date.getMonth()) +
+  "/" +
+  date.getFullYear();
+
 const Post = ({ jobName, id, createdAt, status, candidates, hired }) => (
   <Row>
     <div className="col-12 col-lg-2">
@@ -95,7 +107,7 @@ const Post = ({ jobName, id, createdAt, status, candidates, hired }) => (
           Công việc:
         </div>
         <div className="col-auto">{jobName}</div>
-        <div className="col-1 d-lg-none ms-auto">
+        <div className="col-1 d-lg-none ms-auto p-0">
           <EditButton id={id} />
         </div>
       </div>
@@ -105,7 +117,7 @@ const Post = ({ jobName, id, createdAt, status, candidates, hired }) => (
         <div className="col-4 col-sm-3 col-md-2 d-lg-none fw-bold">
           Ngày đăng:
         </div>
-        <div className="col-auto">{createdAt.toString()}</div>
+        <div className="col-auto">{dateToString(createdAt)}</div>
       </div>
     </div>
     <CandidatesInfo id={id} candidates={candidates} hired={hired} />
@@ -119,27 +131,65 @@ const Post = ({ jobName, id, createdAt, status, candidates, hired }) => (
 );
 //#endregion
 
-const EmployerJobs = () => {
-  const [jobs, setJobs] = useState(
-    data.sort((a, b) => (a.jobName > b.jobName ? 1 : -1))
-  );
+const Table = () => {
+  const [jobs, setJobs] = useState([]);
 
-  const submitHandle = ({ search, orderBy, order }) => {
-    console.log(search, orderBy, order);
-    setJobs(
-      data
-        .filter((job) =>
-          search
-            ? job.jobName.toLowerCase().includes(search.toLowerCase())
-            : true
-        )
-        .sort((a, b) => {
-          const result = a[orderBy] > b[orderBy] ? 1 : -1;
-          return order === Order.Asc ? result : -result;
-        })
-    );
+  const handleSubmit = ({ search, orderBy, order }) => {
+    readJobs()
+      .then((data) => {
+        // console.log(search, orderBy, order);
+        // console.log(data);
+        setJobs(
+          data
+            .filter((job) =>
+              search
+                ? job.jobName.toLowerCase().includes(search.toLowerCase())
+                : true
+            )
+            .sort((a, b) => {
+              const result = a[orderBy] > b[orderBy] ? 1 : -1;
+              return order === Order.Asc ? result : -result;
+            })
+        );
+      })
+      .catch(fireErrorMessage);
   };
 
+  useEffect(
+    () => handleSubmit({ search: null, orderBy: "jobName", order: Order.Asc }),
+    []
+  );
+
+  return (
+    <>
+      <SearchAndSort
+        searchPlaceholder="Tên công việc"
+        orderOptions={[
+          makeOption("jobName", "Tên công việc"),
+          makeOption("createdAt", "Ngày đăng"),
+          makeOption("status", "Trạng thái"),
+          makeOption("candidates", "Ứng viên"),
+        ]}
+        handleSubmit={handleSubmit}
+      />
+      <TableHeaders
+        headers={[
+          makeHeader(2, "Tên công việc"),
+          makeHeader(2, "Ngày đăng"),
+          makeHeader(5, "Ứng viên"),
+          makeHeader(2, "Trạng thái"),
+          makeHeader(1, ""),
+        ]}
+      >
+        {jobs.map((candidate) => (
+          <Post key={candidate.id} {...candidate} />
+        ))}
+      </TableHeaders>
+    </>
+  );
+};
+
+const EmployerJobs = () => {
   return (
     <>
       <header className="mb-5">
@@ -147,29 +197,7 @@ const EmployerJobs = () => {
       </header>
       <main className="container">
         <h1 className="fw-bold mb-4">Tin tuyển dụng của bạn</h1>
-        <SearchAndSort
-          searchPlaceholder="Tên công việc"
-          orderOptions={[
-            makeOption("jobName", "Tên công việc"),
-            makeOption("createdAt", "Ngày đăng"),
-            makeOption("status", "Trạng thái"),
-            makeOption("candidates", "Ứng viên"),
-          ]}
-          submitHandle={submitHandle}
-        />
-        <TableHeaders
-          headers={[
-            makeHeader(2, "Tên công việc"),
-            makeHeader(2, "Ngày đăng"),
-            makeHeader(5, "Ứng viên"),
-            makeHeader(2, "Trạng thái"),
-            makeHeader(1, ""),
-          ]}
-        >
-          {jobs.map((candidate) => (
-            <Post key={candidate.id} {...candidate} />
-          ))}
-        </TableHeaders>
+        <Table />
       </main>
     </>
   );

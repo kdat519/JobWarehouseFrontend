@@ -1,6 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { readEmployers } from "../api/employerApi";
 import NavBar from "../components/navbar/NavBar";
+import { fireErrorMessage } from "../components/swalErrorMessage";
 import TableHeaders, {
   makeHeader,
   Row,
@@ -85,11 +87,11 @@ const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
   </Row>
 );
 
-const SearchBox = () => (
+const SearchBox = ({ handleSearch }) => (
   <Formik
     initialValues={{ search: "" }}
     onSubmit={(values) => {
-      alert(JSON.stringify(values));
+      handleSearch(values.search);
     }}
   >
     <Form className="input-group mb-5">
@@ -97,7 +99,7 @@ const SearchBox = () => (
         type="text"
         name="search"
         className="form-control"
-        placeholder="Tên nhà tuyển dụng"
+        placeholder="Tên nhà tuyển dụng, Lĩnh vực"
       />
       <button className="btn btn-outline-secondary" type="submit">
         Tìm kiếm
@@ -106,14 +108,22 @@ const SearchBox = () => (
   </Formik>
 );
 
-const Employers = () => (
-  <>
-    <header className="mb-5">
-      <NavBar />
-    </header>
-    <main className="container">
-      <h6 className="display-6">Tìm những nhà tuyển dụng tốt nhất</h6>
-      <SearchBox />
+const Table = () => {
+  const [employers, setEmployers] = useState([]);
+
+  const handleSearch = (search = "") => {
+    readEmployers(search)
+      .then((value) => {
+        setEmployers(value);
+      })
+      .catch(fireErrorMessage);
+  };
+
+  useEffect(handleSearch, []);
+
+  return (
+    <>
+      <SearchBox handleSearch={handleSearch} />
       <TableHeaders
         headers={[
           makeHeader(1, ""),
@@ -123,10 +133,22 @@ const Employers = () => (
           makeHeader(7, "Giới thiệu"),
         ]}
       >
-        {data.map((employer) => (
+        {employers.map((employer) => (
           <Employer key={employer.name} {...employer} />
         ))}
       </TableHeaders>
+    </>
+  );
+};
+
+const Employers = () => (
+  <>
+    <header className="mb-5">
+      <NavBar />
+    </header>
+    <main className="container">
+      <h6 className="display-6">Tìm những nhà tuyển dụng tốt nhất</h6>
+      <Table />
     </main>
   </>
 );

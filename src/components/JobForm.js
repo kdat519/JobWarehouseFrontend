@@ -1,5 +1,6 @@
-import { Form, Formik, useField } from "formik";
+import { Form, Formik, useField, useFormikContext } from "formik";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const useInputProps = (name, type, className) => {
   const [field, meta] = useField(name);
@@ -12,15 +13,14 @@ const useInputProps = (name, type, className) => {
     id: name,
     name: name,
     type: type,
-    className: className + " form-control " + validationClassName(name),
-    onChange: field.onChange,
-    onBlur: field.onBlur,
-    value: field.value,
+    className: (className || "") + " form-control " + validationClassName(name),
+    ...field,
   };
 };
 
-const Input = ({ name, label, type, className, htmlAttr }) => {
+const Input = ({ name, label, type, className, htmlAttr, inputGroupText }) => {
   const [, meta] = useField(name);
+  const inputProps = useInputProps(name, type, className);
   return (
     <div className="row mb-2">
       <label
@@ -30,8 +30,18 @@ const Input = ({ name, label, type, className, htmlAttr }) => {
         {label}
       </label>
       <div className="col-12 col-md-9 col-xl-10">
-        <input {...useInputProps(name, type, className)} {...htmlAttr} />
-        <div className="invalid-feedback">{meta.error}</div>
+        {inputGroupText ? (
+          <div className="input-group has-validation">
+            <input {...inputProps} {...htmlAttr} />
+            <span className="input-group-text">VND</span>
+            <div className="invalid-feedback">{meta.error}</div>
+          </div>
+        ) : (
+          <>
+            <input {...inputProps} {...htmlAttr} />
+            <div className="invalid-feedback">{meta.error}</div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -65,61 +75,65 @@ const validate = (values) => {
   return error;
 };
 
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    cancelButton: "btn btn-secondary mx-1",
+    confirmButton: "btn btn-danger mx-1",
+  },
+  buttonsStyling: false,
+});
+
 const CancelButton = () => {
   const navigate = useNavigate();
   const handleConfirm = () => {
     navigate("/for-employers/jobs");
   };
 
+  const handleClick = (event) => {
+    event.preventDefault();
+    swalWithBootstrapButtons.fire({
+      title: "<h3>Hủy bỏ thay đổi<h3>",
+      icon: "warning",
+      html: "<p>Bạn có thực sự muốn hủy bỏ thay&nbsp;đổi?<p>",
+      showConfirmButton: true,
+      confirmButtonText: "Hủy",
+      showCancelButton: true,
+      cancelButtonText: "Không hủy",
+      preConfirm: handleConfirm,
+    });
+  };
+
   return (
-    <>
-      <button
-        type="button"
-        className="btn btn-outline-secondary mx-2"
-        data-bs-toggle="modal"
-        data-bs-target="#cancel-prompt"
-      >
-        Hủy
-      </button>
-      <div className="modal fade" id="cancel-prompt" tabIndex="-1">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Hủy bỏ thay đổi?</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-              />
-            </div>
-            <div className="modal-body">
-              Bạn có thực sự muốn hủy bỏ thay đổi?
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Không hủy
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleConfirm}
-                data-bs-dismiss="modal"
-              >
-                Hủy
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <button
+      type="button"
+      className="btn btn-outline-secondary mx-2"
+      onClick={handleClick}
+    >
+      Hủy
+    </button>
   );
 };
 
-const JobForm = ({ initialValues }) => (
+const SubmitButton = () => {
+  const { initialValues, values } = useFormikContext();
+  const btnColor =
+    // eslint-disable-next-line eqeqeq
+    JSON.stringify(initialValues) == JSON.stringify(values)
+      ? "btn-secondary"
+      : "btn-primary";
+
+  return (
+    <button
+      type="submit"
+      className={"btn " + btnColor}
+      disabled={JSON.stringify(initialValues) === JSON.stringify(values)}
+    >
+      {initialValues ? "Lưu" : "Đăng"}
+    </button>
+  );
+};
+
+const JobForm = ({ initialValues, handleSubmit }) => (
   <Formik
     initialValues={
       initialValues || {
@@ -132,22 +146,23 @@ const JobForm = ({ initialValues }) => (
       }
     }
     validate={validate}
-    onSubmit={(values) => {
-      alert(JSON.stringify(values));
-    }}
+    onSubmit={handleSubmit}
   >
     <Form noValidate>
       <Input name="jobName" label="Tên công việc" type="text" />
       <Input name="category" label="Lĩnh vực" type="text" />
       <Input name="address" label="Địa điểm" type="text" />
-      <Input name="minSalary" label="Lương khởi điểm" type="number" />
+      <Input
+        name="minSalary"
+        label="Lương khởi điểm"
+        type="number"
+        inputGroupText="VND"
+      />
       <Textarea name="detail" label="Mô tả" htmlAttr={{ rows: 4 }} />
       <Textarea name="requirement" label="Yêu cầu" htmlAttr={{ rows: 4 }} />
       <div className="d-flex justify-content-end mt-3">
         <CancelButton />
-        <button type="submit" className="btn btn-primary">
-          {initialValues ? "Lưu" : "Đăng"}
-        </button>
+        <SubmitButton />
       </div>
     </Form>
   </Formik>

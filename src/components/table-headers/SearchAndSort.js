@@ -58,14 +58,14 @@ const SearchBox = ({ placeholder }) => {
   );
 };
 
-const SearchAndSort = ({ searchPlaceholder, orderOptions, submitHandle }) => (
+const SearchAndSort = ({ searchPlaceholder, orderOptions, handleSubmit }) => (
   <Formik
     initialValues={{
       search: "",
       orderBy: orderOptions[0].value,
       order: Order.Asc,
     }}
-    onSubmit={submitHandle}
+    onSubmit={handleSubmit}
   >
     <Form>
       <div className="row mb-4">

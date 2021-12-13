@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import {
+  readCandidatesForJob,
+  updateCandidateType,
+  readJobDetail,
+} from "../../api/jobApi";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import { fireErrorMessage } from "../../components/swalErrorMessage";
 import doodle from "./no-one-doodle.svg";
 import styles from "./styles.module.scss";
 
-const CandidateType = {
-  AwaitReview: "awaitReview",
+export const CandidateType = {
+  AwaitReview: "pending",
   Reviewed: "reviewed",
   Hired: "hired",
   Rejected: "rejected",
 };
 
-let id = 1;
+/* let id = 1;
 const data = [
   {
     id: id++,
@@ -188,22 +195,22 @@ const data = [
       "consequatur aut dolorem laudantium beatae deleniti. Ea aperiam " +
       "totam accusamus quisquam, doloribus ab?",
   },
-];
+]; */
 
 //#region Candidate
-const ButtonGroup = ({ id, clickHandle, type }) => (
+const ButtonGroup = ({ handleClick, type }) => (
   <div className="btn-group">
     <button
       type="button"
       className={`btn btn-success ${styles["accept"]}`}
-      onClick={clickHandle(id, CandidateType.Hired)}
+      onClick={handleClick(CandidateType.Hired)}
     >
       <i className="bi bi-check" />
     </button>
     <button
       type="button"
       className={`btn btn-danger ${styles["reject"]}`}
-      onClick={clickHandle(id, CandidateType.Rejected)}
+      onClick={handleClick(CandidateType.Rejected)}
     >
       <i className="bi bi-x" />
     </button>
@@ -211,7 +218,7 @@ const ButtonGroup = ({ id, clickHandle, type }) => (
       <button
         type="button"
         className={`btn btn-secondary ${styles["mark-as-read"]}`}
-        onClick={clickHandle(id, CandidateType.Reviewed)}
+        onClick={handleClick(CandidateType.Reviewed)}
       >
         <i className="bi bi-file-earmark-check" />
       </button>
@@ -219,7 +226,7 @@ const ButtonGroup = ({ id, clickHandle, type }) => (
   </div>
 );
 
-const Candidate = ({ imgSrc, name, qualification, type, id, clickHandle }) => (
+const Candidate = ({ imgSrc, name, qualification, type, handleClick }) => (
   <div className={`p-1 ${styles["card-container"]}`}>
     <div className="card">
       <div
@@ -237,7 +244,7 @@ const Candidate = ({ imgSrc, name, qualification, type, id, clickHandle }) => (
         </div>
         {type === CandidateType.AwaitReview ||
         type === CandidateType.Reviewed ? (
-          <ButtonGroup id={id} type={type} clickHandle={clickHandle} />
+          <ButtonGroup type={type} handleClick={handleClick} />
         ) : null}
       </div>
     </div>
@@ -246,29 +253,20 @@ const Candidate = ({ imgSrc, name, qualification, type, id, clickHandle }) => (
 //#endregion
 
 //#region Candidate list
-const useCandidateLists = () => {
-  const filterByCandidateType = (data, type) =>
+const genCandidateLists = (candidates) => {
+  const filterByType = (type) =>
     new Map(
-      data
+      candidates
         .filter((candidate) => candidate.type === type)
         .map((candidate) => [candidate.id, candidate])
     );
 
-  return useState({
-    [CandidateType.AwaitReview]: filterByCandidateType(
-      data,
-      CandidateType.AwaitReview
-    ),
-    [CandidateType.Reviewed]: filterByCandidateType(
-      data,
-      CandidateType.Reviewed
-    ),
-    [CandidateType.Hired]: filterByCandidateType(data, CandidateType.Hired),
-    [CandidateType.Rejected]: filterByCandidateType(
-      data,
-      CandidateType.Rejected
-    ),
-  });
+  return {
+    [CandidateType.AwaitReview]: filterByType(CandidateType.AwaitReview),
+    [CandidateType.Reviewed]: filterByType(CandidateType.Reviewed),
+    [CandidateType.Hired]: filterByType(CandidateType.Hired),
+    [CandidateType.Rejected]: filterByType(CandidateType.Rejected),
+  };
 };
 
 const TabHeader = ({
@@ -309,31 +307,54 @@ const TabPane = ({ activeTab, candidateType, candidateComps }) => (
   </div>
 );
 
+const Title = ({ jobId }) => {
+  const [jobName, setJobName] = useState("");
+  useEffect(() => {
+    readJobDetail(jobId)
+      .then((job) => {
+        setJobName(": " + job.jobName);
+      })
+      .catch(() => {
+        // Ignore
+      });
+  }, [jobId]);
+  return <h1 className="fw-bold mb-4">{"Danh sách ứng viên" + jobName}</h1>;
+};
+
 const CandidatesForJob = () => {
-  const [candidateLists, setCandidateLists] = useCandidateLists();
+  const { jobId } = useParams();
+  const navigate = useNavigate();
+
+  const [candidates, setCandidates] = useState([]);
+  const candidateLists = genCandidateLists(candidates);
   const [activeTab, setActiveTab] = useState(CandidateType.AwaitReview);
 
+  useEffect(() => {
+    readCandidatesForJob(parseInt(jobId))
+      .then((candidates) => {
+        setCandidates(candidates);
+      })
+      .catch(() => {
+        fireErrorMessage();
+        navigate("/for-employers/jobs");
+      });
+  }, [jobId, navigate]);
+
   //#region Helper function
-  const changeCandidateType = (fromList) => (id, toList) => (event) => {
+  const changeCandidateType = (candidateId) => (type) => (event) => {
     event.preventDefault();
-    const fromListCopy = new Map(candidateLists[fromList]);
-    const toListCopy = new Map(candidateLists[toList]);
-    const candidate = fromListCopy.get(id);
-    fromListCopy.delete(id);
-    toListCopy.set(id, candidate);
-    candidate.type = toList;
-    setCandidateLists({
-      ...candidateLists,
-      [fromList]: fromListCopy,
-      [toList]: toListCopy,
-    });
+    updateCandidateType(parseInt(jobId), candidateId, type)
+      .then((candidates) => {
+        setCandidates(candidates);
+      })
+      .catch(fireErrorMessage);
   };
 
   const candidateComps = (candidateType) =>
     Array.from(candidateLists[candidateType].values()).map((candidate) => (
       <Candidate
         key={candidate.id}
-        clickHandle={changeCandidateType(candidateType)}
+        handleClick={changeCandidateType(candidate.id)}
         {...candidate}
       />
     ));
@@ -364,7 +385,7 @@ const CandidatesForJob = () => {
         <EmployerNavBar />
       </header>
       <main className="container">
-        <h1 className="fw-bold mb-4">Danh sách ứng viên: "Lập trình viên"</h1>
+        <Title jobId={parseInt(jobId)} />
         <nav>
           <div className="nav nav-tabs">
             <TabHeader

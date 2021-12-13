@@ -57,14 +57,14 @@ const App = () => (
         element={<RequireEmployer element={<PostJobLayout />} />}
       >
         <Route index element={<PostJob />} />
-        <Route path=":id" element={<EditJob />} />
+        <Route path=":jobId" element={<EditJob />} />
       </Route>
       <Route
         path="/for-employers/jobs"
         element={<RequireEmployer element={<EmployerJobs />} />}
       />
       <Route
-        path="/for-employers/jobs/:id"
+        path="/for-employers/jobs/:jobId"
         element={<RequireEmployer element={<CandidatesForJob />} />}
       />
       <Route path="*" element={<EmptyPage />} />

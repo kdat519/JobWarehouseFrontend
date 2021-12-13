@@ -37,8 +37,8 @@ const GuestNav = () => (
 
 const NavItems = () => {
   const authContext = useAuth();
-  return authContext.username && authContext.role === Role.JobSeeker ? (
-    <AuthUserNav username={authContext.username} logout={authContext.logout} />
+  return authContext.name && authContext.role === Role.JobSeeker ? (
+    <AuthUserNav username={authContext.name} logout={authContext.logout} />
   ) : (
     <GuestNav />
   );

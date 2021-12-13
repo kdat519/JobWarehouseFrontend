@@ -33,7 +33,7 @@ const SmallScreenNav = () => {
     (themeContext.value === Role.JobSeeker
       ? "btn-primary text-white"
       : "btn-light text-dark") +
-    (authContext.username ? " d-none" : "");
+    (authContext.name ? " d-none" : "");
 
   return (
     <div className="navbar-nav flex-row justify-content-end">
