@@ -1,29 +1,43 @@
+import { Field, Form, Formik } from "formik";
 import React from "react";
 import NavBar from "../../components/navbar/NavBar";
-import doodle from "./doodle.svg";
+import doodle from "./homepage-doodle.svg";
+import styles from "./styles.module.scss";
 
-const SearchForm = () => {
-  const InputGroup = (props) => (
-    <div className="input-group">
-      <span className="input-group-text" style={{ width: "5.5em" }}>
-        {props.label}
-      </span>
-      <input
-        type="text"
-        className="form-control"
-        placeholder={props.placeholder}
-      ></input>
-    </div>
-  );
+const InputGroup = ({ name, label, placeholder }) => (
+  <div className="input-group">
+    <span className={`input-group-text ${styles["same-width"]}`}>{label}</span>
+    <Field
+      type="text"
+      name={name}
+      className="form-control"
+      placeholder={placeholder}
+    />
+  </div>
+);
 
-  return (
-    <form>
+const SearchForm = () => (
+  <Formik
+    initialValues={{ searchPhrase: "", location: "" }}
+    onSubmit={(values) => {
+      alert(JSON.stringify(values));
+    }}
+  >
+    <Form>
       <div className="row">
         <div className="col-12 col-lg-5">
-          <InputGroup label="Tìm kiếm" placeholder="Vị trí, công ty,..." />
+          <InputGroup
+            name="searchPhrase"
+            label="Tìm kiếm"
+            placeholder="Việc làm, công ty,..."
+          />
         </div>
         <div className="col-12 col-lg-5">
-          <InputGroup label="Địa điểm" placeholder="Tỉnh hoặc thành phố" />
+          <InputGroup
+            name="location"
+            label="Địa điểm"
+            placeholder="Tỉnh hoặc thành phố"
+          />
         </div>
         <div className="col-12 col-lg-2 d-grid">
           <button type="submit" className="btn btn-primary text-nowrap fw-bold">
@@ -31,9 +45,9 @@ const SearchForm = () => {
           </button>
         </div>
       </div>
-    </form>
-  );
-};
+    </Form>
+  </Formik>
+);
 
 const HomePage = () => (
   <div className="d-flex flex-column vh-100">
