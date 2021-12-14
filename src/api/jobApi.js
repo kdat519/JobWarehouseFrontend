@@ -1,5 +1,5 @@
-import axiosClient from "./axiosClient";
 import { CandidateType } from "../pages/employer-jobs/CandidatesForJob";
+import axiosClient from "./axiosClient";
 
 const createOrUpdateJob = async (job, url) => {
   const formData = new FormData();

@@ -18,33 +18,6 @@ const Status = {
   Close: "closed",
 };
 
-/* const data = [
-  {
-    id: 1,
-    status: Status.Open,
-    jobName: "Lập trình viên",
-    createdAt: "12/12/2021",
-    hired: 3,
-    candidates: 4,
-  },
-  {
-    id: 2,
-    status: Status.Close,
-    jobName: "Kiểm thử viên",
-    createdAt: "01/12/2021",
-    hired: 9,
-    candidates: 8,
-  },
-  {
-    id: 3,
-    status: Status.Open,
-    jobName: "Quản lý dự án",
-    createdAt: "05/12/2021",
-    hired: 0,
-    candidates: 6,
-  },
-]; */
-
 //#region Post
 const SelectStatus = ({ status }) => (
   <div className="row align-items-center">

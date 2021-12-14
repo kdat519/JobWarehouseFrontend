@@ -8,7 +8,7 @@ import TableHeaders, {
   Row,
 } from "../components/table-headers/TableHeaders";
 
-const data = [
+/* const data = [
   {
     url: "https://uet.vnu.edu.vn/",
     imgSrc: "https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png",
@@ -48,7 +48,7 @@ const data = [
       "Chúng tôi vô cùng ngưỡng mộ nền tảng đăng và tìm kiếm việc làm Job Warehouse.",
     followed: true,
   },
-];
+]; */
 
 const SmallInfo = ({ category, numOfEmployees }) => (
   <div className="row d-lg-none align-items-center">
