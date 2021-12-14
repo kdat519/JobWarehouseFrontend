@@ -69,7 +69,7 @@ export default function Register() {
             placeholder="Nhập tên"
             className={`form-control ${errors.name ? "is-invalid" : ""}`}
           />
-          <label for="name">Tên</label>
+          <label htmlFor="name">Tên</label>
           <div className="invalid-feedback">{errors.name?.message}</div>
         </div>
         <div className="mb-3 form-floating">
@@ -83,7 +83,7 @@ export default function Register() {
               errors.email || auth.registerError === "Email đã tồn tại" ? "is-invalid" : ""
             }`}
           />
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <div className="invalid-feedback">
             {!errors.email && auth.registerError === "Email đã tồn tại"
               ? auth.registerError
@@ -99,7 +99,7 @@ export default function Register() {
             placeholder="Nhập mật khẩu"
             className={`form-control ${errors.password ? "is-invalid" : ""}`}
           />
-          <label for="password">Mật khẩu</label>
+          <label htmlFor="password">Mật khẩu</label>
           <div className="invalid-feedback">{errors.password?.message}</div>
         </div>
 
@@ -114,7 +114,7 @@ export default function Register() {
               errors.confirmPassword ? "is-invalid" : ""
             }`}
           />
-          <label for="confirmPassword">Xác nhận mật khẩu</label>
+          <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
           <div className="invalid-feedback">
             {errors.confirmPassword?.message}
           </div>
@@ -129,7 +129,7 @@ export default function Register() {
             placeholder="Nhập địa chỉ"
             className={`form-control ${errors.address ? "is-invalid" : ""}`}
           />
-          <label for="address">Địa chỉ</label>
+          <label htmlFor="address">Địa chỉ</label>
           <div className="invalid-feedback">{errors.address?.message}</div>
         </div>
 
@@ -142,7 +142,7 @@ export default function Register() {
             placeholder="Nhập số điện thoại"
             className={`form-control ${errors.phonenumber || auth.registerError === "Số điện thoại đã được sử dụng"  ? "is-invalid" : ""}`}
           />
-          <label for="phonenumber">Số điện thoại</label>
+          <label htmlFor="phonenumber">Số điện thoại</label>
           <div className="invalid-feedback">{!errors.phonenumber && auth.registerError === "Số điện thoại đã được sử dụng"
               ? auth.registerError
               : errors.phonenumber?.message}</div>

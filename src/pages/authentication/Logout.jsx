@@ -4,9 +4,7 @@ import { useAuth } from "../../components/auth/AuthProvider";
 export default function Logout() {
   const { logout } = useAuth();
 
-    useEffect(() => {
-        logout();
-    })
+    useEffect(() => {logout()})
 
   return null;
 }

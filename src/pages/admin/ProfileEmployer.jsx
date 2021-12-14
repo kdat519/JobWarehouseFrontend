@@ -135,7 +135,7 @@ function EditProfile({ user, handleCancel, handleSave }) {
         </div>
         <div>
           <div className="form-group mb-3">
-            <button id="submit" type="submit" className="btn btn-primary mr-1">
+            <button id="submit" type="submit" className="btn btn-primary">
               Cập nhật
             </button>
           </div>

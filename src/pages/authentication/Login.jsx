@@ -47,7 +47,7 @@ export default function Login() {
             placeholder="Nhập email"
             className={`form-control ${errors.email ? "is-invalid" : ""}`}
           />
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <div className="invalid-feedback">{errors.email?.message}</div>
         </div>
 
@@ -60,7 +60,7 @@ export default function Login() {
             placeholder="Nhập mật khẩu"
             className={`form-control ${errors.password ? "is-invalid" : ""}`}
           />
-          <label for="password">Mật khẩu</label>
+          <label htmlFor="password">Mật khẩu</label>
           <div className="invalid-feedback">{errors.password?.message}</div>
         </div>
 

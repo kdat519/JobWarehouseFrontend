@@ -10,19 +10,25 @@ import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
+
 import Login from "./pages/authentication/Login";
-import Logout from "./pages/login/Logout";
+import Logout from "./pages/authentication/Logout";
 import Register from "./pages/authentication/Register";
+
 import Admin from "./pages/admin/Admin";
-import ReportPage from "./pages/admin/ReportPage";
-import ProfileEmployer from "./pages/admin/ProfileEmployer";
-import UserDetail from "./pages/admin/UserDetail";
+import Reports from "./pages/admin/Reports";
+import Users from "./pages/admin/Users";
+import User from "./pages/admin/User";
+
+import Profile from "./pages/account/Profile";
+
+
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
 import "./styles.scss";
-import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
-import Profile from "./pages/admin/Profile";
+
+
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -46,13 +52,15 @@ const App = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/employers/profile" element={<RequireAuth requireRole={Role.Employer}><ProfileEmployer /></RequireAuth>}/>
-      <Route path="/jobseekers/profile" element={<RequireAuth requireRole={Role.JobSeeker}><ProfileJobSeeker /></RequireAuth>}/>
 
-      <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>} />
-      <Route path="/admin/report/" element={<RequireAuth requireRole={Role.Admin}><ReportPage /></RequireAuth>} />
-      <Route path="/admin/user/:userId" element={<RequireAuth requireRole={Role.Admin}><UserDetail /></RequireAuth>} />
+      <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>}>
+        <Route index element={<Users />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="users/:userId" element={<User />} />
+      </Route>
+
+      <Route path="profile/:userId" element={<Profile />} />
+
 
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
