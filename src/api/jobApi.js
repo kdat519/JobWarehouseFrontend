@@ -35,7 +35,6 @@ export const readJobs = async () => {
     axiosClient.get(candidatesUrl),
   ]);
 
-  // console.log(responses);
   const candidates = responses[1].data.flat();
   return responses[0].recruitments.map((job) => ({
     jobName: job.job_name,
@@ -46,7 +45,6 @@ export const readJobs = async () => {
       .filter((candidate) => candidate.recruitment_id === job.recruitment_id)
       .reduce(
         (previousValue, currentValue) => {
-          // console.log(previousValue, currentValue);
           switch (currentValue.type) {
             case CandidateType.AwaitReview:
             case CandidateType.Reviewed:

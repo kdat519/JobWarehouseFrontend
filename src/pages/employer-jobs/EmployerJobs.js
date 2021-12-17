@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { readJobs } from "../../api/jobApi";
+import doodle from "../../assets/empty-doodle-white.svg";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import { fireErrorMessage } from "../../components/swalErrorMessage";
 import SearchAndSort, {
   makeOption,
-  Order,
+  Order
 } from "../../components/table-headers/SearchAndSort";
 import TableHeaders, {
   makeHeader,
-  Row,
+  Row
 } from "../../components/table-headers/TableHeaders";
 import styles from "./styles.module.scss";
 
@@ -66,9 +67,9 @@ const numberTo2CharsString = (num) =>
   num >= 10 ? num.toString() : "0" + num.toString();
 
 const dateToString = (date) =>
-  numberTo2CharsString(date.getDay()) +
+  numberTo2CharsString(date.getDate()) +
   "/" +
-  numberTo2CharsString(date.getMonth()) +
+  numberTo2CharsString(date.getMonth() + 1) +
   "/" +
   date.getFullYear();
 
@@ -110,8 +111,6 @@ const Table = () => {
   const handleSubmit = ({ search, orderBy, order }) => {
     readJobs()
       .then((data) => {
-        // console.log(search, orderBy, order);
-        // console.log(data);
         setJobs(
           data
             .filter((job) =>
@@ -145,19 +144,30 @@ const Table = () => {
         ]}
         handleSubmit={handleSubmit}
       />
-      <TableHeaders
-        headers={[
-          makeHeader(2, "Tên công việc"),
-          makeHeader(2, "Ngày đăng"),
-          makeHeader(5, "Ứng viên"),
-          makeHeader(2, "Trạng thái"),
-          makeHeader(1, ""),
-        ]}
-      >
-        {jobs.map((candidate) => (
-          <Post key={candidate.id} {...candidate} />
-        ))}
-      </TableHeaders>
+      {jobs.length ? (
+        <TableHeaders
+          headers={[
+            makeHeader(2, "Tên công việc"),
+            makeHeader(2, "Ngày đăng"),
+            makeHeader(5, "Ứng viên"),
+            makeHeader(2, "Trạng thái"),
+            makeHeader(1, ""),
+          ]}
+        >
+          {jobs.map((candidate) => (
+            <Post key={candidate.id} {...candidate} />
+          ))}
+        </TableHeaders>
+      ) : (
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-5">
+            <img src={doodle} alt="" />
+            <h6 className="display-6 fs-2 text-center">
+              Không có kết quả nào!
+            </h6>
+          </div>
+        </div>
+      )}
     </>
   );
 };
