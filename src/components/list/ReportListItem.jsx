@@ -14,14 +14,14 @@ export default function ReportListItem({ report }) {
       <p className="">{report.detail} </p>
       <p className="fw-light h6">
       <small>
-        Tạo bởi
         <Link
-          className="text-decoration-none text-secondary"
+          className="text-decoration-none text-dark"
           to={`/admin/users/${report.sender_id}`}
         >
+          <span className="fw-bold"> {report.sender_name},</span>
           <span> {report.sender_email} </span>
         </Link>
-        vào
+        báo cáo vào
         <span> {new Date(Date.parse(report.created_at)).toLocaleString()}</span>
         </small>
       </p>
