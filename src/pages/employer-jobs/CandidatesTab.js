@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useContext } from "react";
 import { updateCandidateType } from "../../api/jobApi";
 import doodle from "../../assets/empty-doodle-white.svg";
-import { fireErrorMessage } from "../../components/swalErrorMessage";
+import { fireErrorMessage } from "../../components/swal-error-message";
 import MotionCandidate from "./Candidate";
 import { CandidateContext } from "./CandidatesForJob";
 

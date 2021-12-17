@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { readEmployers } from "../api/employerApi";
 import doodle from "../assets/empty-doodle.svg";
 import NavBar from "../components/navbar/NavBar";
-import { fireErrorMessage } from "../components/swalErrorMessage";
+import { fireErrorMessage } from "../components/swal-error-message";
 import TableHeaders, {
   makeHeader,
   Row

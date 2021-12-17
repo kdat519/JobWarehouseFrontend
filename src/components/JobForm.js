@@ -84,6 +84,7 @@ const swalWithBootstrapButtons = Swal.mixin({
 });
 
 const CancelButton = () => {
+  const { initialValues, values } = useFormikContext();
   const navigate = useNavigate();
   const handleConfirm = () => {
     navigate("/for-employers/jobs");
@@ -91,16 +92,19 @@ const CancelButton = () => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    swalWithBootstrapButtons.fire({
-      title: "<h3>Hủy bỏ thay đổi<h3>",
-      icon: "warning",
-      html: "<p>Bạn có thực sự muốn hủy bỏ thay&nbsp;đổi?<p>",
-      showConfirmButton: true,
-      confirmButtonText: "Hủy",
-      showCancelButton: true,
-      cancelButtonText: "Không hủy",
-      preConfirm: handleConfirm,
-    });
+    if (JSON.stringify(initialValues) === JSON.stringify(values))
+      handleConfirm();
+    else
+      swalWithBootstrapButtons.fire({
+        title: "<h3>Hủy bỏ thay đổi<h3>",
+        icon: "warning",
+        html: "<p>Bạn có thực sự muốn hủy bỏ thay&nbsp;đổi?<p>",
+        showConfirmButton: true,
+        confirmButtonText: "Hủy",
+        showCancelButton: true,
+        cancelButtonText: "Không hủy",
+        preConfirm: handleConfirm,
+      });
   };
 
   return (
@@ -117,8 +121,7 @@ const CancelButton = () => {
 const SubmitButton = () => {
   const { initialValues, values } = useFormikContext();
   const btnColor =
-    // eslint-disable-next-line eqeqeq
-    JSON.stringify(initialValues) == JSON.stringify(values)
+    JSON.stringify(initialValues) === JSON.stringify(values)
       ? "btn-secondary"
       : "btn-primary";
 

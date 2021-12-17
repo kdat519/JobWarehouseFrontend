@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { readJobs } from "../../api/jobApi";
 import doodle from "../../assets/empty-doodle-white.svg";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
-import { fireErrorMessage } from "../../components/swalErrorMessage";
+import { fireErrorMessage } from "../../components/swal-error-message";
 import SearchAndSort, {
   makeOption,
   Order

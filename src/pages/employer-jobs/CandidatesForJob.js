@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { readCandidatesForJob, readJobDetail } from "../../api/jobApi";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
-import { fireErrorMessage } from "../../components/swalErrorMessage";
+import { fireErrorMessage } from "../../components/swal-error-message";
 import { TabHeader, TabPane } from "./CandidatesTab";
 
 export const CandidateType = {
