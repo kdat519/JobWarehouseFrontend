@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useContext } from "react";
 import { updateCandidateType } from "../../api/jobApi";
+import doodle from "../../assets/empty-doodle-white.svg";
 import { fireErrorMessage } from "../../components/swalErrorMessage";
 import MotionCandidate from "./Candidate";
 import { CandidateContext } from "./CandidatesForJob";
-import doodle from "./no-one-doodle.svg";
 
 export const TabHeader = ({ candidateType, title }) => {
   const { activeTab, changeActiveTab, candidateLists } =
@@ -71,6 +71,9 @@ export const TabPane = ({ candidateType }) => {
           <motion.div key="empty" className="row justify-content-center">
             <div className="col-12 col-md-5">
               <img src={doodle} alt="" />
+              <h6 className="display-6 fs-2 text-center">
+                Không có kết quả nào!
+              </h6>
             </div>
           </motion.div>
         )}
