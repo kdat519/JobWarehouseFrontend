@@ -45,7 +45,6 @@ const authApi = {
 
   updateJobSeekerProfile: (params) => {
     const url = "auth/user-profile";
-
     const formData = new FormData();
     formData.append("birthday", params.birthday);
     formData.append("gender", params.gender);
@@ -55,6 +54,16 @@ const authApi = {
     formData.append("education", params.education);
     return axiosClient.post(url, formData);
   },
+
+  updatePassword: (params) => {
+    const url = "auth/change-password";
+
+    const formData = new FormData();
+    formData.append("new_password", params.new_password);
+
+    return axiosClient.post(url, formData);
+  },
+  
 };
 
 export default authApi;

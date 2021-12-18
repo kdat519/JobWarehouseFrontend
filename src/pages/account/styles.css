@@ -17,8 +17,42 @@
     max-width: 100%;
 }
 
+#account {
+    max-width: 1000px;
+    margin: auto;
+}
+
+#account .box {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+}
+
+#account .info hr {
+    width: 30px;
+}
+
 @media screen and (max-width: 1000px) {
     #profile {
         display: block;
     }
 }
+
+@media screen and (max-width: 1000px) {
+    #profile {
+        display: block;
+    }
+
+    #account .box {
+        display: block;
+    }
+
+    #account .info {
+        display: none;
+    }
+}
+
+#account .hidden {
+    display: none !important;
+}
+
+

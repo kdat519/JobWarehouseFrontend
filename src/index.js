@@ -21,6 +21,7 @@ import Users from "./pages/admin/Users";
 import User from "./pages/admin/User";
 
 import Profile from "./pages/account/Profile";
+import Account from "./pages/account/Account";
 
 
 import EditJob from "./pages/post-job/EditJob";
@@ -60,7 +61,7 @@ const App = () => (
       </Route>
 
       <Route path="profile/:userId" element={<Profile />} />
-
+      <Route path="account" element={<Account />} />
 
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
