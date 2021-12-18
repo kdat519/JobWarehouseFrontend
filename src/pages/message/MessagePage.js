@@ -4,12 +4,35 @@ import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import styles from './styles.module.scss';
 import UserList from "../../components/message/userList";
 import ChatLine from "../../components/message/chatLine";
+import { useAuth } from "../../components/auth/AuthProvider";
+import messageAPI from "../../api/messageAPI";
 
-const MessagePage = (props) => {
-  const { role } = props;
+const MessagePage = () => {
+  const authContext = useAuth();
+  console.log(authContext);
+  const role = authContext.role;
+
+  const [userList, setUserList] = useState([]);
+  const [filteruserList, setFilterUserList] = useState({
+    user_id: authContext.user_id,
+    get: 15,
+  })
+
+  useEffect(() => {
+    async function fetchUserList() {
+      try {
+        const response = messageAPI.showLatestChat(filteruserList);
+        console.log(response.PromiseResult[0]);
+      } catch (error) {
+        console.log("Failed to fetch user list: ", error);
+      }
+    }
+
+    fetchUserList();
+  }, [filteruserList]);
   return (
     <>
-      {role === 'jobseekers' ? <NavBar /> : <EmployerNavBar />}
+      {role === 'jobseeker' ? <NavBar /> : <EmployerNavBar />}
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
       <div class="container mt-3">
@@ -39,7 +62,7 @@ const MessagePage = (props) => {
                   <div class="row">
                     <div class="col-lg-6">
                       <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                      <div class={`${styles['chat-about']}`}>
+                      <div class={`${styles['chat-about']} ${styles['margin']}`}>
                         <h6 class="mb-0">Luong Dat</h6>
                       </div>
                     </div>
