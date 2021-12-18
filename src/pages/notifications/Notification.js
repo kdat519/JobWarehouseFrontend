@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import notifiactionAPI from "../../api/notificationAPI";
 import NavBar from "../../components/navbar/NavBar";
 import Notification from "../../components/notifications/Notification";
-//import pusher from "../../api/pusher";
-//import { useAuth } from "../../components/auth/AuthProvider";
+import pusher from "../../api/pusher";
+import { useAuth } from "../../components/auth/AuthProvider";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
 import EndMsg from "./EndMsg";
@@ -17,18 +17,29 @@ const NotificationPage = () => {
     get: 10,
   })
 
-
   function fetchData() {
     setFilters({ ...filters, before: notiSeenList[notiSeenList.length - 1].notification_id });
   }
 
   const unseenParams = { status: "unseen", get: 1000 };
 
+  async function updateStatusMessage(status, id) {
+    if (status === "unseen") {
+      const params = { status: "seen", notification_id: id };
+      const response = await notifiactionAPI.update(params);
+    }
+  }
+
   useEffect(() => {
     async function fetchUnSeenNotiList() {
       try {
         const response = await notifiactionAPI.showUserNoti(unseenParams);
         setNotiUnSeenList(response.data);
+        console.log(response.data);
+
+        for (var i = 0; i < response.data.length; i++) {
+          updateStatusMessage('unseen', response.data[i].notification_id);
+        }
       } catch (error) {
         console.log("Failed to fetch unseen list: ", error);
       }
@@ -41,11 +52,10 @@ const NotificationPage = () => {
     async function fetchSeenNotiList() {
       try {
         const response = await notifiactionAPI.showUserNoti(filters);
-        console.log(response.data);
         if (response.data.length === 0) {
           sethasMore(false);
         }
-        setNotiSeenList([...notiSeenList, ...response.data]);
+        setNotiSeenList(Array.from(new Set([...notiSeenList, ...response.data])));
       } catch (error) {
         console.log("Failed to fetch seen list: ", error);
       }
@@ -54,12 +64,20 @@ const NotificationPage = () => {
     fetchSeenNotiList();
   }, [filters])
 
-  /*const authContext = useAuth();
-  console.log('private-NotificationChannel.User.' + String(authContext.user_id));
-  var channel = pusher.subscribe('private-NotificationChannel.User.52');
+  const authContext = useAuth();
+  var channel = pusher.subscribe('private-NotificationChannel.User.' + String(authContext.user_id));
   channel.bind('NotificationCreated', function (data) {
-    console.log(data);
-  })*/
+    var t = true;
+    for (var i = 0; i < notiUnSeenList.length; i++) {
+      if (notiUnSeenList[i] === data.model) {
+        t = false;
+      }
+    }
+    if (t) {
+      setNotiUnSeenList([data.model, ...notiUnSeenList]);
+      updateStatusMessage(data.model.status, data.model.notification_id);
+    }
+  })
 
   return (
     <>

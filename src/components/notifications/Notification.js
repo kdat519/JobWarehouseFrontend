@@ -12,27 +12,28 @@ Notification.defaultProps = {
 
 function getTime(t) {
   const date = new Date();
-  if (Number(t.slice(0, 4)) === date.getFullYear()) {
-    if (Number(t.slice(5, 7)) === date.getMonth() + 1) {
-      if (Number(t.slice(8, 10)) === date.getDate()) {
-        if (Number(t.slice(11, 13)) === date.getHours()) {
-          if (Number(t.slice(14, 16)) === date.getMinutes()) {
-            return "0 phút trước";
-          } else {
-            return String(date.getMinutes() - Number(t.slice(14, 16))) + ' phút trước';
-          }
-        } else {
-          return String(date.getHours() - Number(t.slice(11, 13))) + ' giờ trước';
-        }
-      } else {
-        return String(date.getDate() - Number(t.slice(8, 10))) + ' ngày trước';
-      }
-    } else {
-      return String(date.getMonth() + 1 - Number(t.slice(5, 7))) + ' tháng trước';
-    }
-  } else {
-    return String(date.getFullYear() - Number(t.slice(0, 4))) + ' năm trước';
-  }
+  const time = new Date(Date.parse(t));
+  var year = date.getFullYear() - time.getFullYear();
+  var month = date.getMonth() - time.getMonth();
+  var day = date.getDate() - time.getDate();
+  var hour = date.getHours() - time.getHours();
+  var minute = date.getMinutes() - time.getMinutes();
+  var second = date.getSeconds() - time.getSeconds();
+  if (year === 0 && month === 0 && day === 0 && hour === 0 && minute > 1 && second < 0) return String(minute - 1) + ' phút trước';
+  if (year === 0 && month === 0 && day === 0 && hour === 0 && minute >= 1 && second >= 0) return String(minute) + ' phút trước';
+  if (year === 0 && month === 0 && day === 0 && hour >= 1 && minute >= 0) return String(hour) + ' giờ trước';
+  if (year === 0 && month === 0 && day === 0 && hour > 1 && minute < 0) return String(hour - 1) + ' giờ trước';
+  if (year === 0 && month === 0 && day === 0 && hour === 1 && minute < 0) return String(60 - Math.abs(minute)) + ' phút trước';
+  if (year === 0 && month === 0 && day >= 1 && hour >= 0) return String(day) + ' ngày trước';
+  if (year === 0 && month === 0 && day > 1 && hour < 0) return String(day - 1) + ' ngày trước';
+  if (year === 0 && month === 0 && day === 1 && hour < 0) return String(24 - Math.abs(hour)) + ' giờ trước';
+  if (year === 0 && month >= 1 && day >= 0) return String(month) + ' tháng trước';
+  if (year === 0 && month > 1 && day < 0) return String(month - 1) + ' tháng trước';
+  if (year === 0 && month === 1 && day < 0) return String((Date.parse(date) - Date.parse(time)) / (1000 * 3600 * 24)) + ' ngày trước';
+  if (year >= 1 && month >= 0) return String(year) + ' năm trước';
+  if (year > 1 && month < 0) return String(year - 1) + ' năm trước';
+  if (year === 1 && month < 0) return String(12 - Math.abs(month)) + ' tháng trước';
+  return '0 phút trước'
 }
 
 function Notification(props) {
