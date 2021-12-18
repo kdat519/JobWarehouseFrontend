@@ -3,7 +3,7 @@ import { useAuth } from "../../components/auth/AuthProvider";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./styles.css";
@@ -71,25 +71,25 @@ export default function Account() {
           <strong>Thông tin cá nhân</strong>
         </p>
         <div className="mb-5">
-        {profile.user && (
-          <p >
-            <strong>{profile?.user?.name}, </strong>
-            {profile?.user?.email} <span> &bull; </span>
-            <Link
-              to={`/profile/${profile?.user?.user_id}`}
-              className="fw-bold text-dark"
-            >
-              Xem trang Profile
-            </Link>
-          </p>
-        )}
+          {profile.user && (
+            <p>
+              <strong>{profile?.user?.name}, </strong>
+              {profile?.user?.email} <span> &bull; </span>
+              <Link
+                to={`/profile/${profile?.user?.user_id}`}
+                className="fw-bold text-dark"
+              >
+                Xem trang Profile
+              </Link>
+            </p>
+          )}
         </div>
-        
+
         <div className="box mb-5">
           <div className="pe-3">
             {profile.user && (
               <div>
-                <p className="fw-bold">Loại tài khoản</p>
+                <p className="fw-bold">Kiểu tài khoản</p>
                 <p>
                   {profile.user.role === "jobseeker"
                     ? "Nguời tìm việc"
@@ -183,9 +183,9 @@ export default function Account() {
                 Những thông tin nào có thể chỉnh sửa?
               </p>
               <p className="mb-5">
-                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng để
-                xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số thông
-                tin giới thiệu về bản thân.
+                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng
+                để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số
+                thông tin giới thiệu về bản thân.
               </p>
               <hr className="mb-5" />
               <h3 className="h2 fw-bold mb-2 mt-3">
@@ -216,16 +216,15 @@ function JobseekerEdit({ reload, setReload, profile }) {
         setEditSkill(false);
         setEditWorkExperience(false);
         setEditQualification(false);
+        setEditGender(false);
+        setEditBirthday(false);
       }
     } catch (error) {
       console.log("Failed to update profile: ", error);
     }
   }
   const validationSchema = Yup.object().shape({
-    birthday: Yup.string().matches(
-      /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-      "Ngày không hợp lệ: YYYY-MM-DD. Ví dụ: 1990-07-23"
-    ),
+    birthday: Yup.string(),
     gender: Yup.string(),
     qualification: Yup.string().max(200, "Tối đa 200 ký tự"),
     work_experience: Yup.string().max(200, "Tối đa 200 ký tự"),
@@ -245,11 +244,97 @@ function JobseekerEdit({ reload, setReload, profile }) {
   const [editSkill, setEditSkill] = useState(false);
   const [editQualification, setEditQualification] = useState(false);
   const [editWorkExperience, setEditWorkExperience] = useState(false);
+  const [editGender, setEditGender] = useState(false);
+  const [editBirthday, setEditBirthday] = useState(false);
+
   return (
     <div>
       {profile?.jobseeker && (
         <div>
           <form onSubmit={handleSubmit(handleSave)}>
+            <div className="">
+              <div className="d-flex justify-content-between">
+                <p className="fw-bold">Giới tính</p>
+                <button
+                  type="button"
+                  className="btn btn-link shadow-none text-decoration-none"
+                  onClick={() => {
+                    setEditGender(!editGender);
+                    setValue(
+                      "gender",
+                      profile.jobseeker.gender ? profile.jobseeker.gender : ""
+                    );
+                    clearErrors("gender");
+                  }}
+                >
+                  {editGender ? "Hủy" : "Sửa"}
+                </button>
+              </div>
+              <div className={` ${editGender ? "" : "hidden"}`}>
+                <select {...register("gender")} className="form-select mb-3">
+                  <option value="male">Nam</option>
+                  <option value=" female">Nữ</option>
+                </select>
+                <button type="submit" className="btn btn-primary">
+                  Lưu
+                </button>
+              </div>
+              <div className={`me-5 ${!editGender ? "" : "hidden"}`}>
+                {profile.jobseeker.gender
+                  ? profile.jobseeker.gender === "male"
+                    ? "Nam"
+                    : "Nữ"
+                  : "Không có thông tin"}
+              </div>
+              <hr />
+            </div>
+
+            <div className="">
+              <div className="d-flex justify-content-between">
+                <p className="fw-bold">Ngày sinh</p>
+                <button
+                  type="button"
+                  className="btn btn-link shadow-none text-decoration-none"
+                  onClick={() => {
+                    setEditBirthday(!editBirthday);
+                    setValue(
+                      "birthday",
+                      profile.jobseeker.birthday ? profile.jobseeker.birthday : ""
+                    );
+                    clearErrors("birthday");
+                  }}
+                >
+                  {editBirthday ? "Hủy" : "Sửa"}
+                </button>
+              </div>
+              <div className={` ${editBirthday ? "" : "hidden"}`}>
+                <input
+                  defaultValue={
+                    profile.jobseeker.birthday ? profile.jobseeker.birthday : ""
+                  }
+                  name="birthday"
+                  type="date"
+                  {...register("birthday")}
+                  placeholder=""
+                  className={`form-control mb-3 ${
+                    errors.birthday ? "is-invalid" : ""
+                  }`}
+                />
+                <div className="invalid-feedback mb-3">
+                  {errors.birthday?.message}
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Lưu
+                </button>
+              </div>
+              <div className={`me-5 ${!editBirthday ? "" : "hidden"}`}>
+                {profile.jobseeker.birthday
+                  ? new Intl.DateTimeFormat("vi-VN").format(new Date(profile.jobseeker.birthday))
+                  : "Không có thông tin"}
+              </div>
+              <hr />
+            </div>
+
             <div className="">
               <div className="d-flex justify-content-between">
                 <p className="fw-bold">Giới thiệu</p>
@@ -258,7 +343,10 @@ function JobseekerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditSkill(!editSkill);
-                    setValue("skill", profile.jobseeker.skill);
+                    setValue(
+                      "skill",
+                      profile.jobseeker.skill ? profile.jobseeker.skill : ""
+                    );
                     clearErrors("skill");
                   }}
                 >
@@ -267,7 +355,9 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={` ${editSkill ? "" : "hidden"}`}>
                 <textarea
-                  defaultValue={profile.jobseeker.skill}
+                  defaultValue={
+                    profile.jobseeker.skill ? profile.jobseeker.skill : ""
+                  }
                   name="skill"
                   type="text"
                   {...register("skill")}
@@ -300,7 +390,12 @@ function JobseekerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditEducation(!editEducation);
-                    setValue("education", profile.jobseeker.education);
+                    setValue(
+                      "education",
+                      profile.jobseeker.education
+                        ? profile.jobseeker.education
+                        : ""
+                    );
                     clearErrors("education");
                   }}
                 >
@@ -309,7 +404,11 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={`${editEducation ? "" : "hidden"}`}>
                 <input
-                  defaultValue={profile.jobseeker.education}
+                  defaultValue={
+                    profile.jobseeker.education
+                      ? profile.jobseeker.education
+                      : ""
+                  }
                   name="education"
                   type="text"
                   {...register("education")}
@@ -341,7 +440,12 @@ function JobseekerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditQualification(!editQualification);
-                    setValue("qualification", profile.jobseeker.qualification);
+                    setValue(
+                      "qualification",
+                      profile.jobseeker.qualification
+                        ? profile.jobseeker.qualification
+                        : ""
+                    );
                     clearErrors("qualification");
                   }}
                 >
@@ -350,7 +454,11 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={`${editQualification ? "" : "hidden"}`}>
                 <input
-                  defaultValue={profile.jobseeker.qualification}
+                  defaultValue={
+                    profile.jobseeker.qualification
+                      ? profile.jobseeker.qualification
+                      : ""
+                  }
                   name="qualification"
                   type="text"
                   {...register("qualification")}
@@ -470,7 +578,10 @@ function EmployerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditAboutUs(!editAboutUs);
-                    setValue("about_us", profile.employer.about_us);
+                    setValue(
+                      "about_us",
+                      profile.employer.about_us ? profile.employer.about_us : ""
+                    );
                     clearErrors("about_us");
                   }}
                 >
@@ -479,7 +590,9 @@ function EmployerEdit({ reload, setReload, profile }) {
               </div>
               <div className={` ${editAboutUs ? "" : "hidden"}`}>
                 <textarea
-                  defaultValue={profile.employer.about_us}
+                  defaultValue={
+                    profile.employer.about_us ? profile.employer.about_us : ""
+                  }
                   name="about_us"
                   type="text"
                   {...register("about_us")}
@@ -512,7 +625,10 @@ function EmployerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditCategory(!editCategory);
-                    setValue("category", profile.employer.category);
+                    setValue(
+                      "category",
+                      profile.employer.category ? profile.employer.category : ""
+                    );
                     clearErrors("category");
                   }}
                 >
@@ -521,7 +637,9 @@ function EmployerEdit({ reload, setReload, profile }) {
               </div>
               <div className={`${editCategory ? "" : "hidden"}`}>
                 <input
-                  defaultValue={profile.employer.category}
+                  defaultValue={
+                    profile.employer.category ? profile.employer.category : ""
+                  }
                   name="category"
                   type="text"
                   {...register("category")}
@@ -553,7 +671,12 @@ function EmployerEdit({ reload, setReload, profile }) {
                   className="btn btn-link shadow-none text-decoration-none"
                   onClick={() => {
                     setEditNumEmployee(!editNumEmployee);
-                    setValue("num_employee", profile.employer.num_employee);
+                    setValue(
+                      "num_employee",
+                      profile.employer.num_employee
+                        ? profile.employer.num_employee
+                        : ""
+                    );
                     clearErrors("num_employee");
                   }}
                 >
@@ -562,7 +685,11 @@ function EmployerEdit({ reload, setReload, profile }) {
               </div>
               <div className={`${editNumEmployee ? "" : "hidden"}`}>
                 <input
-                  defaultValue={profile.employer.num_employee}
+                  defaultValue={
+                    profile.employer.num_employee
+                      ? profile.employer.num_employee
+                      : ""
+                  }
                   name="num_employee"
                   type="text"
                   {...register("num_employee")}

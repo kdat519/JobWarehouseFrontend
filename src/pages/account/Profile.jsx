@@ -186,8 +186,6 @@ export default function Profile() {
               </p>
             )}
 
-            
-
             {writeReport && (
               <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
                 <div className="">
