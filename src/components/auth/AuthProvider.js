@@ -11,7 +11,9 @@ export const Role = {
 };
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("auth"))?.user
+  );
   const navigate = useNavigate();
   const [registerError, setRegisterError] = useState();
   const [loginError, setLoginError] = useState();
@@ -26,12 +28,10 @@ const AuthProvider = ({ children }) => {
         setLoginError(undefined);
         if (response?.user?.role === "admin") {
           navigate("/admin");
-        }
-        else {
+        } else {
           navigate("/");
         }
-      }
-      else {
+      } else {
         setRegisterError(undefined);
         setLoginError(response.message);
       }
@@ -53,14 +53,22 @@ const AuthProvider = ({ children }) => {
         setRegisterError(undefined);
         setLoginError(undefined);
         navigate("/login");
-      }
-      else {
+      } else {
         setRegisterError(response.message);
       }
     })(data);
   };
 
-  const context = { ...user, registerError, loginError, login, logout, register };
+  const context = {
+    ...user,
+    registerError,
+    setRegisterError,
+    loginError,
+    setLoginError,
+    login,
+    logout,
+    register,
+  };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
@@ -69,4 +77,3 @@ const AuthProvider = ({ children }) => {
 export const useAuth = () => useContext(AuthContext);
 
 export default AuthProvider;
-

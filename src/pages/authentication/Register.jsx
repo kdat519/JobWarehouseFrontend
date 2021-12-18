@@ -37,7 +37,7 @@ export default function Register() {
 
   return (
     <div className="register">
-      <form onSubmit={handleSubmit(onSubmit)} className="card form-login">
+      <form onSubmit={handleSubmit(onSubmit)} onChange={() => auth.setRegisterError("")} className="card form-login">
         <h1 className="text-center h3">Đăng ký</h1>
         <p className="text-center fw-light mb-5">
           Đã có tài khoản?{" "}

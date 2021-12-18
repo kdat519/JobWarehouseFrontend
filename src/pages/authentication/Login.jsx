@@ -30,7 +30,7 @@ export default function Login() {
 
   return (
     <div className="login">
-      <form onSubmit={handleSubmit(onSubmit)} className="card form-login">
+      <form onSubmit={handleSubmit(onSubmit)} onChange={() => auth.setLoginError("")} className="card form-login">
         <h1 className="text-center h3">Đăng nhập</h1>
         <p className="text-center fw-light mb-5">
           Chưa có tài khoản?{" "}
