@@ -177,7 +177,7 @@ export default function Profile() {
               )}
             </div>
 
-            {auth.role !== "admin" && (
+            {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
               <p className="fw-bold mb-4">
                 <a href="" className="text-dark me-2" onClick={handleReport}>
                   Báo cáo tài khoản

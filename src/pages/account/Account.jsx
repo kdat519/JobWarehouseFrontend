@@ -180,10 +180,10 @@ export default function Account() {
                 <i className="bi bi-lock-fill"></i>
               </h3>
               <p className="h5 fw-bold mb-3">
-                Những chi tiết nào có thể chỉnh sửa?
+                Những thông tin nào có thể chỉnh sửa?
               </p>
               <p className="mb-5">
-                Không thể thay đổi những thông tin mà Job Warehouse sử dụng để
+                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng để
                 xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số thông
                 tin giới thiệu về bản thân.
               </p>
