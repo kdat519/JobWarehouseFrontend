@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { readCandidatesForJob, readJobDetail } from "../../api/jobApi";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
@@ -12,19 +12,22 @@ export const CandidateType = {
   Rejected: "rejected",
 };
 
-export const CandidateContext = React.createContext();
+const CandidateContext = React.createContext();
+export const useCandidate = () => useContext(CandidateContext);
 
 const Title = ({ jobId }) => {
   const [jobName, setJobName] = useState("");
-  useEffect(() => {
-    readJobDetail(jobId)
-      .then((job) => {
-        setJobName(": " + job.jobName);
-      })
-      .catch(() => {
-        // Ignore
-      });
-  }, [jobId]);
+  useEffect(
+    () =>
+      readJobDetail(jobId)
+        .then((job) => {
+          setJobName(": " + job.jobName);
+        })
+        .catch(() => {
+          // Ignore
+        }),
+    [jobId]
+  );
   return <h1 className="fw-bold mb-4">{"Danh sách ứng viên" + jobName}</h1>;
 };
 
@@ -52,16 +55,18 @@ const CandidatesForJob = () => {
   const candidateLists = genCandidateLists(candidates);
   const [activeTab, setActiveTab] = useState(CandidateType.AwaitReview);
 
-  useEffect(() => {
-    readCandidatesForJob(parseInt(jobId))
-      .then((candidates) => {
-        setCandidates(candidates);
-      })
-      .catch(() => {
-        fireErrorMessage();
-        navigate("/for-employers/jobs");
-      });
-  }, [jobId, navigate]);
+  useEffect(
+    () =>
+      readCandidatesForJob(parseInt(jobId))
+        .then((candidates) => {
+          setCandidates(candidates);
+        })
+        .catch(() => {
+          fireErrorMessage();
+          navigate("/for-employers/jobs");
+        }),
+    [jobId, navigate]
+  );
 
   const changeActiveTab = (candidateType) => (event) => {
     event.preventDefault();

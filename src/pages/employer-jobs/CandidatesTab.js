@@ -1,14 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useContext } from "react";
+import React from "react";
 import { updateCandidateType } from "../../api/jobApi";
 import doodle from "../../assets/empty-doodle-white.svg";
 import { fireErrorMessage } from "../../components/swal-error-message";
 import MotionCandidate from "./Candidate";
-import { CandidateContext } from "./CandidatesForJob";
+import { useCandidate } from "./CandidatesForJob";
 
 export const TabHeader = ({ candidateType, title }) => {
-  const { activeTab, changeActiveTab, candidateLists } =
-    useContext(CandidateContext);
+  const { activeTab, changeActiveTab, candidateLists } = useCandidate();
 
   return (
     <button
@@ -51,8 +50,7 @@ const candidates = (candidateLists, candidateType, setCandidates, jobId) => (
 );
 
 export const TabPane = ({ candidateType }) => {
-  const { activeTab, candidateLists, setCandidates, jobId } =
-    useContext(CandidateContext);
+  const { activeTab, candidateLists, setCandidates, jobId } = useCandidate();
 
   return (
     <div

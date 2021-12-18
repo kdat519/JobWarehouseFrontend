@@ -1,13 +1,14 @@
 import { Form, Formik, useField, useFormikContext } from "formik";
+import React from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import TextareaTinyMCE from "./TextareaTinyMCE";
 
 const useInputProps = (name, type, className) => {
   const [field, meta] = useField(name);
 
-  const validationClassName = () => {
-    return meta.touched && meta.error ? "is-invalid" : "";
-  };
+  const validationClassName = () =>
+    meta.touched && meta.error ? "is-invalid" : "";
 
   return {
     id: name,
@@ -33,7 +34,7 @@ const Input = ({ name, label, type, className, htmlAttr, inputGroupText }) => {
         {inputGroupText ? (
           <div className="input-group has-validation">
             <input {...inputProps} {...htmlAttr} />
-            <span className="input-group-text">VND</span>
+            <span className="input-group-text">{inputGroupText}</span>
             <div className="invalid-feedback">{meta.error}</div>
           </div>
         ) : (
@@ -42,21 +43,6 @@ const Input = ({ name, label, type, className, htmlAttr, inputGroupText }) => {
             <div className="invalid-feedback">{meta.error}</div>
           </>
         )}
-      </div>
-    </div>
-  );
-};
-
-const Textarea = ({ name, label, htmlAttr }) => {
-  const [, meta] = useField(name);
-  return (
-    <div className="row mb-2">
-      <div className="col">
-        <label htmlFor={name} className="form-label">
-          {label}
-        </label>
-        <textarea {...useInputProps(name)} {...htmlAttr} />
-        <div className="invalid-feedback">{meta.error}</div>
       </div>
     </div>
   );
@@ -86,9 +72,7 @@ const swalWithBootstrapButtons = Swal.mixin({
 const CancelButton = () => {
   const { initialValues, values } = useFormikContext();
   const navigate = useNavigate();
-  const handleConfirm = () => {
-    navigate("/for-employers/jobs");
-  };
+  const handleConfirm = () => navigate("/for-employers/jobs");
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -119,18 +103,12 @@ const CancelButton = () => {
 };
 
 const SubmitButton = () => {
-  const { initialValues, values } = useFormikContext();
-  const btnColor =
-    JSON.stringify(initialValues) === JSON.stringify(values)
-      ? "btn-secondary"
-      : "btn-primary";
-
+  const { initialValues, values, dirty } = useFormikContext();
+  console.log("init", initialValues);
+  console.log(values);
+  const btnColor = !dirty ? "btn-secondary" : "btn-primary";
   return (
-    <button
-      type="submit"
-      className={"btn " + btnColor}
-      disabled={JSON.stringify(initialValues) === JSON.stringify(values)}
-    >
+    <button type="submit" className={"btn " + btnColor} disabled={!dirty}>
       {initialValues ? "Lưu" : "Đăng"}
     </button>
   );
@@ -161,8 +139,8 @@ const JobForm = ({ initialValues, handleSubmit }) => (
         type="number"
         inputGroupText="VND"
       />
-      <Textarea name="detail" label="Mô tả" htmlAttr={{ rows: 4 }} />
-      <Textarea name="requirement" label="Yêu cầu" htmlAttr={{ rows: 4 }} />
+      <TextareaTinyMCE name="detail" label="Mô tả" />
+      <TextareaTinyMCE name="requirement" label="Yêu cầu" />
       <div className="d-flex justify-content-end mt-3">
         <CancelButton />
         <SubmitButton />

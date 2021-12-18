@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { createJob } from "../../api/jobApi";
-import JobForm from "../../components/JobForm";
+import JobForm from "../../components/job-form/JobForm";
 import { fireErrorMessage } from "../../components/swal-error-message";
 
 const handleSubmit = (navigate) => (values) =>

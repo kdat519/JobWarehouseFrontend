@@ -21,6 +21,13 @@ export const updateJob = (id, job) => {
   return createOrUpdateJob(job, "recruitment/" + id);
 };
 
+export const updateJobStatus = async (id, status) => {
+  const formData = new FormData();
+  formData.append("status", status);
+  const response = await axiosClient.post("recruitment/" + id, formData);
+  return response.success ? Promise.resolve() : Promise.reject();
+};
+
 const ISO8601ToDate = (dateString) => {
   dateString = dateString.split("T")[0].split("-");
   return new Date(dateString[0], dateString[1] - 1, dateString[2]);
@@ -70,8 +77,8 @@ export const readJobDetail = async (id) => {
     category: job.category,
     address: job.address,
     minSalary: job.min_salary,
-    detail: job.detail,
-    requirement: job.requirement,
+    detail: job.detail.replace(/(\r\n|\r|\n)/g, "\n"),
+    requirement: job.requirement.replace(/(\r\n|\r|\n)/g, "\n"),
   };
 };
 
