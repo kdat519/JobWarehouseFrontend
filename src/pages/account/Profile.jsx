@@ -61,7 +61,6 @@ export default function Profile() {
   function handleReport(e) {
     e.preventDefault();
     if (!auth.role) navigate("/login");
-    else if (auth.role === "admin") navigate(`/admin/users/${userId}`);
     else setWriteReport(!writeReport);
   }
   function handleCancel() {
@@ -83,11 +82,9 @@ export default function Profile() {
       console.log("Failed to update profile: ", error);
     }
   }
-
-  if (!user || user.role === "admin") return <Navigate to="/empty" />;
-  else
-    return (
-      <div className="container mt-5">
+  return (
+    <div className="container mt-5">
+      {user?.role && user?.role !== "admin" && (
         <div id="profile">
           <div>
             <div className="box border border-1 rounded-3 py-4 px-4 mb-5">
@@ -104,10 +101,21 @@ export default function Profile() {
                   : "Nhà tuyển dụng"}
               </p>
               <p className="h5 fw-bold mb-4">{total} báo cáo</p>
+              {auth.role === "admin" && (
+              <p className="fw-bold mb-4">
+                <Link
+                    className="text-dark "
+                    to={`/admin/users/${user.user_id}`}
+                  >
+                    Xem trong trang Admin
+                  </Link>
+              </p>
+            )}
               <hr />
               <p className="h4 fw-bold mb-4">Thông tin liên hệ</p>
               <p className="h6  mb-4">Email: {user.email}</p>
               <p className="h6 mb-4"> SĐT: {user.phonenumber}</p>
+              
             </div>
           </div>
 
@@ -169,12 +177,16 @@ export default function Profile() {
               )}
             </div>
 
-            <p className="fw-bold mb-4">
-              <a href="" className="text-dark me-2" onClick={handleReport}>
-                Báo cáo tài khoản
-              </a>
-              {total}
-            </p>
+            {auth.role !== "admin" && (
+              <p className="fw-bold mb-4">
+                <a href="" className="text-dark me-2" onClick={handleReport}>
+                  Báo cáo tài khoản
+                </a>
+                {total}
+              </p>
+            )}
+
+            
 
             {writeReport && (
               <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
@@ -240,8 +252,9 @@ export default function Profile() {
             ))}
           </div>
         </div>
-      </div>
-    );
+      )}
+    </div>
+  );
 }
 
 function UserListItem({ user }) {

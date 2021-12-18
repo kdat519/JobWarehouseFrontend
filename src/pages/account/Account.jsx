@@ -46,18 +46,17 @@ export default function Account() {
 
   async function handleChangePassword(data) {
     try {
-        const response = await authApi.updatePassword(data);
-        if (response.success) {
-          setEditPassword(false);
-          alert("Đổi mật khẩu thành công")
-          console.log(data);
-        }
-        else {
-            alert("Đổi mật khẩu thất bại")
-        }
-      } catch (error) {
-        alert("Đổi mật khẩu thất bại")
+      const response = await authApi.updatePassword(data);
+      if (response.success) {
+        setEditPassword(false);
+        alert("Đổi mật khẩu thành công");
+        console.log(data);
+      } else {
+        alert("Đổi mật khẩu thất bại");
       }
+    } catch (error) {
+      alert("Đổi mật khẩu thất bại");
+    }
   }
 
   const [editPassword, setEditPassword] = useState(false);
@@ -71,16 +70,21 @@ export default function Account() {
         <p className="h2 mb-2">
           <strong>Thông tin cá nhân</strong>
         </p>
-        <p className="mb-5">
-          <strong>{profile?.user?.name}, </strong>
-          {profile?.user?.email} <span> &bull; </span>
-          <Link
-            to={`/profile/${profile?.user?.user_id}`}
-            className="fw-bold text-dark"
-          >
-            Xem trang Profile
-          </Link>
-        </p>
+        <div className="mb-5">
+        {profile.user && (
+          <p >
+            <strong>{profile?.user?.name}, </strong>
+            {profile?.user?.email} <span> &bull; </span>
+            <Link
+              to={`/profile/${profile?.user?.user_id}`}
+              className="fw-bold text-dark"
+            >
+              Xem trang Profile
+            </Link>
+          </p>
+        )}
+        </div>
+        
         <div className="box mb-5">
           <div className="pe-3">
             {profile.user && (
