@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import adminApi from "../../api/adminApi";
 import adminReportApi from "../../api/adminReportApi";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../components/auth/AuthProvider";

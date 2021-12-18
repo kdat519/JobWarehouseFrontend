@@ -3,7 +3,7 @@ import { useAuth } from "../../components/auth/AuthProvider";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./styles.css";
