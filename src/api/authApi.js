@@ -65,12 +65,16 @@ const authApi = {
   },
 
   updateAvatar: (params) => {
-    const url = "/upload-image";
+    const url = "/auth/upload-image";
 
     const formData = new FormData();
     formData.append("image", params.avatar[0]);
 
     return axiosClient.post(url, formData);
+  },
+
+  imageURL: (userId) => {
+    return "http://127.0.0.1:8000/api/get-image/" + userId;
   },
 };
 

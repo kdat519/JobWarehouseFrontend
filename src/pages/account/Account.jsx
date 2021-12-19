@@ -153,6 +153,7 @@ function ChangePasswordForm() {
         setMessage("Cập nhật mật khẩu thất bại.");
       }
     } catch (error) {
+      setEditPassword(false);
       setMessage("Cập nhật mật khẩu thất bại.");
     }
   }
@@ -244,10 +245,11 @@ function AvatarUpload() {
       if (response.success) {
         setMessage("Cập nhật ảnh đại diện thành công.");
       } else {
-        setMessage("Cập nhật ảnh đại diện.");
+        setMessage("Cập nhật ảnh đại diện thất bại.");
       }
     } catch (error) {
-      setMessage("Cập nhật ảnh đại diện.");
+      setEdit(false);
+      setMessage("Cập nhật ảnh đại diện thất bại.");
     }
   }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router";
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import adminApi from "../../api/adminApi";
 import adminReportApi from "../../api/adminReportApi";

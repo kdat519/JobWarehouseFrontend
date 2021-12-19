@@ -9,6 +9,7 @@ import { useAuth } from "../../components/auth/AuthProvider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./styles.css";
+import authApi from "../../api/authApi";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -19,7 +20,6 @@ export default function Profile() {
       try {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
-        console.log(response.data[0]);
       } catch (error) {
         console.log("Failed to fetch user: ", error);
       }
@@ -88,12 +88,9 @@ export default function Profile() {
       {user?.role && user?.role !== "admin" && (
         <div id="profile">
           <div>
-            <div className="box border border-1 rounded-3 py-4 px-4 mb-5">
-              <div className="rounded-circle mb-5 profile-avatar">
-              <img
-                src={user.image_link}
-                alt="avatar"
-              />
+            <div className="box border rounded-3 py-4 px-4 mb-5">
+              <div className="rounded-circle mb-5 profile-avatar border">
+                <img src={authApi.imageURL(user.user_id)} alt="avatar" />
               </div>
               <p className="h5 fw-bold mb-3">
                 {user.role === "jobseeker"
@@ -152,6 +149,15 @@ export default function Profile() {
                   <p className="h4 fw-bold">Giới thiệu</p>
                   <p className="mb-4">{user.skill}</p>
 
+                  {user.birthday && user.birthday !== "0000-00-00" && (
+                    <div className="mb-4">
+                      <i class="bi bi-server mx-1"></i>
+                      {new Intl.DateTimeFormat("vi-VN").format(
+                        new Date(user.birthday)
+                      )}
+                    </div>
+                  )}
+
                   {user.education && (
                     <div className="mb-3">
                       <i className="bi bi-book-fill mx-1"></i>
@@ -189,9 +195,7 @@ export default function Profile() {
 
             {auth.role === "admin" && auth?.user_id !== user?.user_id && (
               <p className="fw-bold mb-4">
-                <span className="text-dark me-2">
-                  Báo cáo tài khoản
-                </span>
+                <span className="text-dark me-2">Báo cáo tài khoản</span>
                 {total}
               </p>
             )}
@@ -239,16 +243,18 @@ export default function Profile() {
                 </div>
                 <p className="">{report.detail} </p>
                 <div className="fw-light h6 d-flex">
-                  <Link
-                    className="text-decoration-none text-dark "
-                    to={`/profile/${report.sender_id}`}
-                  >
-                    <img
-                      className="rounded-circle mb-5 report-avatar"
-                      src={`https://i.pravatar.cc/150?img=${report.sender_id}`}
-                      alt="avatar"
-                    />
-                  </Link>
+                  <div className="rounded-circle mb-5 report-avatar border">
+                    <Link
+                      className="text-decoration-none text-dark "
+                      to={`/profile/${report.sender_id}`}
+                    >
+                      <img
+                        src={authApi.imageURL(report.sender_id)}
+                        alt="avatar"
+                      />
+                    </Link>
+                  </div>
+
                   <div className="mx-3">
                     <div className="fw-bold">{report.sender_name}</div>
                     <div className="fw-light text-muted">
@@ -261,74 +267,6 @@ export default function Profile() {
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function UserListItem({ user }) {
-  return (
-    <div id="profile">
-      <div className="box border border-1 rounded-3 py-4 px-4 mb-5">
-        <img
-          className="rounded-circle mb-5"
-          src="https://i.pravatar.cc/300"
-          alt="avatar"
-        />
-        <p className="h5 fw-bold mb-3">
-          {user.role === "jobseeker"
-            ? "Người tìm việc"
-            : user.role === "admin"
-            ? "Admin"
-            : "Nhà tuyển dụng"}
-        </p>
-        <p className="h5 fw-bold mb-4">100 báo cáo</p>
-        <hr />
-        <p className="h4 fw-bold mb-4">Thông tin liên hệ</p>
-        <p className="h6  mb-4">{user.email}</p>
-        <p className="h6 mb-4">{user.phonenumber}</p>
-      </div>
-      <div className="info px-5">
-        <p className="h2 fw-bold">{user.name}</p>
-        <p className="mb-5">
-          Tham gia năm {new Date(Date.parse(user.created_at)).getFullYear()}
-        </p>
-
-        <div>
-          {user.role === "employer" && (
-            <div>
-              <p className="h4 fw-bold">Giới thiệu</p>
-              <p className="mb-4">{user.about_us}</p>
-              <div className="mb-4">
-                <i className="bi bi-house-door-fill mx-1"></i>
-                {user.address}
-              </div>
-              <hr />
-            </div>
-          )}
-        </div>
-
-        <div>
-          {user.role === "jobseeker" && (
-            <div>
-              <p className="h4 fw-bold">Giới thiệu</p>
-              <p className="mb-4">{user.skill}</p>
-              <div className="mb-3">
-                <i className="bi bi-book-fill mx-1"></i>
-                {user.education}
-              </div>
-              <div className="mb-3">
-                <i className="bi bi-person-badge-fill mx-1"></i>
-                {user.qualification}
-              </div>
-              <div className="mb-4">
-                <i className="bi bi-briefcase-fill mx-1"></i>
-                {user.work_experience}
-              </div>
-              <hr />
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   );
 }
