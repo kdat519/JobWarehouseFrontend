@@ -7,6 +7,7 @@ import ChatLine from "../../components/message/chatLine";
 import { useAuth } from "../../components/auth/AuthProvider";
 import messageAPI from "../../api/messageAPI";
 import authApi from "../../api/authApi";
+import pusher from "../../api/pusher";
 
 const MessagePage = () => {
   const authContext = useAuth();
@@ -28,7 +29,6 @@ const MessagePage = () => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    console.log(1);
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
@@ -42,15 +42,15 @@ const MessagePage = () => {
       setUserList(response.data);
     } else {
       const params = {
-        name: name,
+        searchContent: name,
       }
       const response = await authApi.getUsers(params);
-
       setUserList(response.users);
     }
   }
 
   function handleClickUserList(id, name) {
+    console.log(id);
     setFilterMessageList({
       other_id: id,
       get: 100
@@ -86,6 +86,7 @@ const MessagePage = () => {
       try {
         const response = messageAPI.showLatestChat(filteruserList);
         response.then((res) => {
+          console.log(res.data[0].other_id);
           setFilterMessageList({
             other_id: res.data[0].other_id,
             get: 100,
@@ -116,6 +117,25 @@ const MessagePage = () => {
 
     fetchChatList();
   }, [filterMessageList]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      let channel = pusher.subscribe('private-MessageChannel.User.' + String(authContext.user_id));
+      channel.bind('MessageCreated', function (data) {
+        console.log(data);
+        console.log(filterMessageList);
+        if (filterMessageList.other_id === data.model.sender_id || filterMessageList.other_id === data.model.receiver_id) {
+          setMessageList([...messageList, data.model]);
+          scrollToBottom();
+        }
+      })
+    }
+    return (() => {
+      pusher.unsubscribe('private-MessageChannel.User.' + String(authContext.user_id));
+      mounted = false;
+    })
+  }, [])
 
   return (
     <>
