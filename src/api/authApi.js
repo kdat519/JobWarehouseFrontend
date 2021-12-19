@@ -55,6 +55,11 @@ const authApi = {
     formData.append("education", params.education);
     return axiosClient.post(url, formData);
   },
+
+  getUsers: (params) => {
+    const url = "auth/users";
+    return axiosClient.get(url, { params });
+  }
 };
 
 export default authApi;
