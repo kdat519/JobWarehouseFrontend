@@ -19,6 +19,7 @@ export default function Profile() {
       try {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
+        console.log(response.data[0]);
       } catch (error) {
         console.log("Failed to fetch user: ", error);
       }
@@ -88,11 +89,12 @@ export default function Profile() {
         <div id="profile">
           <div>
             <div className="box border border-1 rounded-3 py-4 px-4 mb-5">
+              <div className="rounded-circle mb-5 profile-avatar">
               <img
-                className="rounded-circle mb-5 profile-avatar"
-                src={`https://i.pravatar.cc/150?img=${user.user_id}`}
+                src={user.image_link}
                 alt="avatar"
               />
+              </div>
               <p className="h5 fw-bold mb-3">
                 {user.role === "jobseeker"
                   ? "Người tìm việc"
@@ -102,20 +104,19 @@ export default function Profile() {
               </p>
               <p className="h5 fw-bold mb-4">{total} báo cáo</p>
               {auth.role === "admin" && (
-              <p className="fw-bold mb-4">
-                <Link
+                <p className="fw-bold mb-4">
+                  <Link
                     className="text-dark "
                     to={`/admin/users/${user.user_id}`}
                   >
                     Xem trong trang Admin
                   </Link>
-              </p>
-            )}
+                </p>
+              )}
               <hr />
               <p className="h4 fw-bold mb-4">Thông tin liên hệ</p>
               <p className="h6  mb-4">Email: {user.email}</p>
               <p className="h6 mb-4"> SĐT: {user.phonenumber}</p>
-              
             </div>
           </div>
 
@@ -182,6 +183,15 @@ export default function Profile() {
                 <a href="" className="text-dark me-2" onClick={handleReport}>
                   Báo cáo tài khoản
                 </a>
+                {total}
+              </p>
+            )}
+
+            {auth.role === "admin" && auth?.user_id !== user?.user_id && (
+              <p className="fw-bold mb-4">
+                <span className="text-dark me-2">
+                  Báo cáo tài khoản
+                </span>
                 {total}
               </p>
             )}

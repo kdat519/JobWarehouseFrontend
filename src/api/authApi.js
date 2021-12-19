@@ -63,7 +63,15 @@ const authApi = {
 
     return axiosClient.post(url, formData);
   },
-  
+
+  updateAvatar: (params) => {
+    const url = "/upload-image";
+
+    const formData = new FormData();
+    formData.append("image", params.avatar[0]);
+
+    return axiosClient.post(url, formData);
+  },
 };
 
 export default authApi;

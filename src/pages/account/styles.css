@@ -7,9 +7,16 @@
 
 #profile .profile-avatar {
     width: 150px;
+    height: 150px;
     max-width: 100%;
     display: block;
     margin: auto;
+    overflow: hidden;
+}
+
+#profile .profile-avatar img {
+    width: 150px;
+    height: 150px;
 }
 
 #profile .report-avatar {

@@ -27,6 +27,104 @@ export default function Account() {
     fetchProfile();
   }, [reload]);
 
+  if (!auth.role) {
+    return <Navigate to="/login" />;
+  }
+  return (
+    <div className="container mt-5">
+      <div className="mb-4" id="account">
+        <div className="h2 mb-2">
+          <strong>Thông tin cá nhân</strong>
+        </div>
+        <div className="mb-5">
+          {profile.user && (
+            <div>
+              <strong>{profile?.user?.name}, </strong>
+              {profile?.user?.email} <span> &bull; </span>
+              <Link
+                to={`/profile/${profile?.user?.user_id}`}
+                className="fw-bold text-dark"
+              >
+                Xem trang Profile
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div className="box mb-5">
+          <div className="pe-3">
+            {profile.user && (
+              <div>
+                <div className="fw-bold mb-2">Kiểu tài khoản</div>
+                <div>
+                  {profile.user.role === "jobseeker"
+                    ? "Nguời tìm việc"
+                    : profile.user.role === "admin"
+                    ? "Admin"
+                    : "Nhà tuyển dụng"}
+                </div>
+                <hr />
+                <div className="fw-bold mb-2">Họ tên</div>
+                <div>{profile.user.name}</div>
+                <hr />
+                <div className="fw-bold mb-2">Địa chỉ Email</div>
+                <div>{profile.user.email}</div>
+                <hr />
+                <div className="fw-bold mb-2">Số điện thoại</div>
+                <div>{profile.user.phonenumber}</div>
+                <hr />
+                <div className="fw-bold mb-2">Địa chỉ</div>
+                <div>{profile.user.address}</div>
+                <hr />
+              </div>
+            )}
+            <JobseekerEdit
+              setReload={setReload}
+              reload={reload}
+              profile={profile}
+            />
+            <EmployerEdit
+              setReload={setReload}
+              reload={reload}
+              profile={profile}
+            />
+            <AvatarUpload />
+            <ChangePasswordForm />
+          </div>
+
+          <div className="info">
+            <div className="border border-1 rounded-3 p-4 ms-5">
+              <h3 className="h2 fw-bold mt-3">
+                <i className="bi bi-lock-fill"></i>
+              </h3>
+              <div className="h5 fw-bold mb-3">
+                Những thông tin nào có thể chỉnh sửa?
+              </div>
+              <div className="mb-5">
+                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng
+                để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số
+                thông tin giới thiệu về bản thân.
+              </div>
+              <hr className="mb-5" />
+              <h3 className="h2 fw-bold mt-3">
+                <i className="bi bi-person-badge-fill"></i>
+              </h3>
+              <div className="h5 fw-bold mb-3">
+                Những thông tin nào sẽ được chia sẻ?
+              </div>
+              <div className="mb-4">
+                Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
+                bạn.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChangePasswordForm() {
   const schema = Yup.object().shape({
     new_password: Yup.string()
       .min(6, "Mật khẩu phải ít nhất 6 ký tự")
@@ -49,159 +147,135 @@ export default function Account() {
       const response = await authApi.updatePassword(data);
       if (response.success) {
         setEditPassword(false);
-        alert("Đổi mật khẩu thành công");
-        console.log(data);
+        setMessage("Cập nhật mật khẩu thành công.")
+        console.log("cap nhat");
       } else {
-        alert("Đổi mật khẩu thất bại");
+        setMessage("Cập nhật mật khẩu thất bại.")
       }
     } catch (error) {
-      alert("Đổi mật khẩu thất bại");
+      setMessage("Cập nhật mật khẩu thất bại.")
     }
   }
 
   const [editPassword, setEditPassword] = useState(false);
+  const [message, setMessage] = useState("");
 
-  if (!auth.role) {
-    return <Navigate to="/login" />;
-  }
   return (
-    <div className="container mt-5">
-      <div className="mb-4" id="account">
-        <p className="h2 mb-2">
-          <strong>Thông tin cá nhân</strong>
-        </p>
-        <div className="mb-5">
-          {profile.user && (
-            <p>
-              <strong>{profile?.user?.name}, </strong>
-              {profile?.user?.email} <span> &bull; </span>
-              <Link
-                to={`/profile/${profile?.user?.user_id}`}
-                className="fw-bold text-dark"
-              >
-                Xem trang Profile
-              </Link>
-            </p>
-          )}
+    <form onSubmit={handleSubmit(handleChangePassword)}>
+      <div className="">
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="fw-bold">Mật khẩu</div>
+          <button
+            type="button"
+            className="btn btn-link shadow-none text-decoration-none"
+            onClick={() => {
+              setEditPassword(!editPassword);
+              setValue("new_password", "");
+              setValue("confirmPassword", "");
+              clearErrors("new_password");
+              clearErrors("confirmPassword");
+              setMessage("");
+            }}
+          >
+            {editPassword ? "Hủy" : "Cập nhật"}
+          </button>
         </div>
-
-        <div className="box mb-5">
-          <div className="pe-3">
-            {profile.user && (
-              <div>
-                <p className="fw-bold">Kiểu tài khoản</p>
-                <p>
-                  {profile.user.role === "jobseeker"
-                    ? "Nguời tìm việc"
-                    : profile.user.role === "admin"
-                    ? "Admin"
-                    : "Nhà tuyển dụng"}
-                </p>
-                <hr />
-                <p className="fw-bold">Họ tên</p>
-                <p>{profile.user.name}</p>
-                <hr />
-                <p className="fw-bold">Địa chỉ Email</p>
-                <p>{profile.user.email}</p>
-                <hr />
-                <p className="fw-bold">Số điện thoại</p>
-                <p>{profile.user.phonenumber}</p>
-                <hr />
-                <p className="fw-bold">Địa chỉ</p>
-                <p>{profile.user.address}</p>
-                <hr />
-              </div>
-            )}
-            <JobseekerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            <EmployerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            <form onSubmit={handleSubmit(handleChangePassword)}>
-              <div className="">
-                <div className="d-flex justify-content-between">
-                  <p className="fw-bold">Mật khẩu</p>
-                  <button
-                    type="button"
-                    className="btn btn-link shadow-none text-decoration-none"
-                    onClick={() => {
-                      setEditPassword(!editPassword);
-                      setValue("new_password", "");
-                      setValue("confirmPassword", "");
-                      clearErrors("new_password");
-                      clearErrors("confirmPassword");
-                    }}
-                  >
-                    {editPassword ? "Hủy" : "Cập nhật"}
-                  </button>
-                </div>
-                <div className={` ${editPassword ? "" : "hidden"}`}>
-                  <input
-                    name="new_password"
-                    type="password"
-                    {...register("new_password")}
-                    placeholder="Mật khẩu mới"
-                    className={`form-control mb-3 ${
-                      errors.new_password ? "is-invalid" : ""
-                    }`}
-                  />
-                  <div className="invalid-feedback mb-3">
-                    {errors.new_password?.message}
-                  </div>
-                  <input
-                    name="c"
-                    type="password"
-                    {...register("confirmPassword")}
-                    placeholder="Xác nhận mật khẩu mới"
-                    className={`form-control mb-3 ${
-                      errors.confirmPassword ? "is-invalid" : ""
-                    }`}
-                  />
-                  <div className="invalid-feedback mb-3">
-                    {errors.confirmPassword?.message}
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    Lưu
-                  </button>
-                </div>
-                <hr />
-              </div>
-            </form>
+        <div className={` ${editPassword ? "" : "hidden"}`}>
+          <input
+            name="new_password"
+            type="password"
+            {...register("new_password")}
+            placeholder="Mật khẩu mới"
+            className={`form-control mb-3 ${
+              errors.new_password ? "is-invalid" : ""
+            }`}
+          />
+          <div className="invalid-feedback mb-3">
+            {errors.new_password?.message}
           </div>
-
-          <div className="info">
-            <div className="border border-1 rounded-3 p-4 ms-5">
-              <h3 className="h2 fw-bold mb-2 mt-3">
-                <i className="bi bi-lock-fill"></i>
-              </h3>
-              <p className="h5 fw-bold mb-3">
-                Những thông tin nào có thể chỉnh sửa?
-              </p>
-              <p className="mb-5">
-                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng
-                để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số
-                thông tin giới thiệu về bản thân.
-              </p>
-              <hr className="mb-5" />
-              <h3 className="h2 fw-bold mb-2 mt-3">
-                <i className="bi bi-person-badge-fill"></i>
-              </h3>
-              <p className="h5 fw-bold mb-3">
-                Những thông tin nào sẽ được chia sẻ?
-              </p>
-              <p className="mb-4">
-                Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
-                bạn.
-              </p>
-            </div>
+          
+          <input
+            name="confirmPassword"
+            type="password"
+            {...register("confirmPassword")}
+            placeholder="Xác nhận mật khẩu mới"
+            className={`form-control mb-3 ${
+              errors.confirmPassword ? "is-invalid" : ""
+            }`}
+          />
+          <div className="invalid-feedback mb-3">
+            {errors.confirmPassword?.message}
           </div>
+          <button type="submit" className="btn btn-primary">
+            Lưu
+          </button>
         </div>
+        <div className="mb-3">
+            {message}
+          </div>
+        <hr />
       </div>
+    </form>
+  );
+}
+
+function AvatarUpload() {
+  const { register, handleSubmit , setValue} = useForm();
+  const [edit, setEdit] = useState(false);
+  const [message, setMessage] = useState("");
+
+
+  async function onSubmit(data) {
+    try {
+      const response = await authApi.updateAvatar(data);
+
+      if (response.success) {
+        setEdit(false);
+        setMessage("Cập nhật ảnh đại diện thành công.")
+        console.log("cap nhat");
+      } else {
+        setMessage("Cập nhật ảnh đại diện.")
+      }
+    } catch (error) {
+      setMessage("Cập nhật ảnh đại diện.")
+    }
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="">
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="fw-bold">Ảnh đại diện</div>
+          <button
+            type="button"
+            className="btn btn-link shadow-none text-decoration-none "
+            onClick={() => {
+              setEdit(!edit);
+              setValue("avatar", null);
+              setMessage("");
+            }}
+          >
+            {edit ? "Hủy" : "Cập nhật"}
+          </button>
+        </div>
+        <div className={` ${edit ? "" : "hidden"}`}>
+        <input
+            {...register("avatar", { required: "Chưa chọn avatar." })}
+            type="file"
+            name="avatar"
+          />
+          <div className="mb-3"></div>
+          <button type="submit" className="btn btn-primary ms-auto">
+            Lưu
+          </button>
+        </div>
+        <div className="mb-3">
+            {message}
+          </div>
+        <hr />
+      </div>
+    </form>
     </div>
   );
 }
@@ -253,8 +327,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
         <div>
           <form onSubmit={handleSubmit(handleSave)}>
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Giới tính</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Giới tính</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -290,8 +364,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Ngày sinh</p>
+              <div className="d-flex align-items-center justify-content-between ">
+                <div className="fw-bold">Ngày sinh</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -299,7 +373,9 @@ function JobseekerEdit({ reload, setReload, profile }) {
                     setEditBirthday(!editBirthday);
                     setValue(
                       "birthday",
-                      profile.jobseeker.birthday ? profile.jobseeker.birthday : ""
+                      profile.jobseeker.birthday
+                        ? profile.jobseeker.birthday
+                        : ""
                     );
                     clearErrors("birthday");
                   }}
@@ -329,15 +405,17 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={`me-5 ${!editBirthday ? "" : "hidden"}`}>
                 {profile.jobseeker.birthday
-                  ? new Intl.DateTimeFormat("vi-VN").format(new Date(profile.jobseeker.birthday))
+                  ? new Intl.DateTimeFormat("vi-VN").format(
+                      new Date(profile.jobseeker.birthday)
+                    )
                   : "Không có thông tin"}
               </div>
               <hr />
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Giới thiệu</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Giới thiệu</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -383,8 +461,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Giáo dục</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Giáo dục</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -433,8 +511,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Chứng chỉ</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Chứng chỉ</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -483,8 +561,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Kinh nghiệm làm việc</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Kinh nghiệm làm việc</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -571,8 +649,8 @@ function EmployerEdit({ reload, setReload, profile }) {
         <div>
           <form onSubmit={handleSubmit(handleSave)}>
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Giới thiệu</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Giới thiệu</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -618,8 +696,8 @@ function EmployerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Lĩnh vực</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Lĩnh vực</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -664,8 +742,8 @@ function EmployerEdit({ reload, setReload, profile }) {
             </div>
 
             <div className="">
-              <div className="d-flex justify-content-between">
-                <p className="fw-bold">Số lượng nhân viên</p>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="fw-bold">Số lượng nhân viên</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
