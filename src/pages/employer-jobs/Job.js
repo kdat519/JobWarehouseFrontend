@@ -75,16 +75,6 @@ const CandidatesInfo = ({ id, candidates, hired }) => {
   );
 };
 
-const numberTo2CharsString = (num) =>
-  num >= 10 ? num.toString() : "0" + num.toString();
-
-const dateToString = (date) =>
-  numberTo2CharsString(date.getDate()) +
-  "/" +
-  numberTo2CharsString(date.getMonth() + 1) +
-  "/" +
-  date.getFullYear();
-
 const Job = ({ jobName, id, createdAt, status, candidates, hired }) => (
   <Row>
     <div className="col-12 col-lg-2">
@@ -103,7 +93,13 @@ const Job = ({ jobName, id, createdAt, status, candidates, hired }) => (
         <div className="col-4 col-sm-3 col-md-2 d-lg-none fw-bold">
           Ngày đăng:
         </div>
-        <div className="col-auto">{dateToString(createdAt)}</div>
+        <div className="col-auto">
+          {new Intl.DateTimeFormat("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }).format(createdAt)}
+        </div>
       </div>
     </div>
     <CandidatesInfo id={id} candidates={candidates} hired={hired} />
