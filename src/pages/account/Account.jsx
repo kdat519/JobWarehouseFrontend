@@ -323,6 +323,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
     education: Yup.string().max(200, "Tối đa 200 ký tự"),
   });
 
+
   const {
     register,
     handleSubmit,
@@ -421,7 +422,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
                 </button>
               </div>
               <div className={`me-5 ${!editBirthday ? "" : "hidden"}`}>
-                {profile.jobseeker.birthday
+                { profile.jobseeker.birthday && profile.jobseeker.birthday !== "0000-00-00"
                   ? new Intl.DateTimeFormat("vi-VN").format(
                       new Date(profile.jobseeker.birthday)
                     )
