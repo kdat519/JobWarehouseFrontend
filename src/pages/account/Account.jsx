@@ -145,15 +145,15 @@ function ChangePasswordForm() {
   async function handleChangePassword(data) {
     try {
       const response = await authApi.updatePassword(data);
+      setEditPassword(false);
+      console.log("cap nhat");
       if (response.success) {
-        setEditPassword(false);
-        setMessage("Cập nhật mật khẩu thành công.")
-        console.log("cap nhat");
+        setMessage("Cập nhật mật khẩu thành công.");
       } else {
-        setMessage("Cập nhật mật khẩu thất bại.")
+        setMessage("Cập nhật mật khẩu thất bại.");
       }
     } catch (error) {
-      setMessage("Cập nhật mật khẩu thất bại.")
+      setMessage("Cập nhật mật khẩu thất bại.");
     }
   }
 
@@ -163,7 +163,7 @@ function ChangePasswordForm() {
   return (
     <form onSubmit={handleSubmit(handleChangePassword)}>
       <div className="">
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between mb-2">
           <div className="fw-bold">Mật khẩu</div>
           <button
             type="button"
@@ -193,7 +193,7 @@ function ChangePasswordForm() {
           <div className="invalid-feedback mb-3">
             {errors.new_password?.message}
           </div>
-          
+
           <input
             name="confirmPassword"
             type="password"
@@ -210,9 +210,7 @@ function ChangePasswordForm() {
             Lưu
           </button>
         </div>
-        <div className="mb-3">
-            {message}
-          </div>
+        <div className="mb-3">{message}</div>
         <hr />
       </div>
     </form>
@@ -220,62 +218,81 @@ function ChangePasswordForm() {
 }
 
 function AvatarUpload() {
-  const { register, handleSubmit , setValue} = useForm();
+  const schema = Yup.object().shape({
+    avatar: Yup.mixed()
+      .required("Chưa chọn ảnh đại diện.")
+      .test("fileSize", "Kích thước tối đa 2 MB", (value) => {
+        return value && value[0]?.size <= 2000000;
+      }),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+
   const [edit, setEdit] = useState(false);
   const [message, setMessage] = useState("");
-
 
   async function onSubmit(data) {
     try {
       const response = await authApi.updateAvatar(data);
-
+      setEdit(false);
       if (response.success) {
-        setEdit(false);
-        setMessage("Cập nhật ảnh đại diện thành công.")
-        console.log("cap nhat");
+        setMessage("Cập nhật ảnh đại diện thành công.");
       } else {
-        setMessage("Cập nhật ảnh đại diện.")
+        setMessage("Cập nhật ảnh đại diện.");
       }
     } catch (error) {
-      setMessage("Cập nhật ảnh đại diện.")
+      setMessage("Cập nhật ảnh đại diện.");
     }
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="">
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="fw-bold">Ảnh đại diện</div>
-          <button
-            type="button"
-            className="btn btn-link shadow-none text-decoration-none "
-            onClick={() => {
-              setEdit(!edit);
-              setValue("avatar", null);
-              setMessage("");
-            }}
-          >
-            {edit ? "Hủy" : "Cập nhật"}
-          </button>
-        </div>
-        <div className={` ${edit ? "" : "hidden"}`}>
-        <input
-            {...register("avatar", { required: "Chưa chọn avatar." })}
-            type="file"
-            name="avatar"
-          />
-          <div className="mb-3"></div>
-          <button type="submit" className="btn btn-primary ms-auto">
-            Lưu
-          </button>
-        </div>
-        <div className="mb-3">
-            {message}
+        <div className="">
+          <div className="d-flex align-items-center justify-content-between mb-2">
+            <div className="fw-bold">Ảnh đại diện</div>
+            <button
+              type="button"
+              className="btn btn-link shadow-none text-decoration-none "
+              onClick={() => {
+                setEdit(!edit);
+                setValue("avatar", []);
+                setMessage("");
+                clearErrors("avatar");
+              }}
+            >
+              {edit ? "Hủy" : "Cập nhật"}
+            </button>
           </div>
-        <hr />
-      </div>
-    </form>
+          <div className={` ${edit ? "" : "hidden"}`}>
+            <div className="mb-3">
+              <input
+                {...register("avatar")}
+                type="file"
+                name="avatar"
+                className={`form-control mb-3 ${
+                  errors.avatar ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">
+              {errors.avatar?.message}
+            </div>
+            </div>
+            
+            <button type="submit" className="btn btn-primary ms-auto">
+              Lưu
+            </button>
+          </div>
+          <div className="mb-3">{message}</div>
+          <hr />
+        </div>
+      </form>
     </div>
   );
 }
