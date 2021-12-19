@@ -9,7 +9,11 @@ const messageAPI = {
 
   createChat: (params) => {
     const url = "chat/create";
-    return axiosClient.post(url, { params });
+    const formData = new FormData();
+    formData.append("detail", params.detail);
+    formData.append("status", "unseen");
+    formData.append("receiver_id", String(params.receiver_id));
+    return axiosClient.post(url, formData);
   },
 
   updateChat: (params) => {
