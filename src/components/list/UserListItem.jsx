@@ -27,17 +27,19 @@ export default function UserListItem({ user, handleBanChange }) {
       </div>
 
       <div className="mr-auto">
-        <input
-          type="button"
-          value={user.status === "active" ? "Active" : "Banned"}
-          data-user={user.user_id}
-          onClick={(e) =>
-            handleBanChange(e.target.dataset.user, e.target.value)
-          }
-          className={`px-2 btn mx-1 ${
-            user.status === "active" ? "btn-success" : "btn-danger"
-          }`}
-        />
+        {user.role !== "admin" && (
+          <input
+            type="button"
+            value={user.status === "active" ? "Active" : "Banned"}
+            data-user={user.user_id}
+            onClick={(e) =>
+              handleBanChange(e.target.dataset.user, e.target.value)
+            }
+            className={`px-2 btn mx-1 ${
+              user.status === "active" ? "btn-success" : "btn-danger"
+            }`}
+          />
+        )}
       </div>
     </div>
   );
