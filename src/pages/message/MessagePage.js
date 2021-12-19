@@ -26,6 +26,7 @@ const MessagePage = () => {
     get: 100,
   })
 
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -117,6 +118,7 @@ const MessagePage = () => {
 
     fetchChatList();
   }, [filterMessageList]);
+
 
   useEffect(() => {
     let mounted = true;
