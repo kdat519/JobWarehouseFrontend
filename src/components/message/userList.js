@@ -27,6 +27,7 @@ function UserList(props) {
   useEffect(() => {
     async function CountUnseen() {
       if (other_id) {
+        console.log(1);
         try {
           const response = await messageAPI.checkUnseen(params);
           if (response.data > 0) {
@@ -41,7 +42,7 @@ function UserList(props) {
     }
 
     CountUnseen();
-  }, []);
+  }, [user]);
 
   function handleOnClick() {
     if (other_id) {

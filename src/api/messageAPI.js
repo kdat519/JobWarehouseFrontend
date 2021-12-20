@@ -18,7 +18,10 @@ const messageAPI = {
 
   updateChat: (params) => {
     const url = "chat/update";
-    return axiosClient.post(url, { params });
+    const formData = new FormData();
+    formData.append("status", params.status);
+    formData.append("message_id", params.message_id);
+    return axiosClient.post(url, formData);
   },
 
   showOneChat: (params) => {

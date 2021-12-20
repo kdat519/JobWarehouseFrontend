@@ -59,7 +59,7 @@ const MessagePage = () => {
   }
 
   function handleClickUserList(id, name) {
-    filterMessageListRef.current = { other_id: id, get: 100 };
+    filterMessageListRef.current = { other_id: id, get: 50 };
     setFilterMessageList(filterMessageListRef.current);
     setChatName(name);
   }
@@ -98,18 +98,37 @@ const MessagePage = () => {
     }
   }
 
+  async function UpdateMessage() {
+    console.log(messageListRef);
+    for (let i = 0; i < messageListRef.current.length; i++) {
+      if (messageListRef.current[i].status === "unseen" && messageListRef.current[i].receiver_id === authContext.user_id) {
+        const params = { status: "seen", message_id: messageListRef.current[i].message_id };
+        const response = await messageAPI.updateChat(params);
+
+        if (response.success) {
+          console.log("Update tin nhan thanh cong");
+          messageListRef.current[i].status = "seen";
+        }
+      }
+    }
+    setMessageList(messageListRef.current);
+  }
+
   useEffect(() => {
     async function fetchUserList() {
       try {
         const response = messageAPI.showLatestChat(filteruserList);
         response.then((res) => {
-          filterMessageListRef.current = {
-            other_id: res.data[0].other_id,
-            get: 50,
+          if (res.data.length > 0) {
+            filterMessageListRef.current = {
+              other_id: res.data[0].other_id,
+              get: 50,
+            }
+
+            setFilterMessageList(filterMessageListRef.current);
+            setChatName(res.data[0].name);
           }
-          setFilterMessageList(filterMessageListRef.current);
           setUserList(res.data);
-          setChatName(res.data[0].name);
         })
       } catch (error) {
         console.log("Failed to fetch user list: ", error);
@@ -124,8 +143,8 @@ const MessagePage = () => {
       try {
         const response = messageAPI.showChatBetween(filterMessageList);
         response.then((res) => {
-          //update status message list
           messageListRef.current = res.data.reverse();
+          UpdateMessage();
           setMessageList(messageListRef.current);
           scrollToBottom();
         })
@@ -149,6 +168,7 @@ const MessagePage = () => {
         if (nameRef.current === '') getUserList('');
         if (filterMessageListRef.current.other_id === data.model.sender_id || filterMessageListRef.current.other_id === data.model.receiver_id) {
           messageListRef.current = [...messageListRef.current, data.model];
+          UpdateMessage();
           setMessageList(messageListRef.current);
           scrollToBottom();
         }
