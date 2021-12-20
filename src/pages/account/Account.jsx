@@ -54,21 +54,10 @@ export default function Account() {
 
         <div className="box mb-5">
           <div className="pe-3">
-          
-          <ChangePasswordForm />
+            <ChangePasswordForm />
             <ImageCropperForm />
-            
             {profile.user && (
               <div>
-                <div className="fw-bold mb-2">Kiểu tài khoản</div>
-                <div>
-                  {profile.user.role === "jobseeker"
-                    ? "Nguời tìm việc"
-                    : profile.user.role === "admin"
-                    ? "Admin"
-                    : "Nhà tuyển dụng"}
-                </div>
-                <hr />
                 <div className="fw-bold mb-2">Họ tên</div>
                 <div>{profile.user.name}</div>
                 <hr />
@@ -83,8 +72,7 @@ export default function Account() {
                 <hr />
               </div>
             )}
-           
-            
+
             <JobseekerEdit
               setReload={setReload}
               reload={reload}
@@ -96,7 +84,19 @@ export default function Account() {
               profile={profile}
             />
             {/* <AvatarUpload /> */}
-            
+            {profile.user && (
+              <div>
+                <div className="fw-bold mb-2">Kiểu tài khoản</div>
+                <div>
+                  {profile.user.role === "jobseeker"
+                    ? "Nguời tìm việc"
+                    : profile.user.role === "admin"
+                    ? "Admin"
+                    : "Nhà tuyển dụng"}
+                </div>
+                <hr />
+              </div>
+            )}
           </div>
 
           <div className="info">
@@ -290,11 +290,9 @@ function AvatarUpload() {
                   errors.avatar ? "is-invalid" : ""
                 }`}
               />
-              <div className="invalid-feedback">
-              {errors.avatar?.message}
+              <div className="invalid-feedback">{errors.avatar?.message}</div>
             </div>
-            </div>
-            
+
             <button type="submit" className="btn btn-primary ms-auto">
               Lưu
             </button>
@@ -332,7 +330,6 @@ function JobseekerEdit({ reload, setReload, profile }) {
     skill: Yup.string().max(200, "Tối đa 200 ký tự"),
     education: Yup.string().max(200, "Tối đa 200 ký tự"),
   });
-
 
   const {
     register,
@@ -374,7 +371,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={` ${editGender ? "" : "hidden"}`}>
                 <select {...register("gender")} className="form-select mb-3">
-                <option value="" hidden></option>
+                  <option value="" hidden></option>
                   <option value="male">Nam</option>
                   <option value=" female">Nữ</option>
                 </select>
@@ -433,7 +430,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
                 </button>
               </div>
               <div className={`me-5 ${!editBirthday ? "" : "hidden"}`}>
-                { profile.jobseeker.birthday && profile.jobseeker.birthday !== "0000-00-00"
+                {profile.jobseeker.birthday &&
+                profile.jobseeker.birthday !== "0000-00-00"
                   ? new Intl.DateTimeFormat("vi-VN").format(
                       new Date(profile.jobseeker.birthday)
                     )
