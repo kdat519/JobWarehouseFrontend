@@ -35,7 +35,7 @@ function getTime(ss) {
 
 function ChatLine(props) {
   const { message } = props;
-  const { created_at, sender_id, receiver_id, detail } = message;
+  const { created_at, sender_id, detail } = message;
   const authContext = useAuth();
   const id = authContext.user_id;
   return (

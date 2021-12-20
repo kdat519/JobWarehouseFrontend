@@ -59,6 +59,10 @@ const authApi = {
   getUsers: (params) => {
     const url = "auth/users";
     return axiosClient.get(url, { params });
+  },
+
+  getImage: (userId) => {
+    return "http://127.0.0.1:8000/api/get-image/" + userId;
   }
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import PropTypes from "prop-types";
-import { useState } from "react/cjs/react.development";
 
 JobDescription.propTypes = {
   recruitment: PropTypes.object,
@@ -44,7 +43,7 @@ function getColor(id) {
 }
 
 function getFill(id) {
-  if (id == 0) {
+  if (id === 0) {
     return 'bi-heart';
   }
 

@@ -26,6 +26,8 @@ const MessagePage = () => {
     get: 50,
   })
 
+  const [imageLink, setImageLink] = useState('');
+
   const filterMessageListRef = useRef(filterMessageList);
 
   const messageListRef = useRef(messageList);
@@ -61,6 +63,7 @@ const MessagePage = () => {
   function handleClickUserList(id, name) {
     filterMessageListRef.current = { other_id: id, get: 50 };
     setFilterMessageList(filterMessageListRef.current);
+    setImageLink(authApi.getImage(id));
     setChatName(name);
   }
 
@@ -127,6 +130,7 @@ const MessagePage = () => {
 
             setFilterMessageList(filterMessageListRef.current);
             setChatName(res.data[0].name);
+            setImageLink(authApi.getImage(res.data[0].other_id));
           }
           setUserList(res.data);
         })
@@ -208,7 +212,7 @@ const MessagePage = () => {
                 <div class={`${styles['chat-header']} clearfix`}>
                   <div class="row">
                     <div class="col-lg-6">
-                      <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
+                      <img src={imageLink} alt="avatar" />
                       <div class={`${styles['chat-about']} ${styles['margin']}`}>
                         <h6 class="mb-0">{chatName}</h6>
                       </div>

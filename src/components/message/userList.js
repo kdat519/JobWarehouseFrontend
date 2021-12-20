@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from './styles.module.scss';
 import PropTypes from "prop-types";
 import messageAPI from '../../api/messageAPI';
+import authApi from "../../api/authApi";
 
 UserList.propTypes = {
   user: PropTypes.object,
@@ -20,7 +21,7 @@ function getStatus(s) {
 
 function UserList(props) {
   const { user, handleClickUserList } = props;
-  const { other_id, name, email, user_id, image_link } = user;
+  const { other_id, name, email, user_id } = user;
   const params = { other_id: other_id, status: 'unseen' };
   const [unSeen, setUnSeen] = useState('seen');
 
@@ -44,6 +45,11 @@ function UserList(props) {
     CountUnseen();
   }, [user]);
 
+  function getImage() {
+    if (other_id) return authApi.getImage(other_id);
+    else return authApi.getImage(user_id);
+  }
+
   function handleOnClick() {
     if (other_id) {
       handleClickUserList(other_id, name);
@@ -54,7 +60,7 @@ function UserList(props) {
 
   return (
     <li className={`clearfix ${styles[getStatus(unSeen)]}`} onClick={handleOnClick}>
-      <img src={image_link} alt="avatar" />
+      <img src={getImage()} alt="avatar" />
       <div className={`${styles['about']}`}>
         <div className={`${styles['name']}`}>{name}</div>
         <div className={`${styles['name']} text-muted h6`}>{email}</div>
