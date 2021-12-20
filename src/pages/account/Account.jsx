@@ -366,6 +366,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
               </div>
               <div className={` ${editGender ? "" : "hidden"}`}>
                 <select {...register("gender")} className="form-select mb-3">
+                <option value="" hidden></option>
                   <option value="male">Nam</option>
                   <option value=" female">Nữ</option>
                 </select>
@@ -374,7 +375,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
                 </button>
               </div>
               <div className={`me-5 ${!editGender ? "" : "hidden"}`}>
-                {profile.jobseeker.gender
+                {profile.jobseeker.gender && profile.jobseeker.gender !== ""
                   ? profile.jobseeker.gender === "male"
                     ? "Nam"
                     : "Nữ"
