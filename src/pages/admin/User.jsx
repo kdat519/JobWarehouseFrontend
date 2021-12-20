@@ -106,7 +106,7 @@ export default function User() {
                 href=""
                 onClick={handleShowReports}
               >
-                Báo cáo về tài khoản ({total})
+                Nhận xét về tài khoản ({total})
               </a>
             </li>
             <li className="nav-item">
@@ -118,7 +118,7 @@ export default function User() {
                 data-show="from"
                 onClick={handleShowReports}
               >
-                Báo cáo đã tạo ({totalFrom})
+                Nhận xét đã tạo ({totalFrom})
               </a>
             </li>
           </ul>

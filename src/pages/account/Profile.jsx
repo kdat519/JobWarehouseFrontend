@@ -46,7 +46,7 @@ export default function Profile() {
 
   const [writeReport, setWriteReport] = useState(false);
   const schema = yup.object().shape({
-    detail: yup.string().required("Nhập báo cáo").max(200, "Tối đa 200 ký tự"),
+    detail: yup.string().required("Nhập nhận xét").max(200, "Tối đa 200 ký tự"),
   });
 
   const {
@@ -99,7 +99,7 @@ export default function Profile() {
                   ? "Admin"
                   : "Nhà tuyển dụng"}
               </p>
-              <p className="h5 fw-bold mb-4">{total} báo cáo</p>
+              <p className="h5 fw-bold mb-4">{total} nhận xét</p>
               {auth.role === "admin" && (
                 <p className="fw-bold mb-4">
                   <Link
@@ -152,7 +152,8 @@ export default function Profile() {
                   {user.birthday && user.birthday !== "0000-00-00" && (
                     <div className="mb-4">
                       <i className="bi bi-server mx-1"></i>
-                      Ngày sinh: {new Intl.DateTimeFormat("vi-VN").format(
+                      Ngày sinh:{" "}
+                      {new Intl.DateTimeFormat("vi-VN").format(
                         new Date(user.birthday)
                       )}
                     </div>
@@ -187,7 +188,7 @@ export default function Profile() {
             {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
               <p className="fw-bold mb-4">
                 <a href="" className="text-dark me-2" onClick={handleReport}>
-                  Báo cáo tài khoản
+                  Nhận xét về tài khoản
                 </a>
                 {total}
               </p>
@@ -195,7 +196,7 @@ export default function Profile() {
 
             {auth.role === "admin" && auth?.user_id !== user?.user_id && (
               <p className="fw-bold mb-4">
-                <span className="text-dark me-2">Báo cáo tài khoản</span>
+                <span className="text-dark me-2">Nhận xét về tài khoản</span>
                 {total}
               </p>
             )}
@@ -219,7 +220,7 @@ export default function Profile() {
                 </div>
                 <div>
                   <button className="btn btn-primary mt-2 me-2" type="submit">
-                    Báo cáo
+                    Nhận xét
                   </button>
                   <button
                     className="btn btn-secondary mt-2"

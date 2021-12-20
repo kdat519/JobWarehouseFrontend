@@ -61,7 +61,7 @@ export default function Account() {
                 <div className="fw-bold mb-2">Họ tên</div>
                 <div>{profile.user.name}</div>
                 <hr />
-                <div className="fw-bold mb-2">Địa chỉ Email</div>
+                <div className="fw-bold mb-2">Email</div>
                 <div>{profile.user.email}</div>
                 <hr />
                 <div className="fw-bold mb-2">Số điện thoại</div>
@@ -370,11 +370,26 @@ function JobseekerEdit({ reload, setReload, profile }) {
                 </button>
               </div>
               <div className={` ${editGender ? "" : "hidden"}`}>
-                <select {...register("gender")} className="form-select mb-3">
-                  <option value="" hidden></option>
-                  <option value="male">Nam</option>
-                  <option value=" female">Nữ</option>
-                </select>
+                {(!profile.jobseeker.gender || profile.jobseeker.gender === "") && (
+                  <select {...register("gender")} className="form-select mb-3">
+                    <option value="" hidden></option>
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                  </select>
+                )}
+                {profile.jobseeker.gender === "male" && (
+                  <select {...register("gender")} className="form-select mb-3">
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                  </select>
+                )}
+                {profile.jobseeker.gender === "female" && (
+                  <select {...register("gender")} className="form-select mb-3">
+                    <option value="female">Nữ</option>
+                    <option value="male">Nam</option>
+                    
+                  </select>
+                )}
                 <button type="submit" className="btn btn-primary">
                   Lưu
                 </button>

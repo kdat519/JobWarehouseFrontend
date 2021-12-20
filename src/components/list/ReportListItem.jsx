@@ -21,7 +21,7 @@ export default function ReportListItem({ report }) {
           <span className="fw-bold"> {report.sender_name},</span>
           <span> {report.sender_email} </span>
         </Link>
-        báo cáo vào
+        nhận xét vào
         <span> {new Date(Date.parse(report.created_at)).toLocaleString()}</span>
         </small>
       </p>
