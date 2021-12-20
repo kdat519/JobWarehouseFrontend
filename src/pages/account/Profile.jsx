@@ -103,21 +103,26 @@ export default function Profile() {
                     ? "Admin"
                     : "Nhà tuyển dụng"}
                 </p>
-                <p className="h5  mb-3"><i className="bi bi-star"></i> {total} nhận xét</p>
+                <p className="h6  mb-3">
+                  <i className="bi bi-star"></i> {total} nhận xét
+                </p>
                 {auth.role === "admin" && (
-                  <p className="mb-4 ">
+                  <p className="mb-4 h6">
                     <Link
                       className="text-dark "
                       to={`/admin/users/${user.user_id}`}
                     >
-                      Xem trong trang Admin
+                      Xem trong Admin
                     </Link>
                   </p>
                 )}
                 <hr />
                 <p className="h5  mb-4">Thông tin liên hệ</p>
-                <p className="h6  mb-4">{user.email}</p>
-                <p className="h6 mb-4">{user.phonenumber}</p>
+                <p className="h6  mb-4 text-nowrap"><i className="bi bi-envelope"> </i>{user.email}</p>
+                <p className="h6 mb-4 text-nowrap">
+                  <i className="bi bi-telephone"> </i>
+                  {user.phonenumber}
+                </p>
               </div>
             </div>
 
@@ -192,15 +197,13 @@ export default function Profile() {
                         Kinh nghiệm làm việc: {user.work_experience}
                       </div>
                     )}
-                     <hr />
+                    <hr />
                   </div>
-                  
                 )}
               </div>
 
               {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
                 <div>
-                 
                   <p className=" mb-4 d-flex align-items-center">
                     <button
                       className="p-0 text-dark me-2 shadow-none btn btn-link "
