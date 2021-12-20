@@ -142,7 +142,7 @@ export default function ImageCropperForm() {
       <form onSubmit={onSubmit}>
         <div className="">
           <div className="d-flex align-items-center justify-content-between mb-2">
-            <div className="fw-bold">Ảnh đại diện</div>
+            <div className="">Ảnh đại diện</div>
             <button
               type="button"
               className="btn btn-link shadow-none text-decoration-none "
@@ -183,7 +183,6 @@ export default function ImageCropperForm() {
                 )}
               </div>
             </div>
-
             <button type="submit" className="btn btn-primary ms-auto">
               Lưu
             </button>

@@ -96,16 +96,16 @@ export default function Profile() {
                 <div className="rounded-circle mb-5 profile-avatar border">
                   <img src={authApi.imageURL(user.user_id)} alt="avatar" />
                 </div>
-                <p className="h5 fw-bold mb-3 ">
+                <p className="h5  mb-3 ">
                   {user.role === "jobseeker"
                     ? "Người tìm việc"
                     : user.role === "admin"
                     ? "Admin"
                     : "Nhà tuyển dụng"}
                 </p>
-                <p className="h5 fw-bold mb-3">{total} nhận xét</p>
+                <p className="h5  mb-3"><i className="bi bi-star"></i> {total} nhận xét</p>
                 {auth.role === "admin" && (
-                  <p className="mb-4 fw-bold">
+                  <p className="mb-4 ">
                     <Link
                       className="text-dark "
                       to={`/admin/users/${user.user_id}`}
@@ -115,14 +115,14 @@ export default function Profile() {
                   </p>
                 )}
                 <hr />
-                <p className="h5 fw-bold mb-4">Thông tin liên hệ</p>
-                <p className="h6  mb-4">Email: {user.email}</p>
-                <p className="h6 mb-4"> SĐT: {user.phonenumber}</p>
+                <p className="h5  mb-4">Thông tin liên hệ</p>
+                <p className="h6  mb-4">{user.email}</p>
+                <p className="h6 mb-4">{user.phonenumber}</p>
               </div>
             </div>
 
             <div className="info px-5">
-              <p className="h2 fw-bold">{user.name}</p>
+              <p className="h2 ">{user.name}</p>
               <p className="mb-5">
                 Tham gia năm {new Date(user.created_at).getFullYear()}
               </p>
@@ -130,13 +130,13 @@ export default function Profile() {
               <div>
                 {user.role === "employer" && (
                   <div>
-                    <p className="h4 fw-bold">Giới thiệu</p>
+                    <p className="h4 ">Giới thiệu</p>
                     <p className="mb-4">{user.about_us}</p>
 
                     {user.address && (
                       <div className="mb-4">
                         <span>
-                          <i className="bi bi-house-door-fill mx-1"></i>
+                          <i className="bi bi-house-door-fill mx-2"></i>
                           Địa chỉ: {user.address}
                         </span>
                       </div>
@@ -150,12 +150,12 @@ export default function Profile() {
               <div>
                 {user.role === "jobseeker" && (
                   <div>
-                    <p className="h4 fw-bold">Giới thiệu</p>
+                    <p className="h4 ">Giới thiệu</p>
                     <p className="mb-4">{user.skill}</p>
 
                     {user.birthday && user.birthday !== "0000-00-00" && (
                       <div className="mb-4">
-                        <i className="bi bi-server mx-1"></i>
+                        <i className="bi bi-server me-3"></i>
                         Ngày sinh:{" "}
                         {new Intl.DateTimeFormat("vi-VN").format(
                           new Date(user.birthday)
@@ -166,7 +166,7 @@ export default function Profile() {
                     {user.address && (
                       <div className="mb-4">
                         <span>
-                          <i className="bi bi-house-door-fill mx-1"></i>
+                          <i className="bi bi-house-door-fill me-3"></i>
                           Địa chỉ: {user.address}
                         </span>
                       </div>
@@ -174,21 +174,21 @@ export default function Profile() {
 
                     {user.education && (
                       <div className="mb-3">
-                        <i className="bi bi-book-fill mx-1"></i>
+                        <i className="bi bi-book-fill me-3"></i>
                         Giáo dục: {user.education}
                       </div>
                     )}
 
                     {user.qualification && (
                       <div className="mb-3">
-                        <i className="bi bi-person-badge-fill mx-1"></i>
+                        <i className="bi bi-person-badge-fill me-3"></i>
                         Chứng chỉ: {user.qualification}
                       </div>
                     )}
 
                     {user.work_experience && (
                       <div className="mb-4">
-                        <i className="bi bi-briefcase-fill mx-1"></i>
+                        <i className="bi bi-briefcase-fill me-3"></i>
                         Kinh nghiệm làm việc: {user.work_experience}
                       </div>
                     )}
@@ -201,9 +201,9 @@ export default function Profile() {
               {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
                 <div>
                  
-                  <p className="fw-bold mb-4 d-flex align-items-center">
+                  <p className=" mb-4 d-flex align-items-center">
                     <button
-                      className="p-0 text-dark me-2 shadow-none btn btn-link fw-bold"
+                      className="p-0 text-dark me-2 shadow-none btn btn-link "
                       onClick={handleReport}
                     >
                       Nhận xét về tài khoản
@@ -214,7 +214,7 @@ export default function Profile() {
               )}
 
               {auth.role === "admin" && auth?.user_id !== user?.user_id && (
-                <p className="fw-bold mb-4">
+                <p className=" mb-4">
                   <span className="text-dark me-2">Nhận xét về tài khoản</span>
                   <span className="">{total}</span>
                 </p>
@@ -276,7 +276,7 @@ export default function Profile() {
                     </div>
 
                     <div className="mx-3">
-                      <div className="fw-bold">{report.sender_name}</div>
+                      <div className="">{report.sender_name}</div>
                       <div className="fw-light text-muted">
                         {report.sender_email}
                       </div>

@@ -45,11 +45,11 @@ export default function Account() {
           <div className="mb-5">
             {profile.user && (
               <div>
-                <strong>{profile?.user?.name}, </strong>
+                <b>{profile?.user?.name}, </b>
                 {profile?.user?.email} <span> &bull; </span>
                 <Link
                   to={`/profile/${profile?.user?.user_id}`}
-                  className="fw-bold text-dark"
+                  className="text-dark fw-bold"
                 >
                   Xem trang Profile
                 </Link>
@@ -63,16 +63,16 @@ export default function Account() {
               <ImageCropperForm />
               {profile.user && (
                 <div>
-                  <div className="fw-bold mb-2">Họ tên</div>
+                  <div className=" mb-2">Họ tên</div>
                   <div>{profile.user.name}</div>
                   <hr />
-                  <div className="fw-bold mb-2">Email</div>
+                  <div className=" mb-2">Email</div>
                   <div>{profile.user.email}</div>
                   <hr />
-                  <div className="fw-bold mb-2">Số điện thoại</div>
+                  <div className=" mb-2">Số điện thoại</div>
                   <div>{profile.user.phonenumber}</div>
                   <hr />
-                  <div className="fw-bold mb-2">Địa chỉ</div>
+                  <div className=" mb-2">Địa chỉ</div>
                   <div>{profile.user.address}</div>
                   <hr />
                 </div>
@@ -91,7 +91,7 @@ export default function Account() {
               {/* <AvatarUpload /> */}
               {profile.user && (
                 <div>
-                  <div className="fw-bold mb-2">Kiểu tài khoản</div>
+                  <div className=" mb-2">Kiểu tài khoản</div>
                   <div>
                     {profile.user.role === "jobseeker"
                       ? "Nguời tìm việc"
@@ -106,10 +106,10 @@ export default function Account() {
             
               <div className="info">
                 <div className="border border-1 rounded-3 p-4 ms-5">
-                  <h3 className="h2 fw-bold mt-3">
+                  <h3 className="h2  mt-3">
                     <i className="bi bi-lock-fill"></i>
                   </h3>
-                  <div className="h5 fw-bold mb-3">
+                  <div className="h5  mb-3">
                     Những thông tin nào có thể chỉnh sửa?
                   </div>
                   <div className="mb-5">
@@ -118,10 +118,10 @@ export default function Account() {
                     một số thông tin giới thiệu về bản thân.
                   </div>
                   <hr className="mb-5" />
-                  <h3 className="h2 fw-bold mt-3">
+                  <h3 className="h2  mt-3">
                     <i className="bi bi-person-badge-fill"></i>
                   </h3>
-                  <div className="h5 fw-bold mb-3">
+                  <div className="h5  mb-3">
                     Những thông tin nào sẽ được chia sẻ?
                   </div>
                   <div className="mb-4">
@@ -179,7 +179,7 @@ function ChangePasswordForm() {
     <form onSubmit={handleSubmit(handleChangePassword)}>
       <div className="">
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <div className="fw-bold">Mật khẩu</div>
+          <div className="">Mật khẩu</div>
           <button
             type="button"
             className="btn btn-link shadow-none text-decoration-none"
@@ -273,7 +273,7 @@ function ChangePasswordForm() {
 //       <form onSubmit={handleSubmit(onSubmit)}>
 //         <div className="">
 //           <div className="d-flex align-items-center justify-content-between mb-2">
-//             <div className="fw-bold">Ảnh đại diện</div>
+//             <div className="">Ảnh đại diện</div>
 //             <button
 //               type="button"
 //               className="btn btn-link shadow-none text-decoration-none "
@@ -360,7 +360,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
           <form onSubmit={handleSubmit(handleSave)}>
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Giới tính</div>
+                <div className="">Giới tính</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -413,7 +413,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between ">
-                <div className="fw-bold">Ngày sinh</div>
+                <div className="">Ngày sinh</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -464,7 +464,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Giới thiệu</div>
+                <div className="">Giới thiệu</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -511,7 +511,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Giáo dục</div>
+                <div className="">Giáo dục</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -561,7 +561,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Chứng chỉ</div>
+                <div className="">Chứng chỉ</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -611,7 +611,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Kinh nghiệm làm việc</div>
+                <div className="">Kinh nghiệm làm việc</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -697,7 +697,7 @@ function EmployerEdit({ reload, setReload, profile }) {
           <form onSubmit={handleSubmit(handleSave)}>
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Giới thiệu</div>
+                <div className="">Giới thiệu</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -744,7 +744,7 @@ function EmployerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Lĩnh vực</div>
+                <div className="">Lĩnh vực</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
@@ -790,7 +790,7 @@ function EmployerEdit({ reload, setReload, profile }) {
 
             <div className="">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="fw-bold">Số lượng nhân viên</div>
+                <div className="">Số lượng nhân viên</div>
                 <button
                   type="button"
                   className="btn btn-link shadow-none text-decoration-none"
