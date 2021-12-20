@@ -11,8 +11,12 @@ export const Role = {
 };
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("auth"))?.user);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("auth"))?.user
+  );
   const navigate = useNavigate();
+  const [registerError, setRegisterError] = useState();
+  const [loginError, setLoginError] = useState();
 
   const login = (data) => {
     (async function (data) {
@@ -21,14 +25,23 @@ const AuthProvider = ({ children }) => {
       if (response.access_token) {
         localStorage.setItem("auth", JSON.stringify(response));
         setUser(response.user);
-        navigate("/");
+        setLoginError(undefined);
+        if (response?.user?.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      } else {
+        setRegisterError(undefined);
+        setLoginError(response.message);
       }
     })(data);
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
-    setUser(undefined);
+    setRegisterError(undefined);
+    setLoginError(undefined);
     navigate("/");
   };
 
@@ -37,22 +50,30 @@ const AuthProvider = ({ children }) => {
       const response = await authApi.register(data);
 
       if (response.success) {
+        setRegisterError(undefined);
+        setLoginError(undefined);
         navigate("/login");
-      }
-      else {
-        console.log(response);
+      } else {
+        setRegisterError(response.message);
       }
     })(data);
   };
 
-  const context = { ...user, login, logout, register };
+  const context = {
+    ...user,
+    registerError,
+    setRegisterError,
+    loginError,
+    setLoginError,
+    login,
+    logout,
+    register,
+  };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
 };
 
-
 export const useAuth = () => useContext(AuthContext);
 
 export default AuthProvider;
-

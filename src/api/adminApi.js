@@ -1,13 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const adminApi = {
-  getUserList: (params) => {
+  getUsers: (params) => {
     const url = "admin/user";
     return axiosClient.get(url, { params });
   },
 
   getUser: (id) => {
-    const url = `admin/user/${id}`;
+    const url = `user/${id}`;
     return axiosClient.get(url);
   },
 

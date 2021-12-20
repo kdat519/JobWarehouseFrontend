@@ -5,22 +5,23 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthProvider, { Role } from "./components/auth/AuthProvider";
 import RequireAuth from "./components/auth/RequireAuth";
 import NavBar from "./components/navbar/NavBar";
+import Account from "./pages/account/Account";
 import Admin from "./pages/admin/Admin";
 import Profile from "./pages/admin/Profile";
-import ProfileEmployer from "./pages/admin/ProfileEmployer";
-import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
-import UserDetail from "./pages/admin/UserDetail";
+import Reports from "./pages/admin/Reports";
+import User from "./pages/admin/User";
+import Users from "./pages/admin/Users";
+import Login from "./pages/authentication/Login";
+import Logout from "./pages/authentication/Logout";
+import Register from "./pages/authentication/Register";
 import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
 import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import HomePage from "./pages/homepage/HomePage";
-import Login from "./pages/login/Login";
-import Logout from "./pages/login/Logout";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
-import Register from "./pages/register/Register";
 import "./styles.scss";
 
 const EmptyPage = () => (
@@ -45,23 +46,7 @@ const App = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route
-        path="/employers/profile"
-        element={
-          <RequireAuth requireRole={Role.Employer}>
-            <ProfileEmployer />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/jobseekers/profile"
-        element={
-          <RequireAuth requireRole={Role.JobSeeker}>
-            <ProfileJobSeeker />
-          </RequireAuth>
-        }
-      />
+
       <Route
         path="/admin"
         element={
@@ -69,15 +54,15 @@ const App = () => (
             <Admin />
           </RequireAuth>
         }
-      />
-      <Route
-        path="/admin/user/:userId"
-        element={
-          <RequireAuth requireRole={Role.Admin}>
-            <UserDetail />
-          </RequireAuth>
-        }
-      />
+      >
+        <Route index element={<Users />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="users/:userId" element={<User />} />
+      </Route>
+
+      <Route path="profile/:userId" element={<Profile />} />
+      <Route path="account" element={<Account />} />
+
       <Route path="/employers" element={<Employers />} />
       <Route path="/for-employers" element={<EmployerHomePage />} />
       <Route

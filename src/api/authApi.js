@@ -45,7 +45,6 @@ const authApi = {
 
   updateJobSeekerProfile: (params) => {
     const url = "auth/user-profile";
-
     const formData = new FormData();
     formData.append("birthday", params.birthday);
     formData.append("gender", params.gender);
@@ -54,6 +53,29 @@ const authApi = {
     formData.append("skill", params.skill);
     formData.append("education", params.education);
     return axiosClient.post(url, formData);
+  },
+
+  updatePassword: (params) => {
+    const url = "auth/change-password";
+
+    const formData = new FormData();
+    formData.append("new_password", params.new_password);
+
+    return axiosClient.post(url, formData);
+  },
+
+  updateAvatar: (params) => {
+    const url = "/auth/upload-image";
+    //console.log(params.avatar[0]);
+
+    const formData = new FormData();
+    formData.append("image", params.avatar[0]);
+
+    return axiosClient.post(url, formData);
+  },
+
+  imageURL: (userId) => {
+    return "http://127.0.0.1:8000/api/get-image/" + userId;
   },
 };
 
