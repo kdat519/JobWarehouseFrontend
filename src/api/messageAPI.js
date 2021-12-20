@@ -34,6 +34,11 @@ const messageAPI = {
   showLatestChat: (params) => {
     const url = "chat/lastest";
     return axiosClient.get(url, { params });
+  },
+
+  checkUnseen: (params) => {
+    const url = "chat/between/count";
+    return axiosClient.get(url, { params });
   }
 }
 

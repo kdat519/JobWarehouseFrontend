@@ -17,17 +17,23 @@ const MessagePage = () => {
   const [messageList, setMessageList] = useState([]);
   const [filteruserList, setFilterUserList] = useState({
     user_id: authContext.user_id,
-    get: 20,
+    get: 15,
   })
   const [chatName, setChatName] = useState('');
 
   const [filterMessageList, setFilterMessageList] = useState({
     other_id: null,
-    get: 100,
+    get: 50,
   })
 
+  const filterMessageListRef = useRef(filterMessageList);
+
+  const messageListRef = useRef(messageList);
 
   const messagesEndRef = useRef(null);
+
+  const nameRef = useRef('');
+
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -39,9 +45,11 @@ const MessagePage = () => {
 
   async function getUserList(name) {
     if (name === '') {
+      nameRef.current = '';
       const response = await messageAPI.showLatestChat(filteruserList);
       setUserList(response.data);
     } else {
+      nameRef.current = name;
       const params = {
         searchContent: name,
       }
@@ -51,11 +59,8 @@ const MessagePage = () => {
   }
 
   function handleClickUserList(id, name) {
-    console.log(id);
-    setFilterMessageList({
-      other_id: id,
-      get: 100
-    });
+    filterMessageListRef.current = { other_id: id, get: 100 };
+    setFilterMessageList(filterMessageListRef.current);
     setChatName(name);
   }
 
@@ -78,7 +83,18 @@ const MessagePage = () => {
 
     if (response.success) {
       console.log("Tao tin nhan thanh cong");
+      console.log(new Date());
+      const messageModel = {
+        detail: detail,
+        status: 'unseen',
+        receiver_id: filterMessageList.other_id,
+        sender_id: authContext.user_id,
+        created_at: new Date(),
+      }
+      messageListRef.current = [...messageListRef.current, messageModel];
+      setMessageList(messageListRef.current);
       scrollToBottom();
+      if (nameRef.current === '') getUserList('');
     }
   }
 
@@ -87,11 +103,11 @@ const MessagePage = () => {
       try {
         const response = messageAPI.showLatestChat(filteruserList);
         response.then((res) => {
-          console.log(res.data[0].other_id);
-          setFilterMessageList({
+          filterMessageListRef.current = {
             other_id: res.data[0].other_id,
-            get: 100,
-          });
+            get: 50,
+          }
+          setFilterMessageList(filterMessageListRef.current);
           setUserList(res.data);
           setChatName(res.data[0].name);
         })
@@ -108,7 +124,9 @@ const MessagePage = () => {
       try {
         const response = messageAPI.showChatBetween(filterMessageList);
         response.then((res) => {
-          setMessageList(res.data.reverse());
+          //update status message list
+          messageListRef.current = res.data.reverse();
+          setMessageList(messageListRef.current);
           scrollToBottom();
         })
       } catch (error) {
@@ -126,9 +144,12 @@ const MessagePage = () => {
       let channel = pusher.subscribe('private-MessageChannel.User.' + String(authContext.user_id));
       channel.bind('MessageCreated', function (data) {
         console.log(data);
-        console.log(filterMessageList);
-        if (filterMessageList.other_id === data.model.sender_id || filterMessageList.other_id === data.model.receiver_id) {
-          setMessageList([...messageList, data.model]);
+        console.log(filterMessageListRef.current);
+        console.log(nameRef);
+        if (nameRef.current === '') getUserList('');
+        if (filterMessageListRef.current.other_id === data.model.sender_id || filterMessageListRef.current.other_id === data.model.receiver_id) {
+          messageListRef.current = [...messageListRef.current, data.model];
+          setMessageList(messageListRef.current);
           scrollToBottom();
         }
       })
