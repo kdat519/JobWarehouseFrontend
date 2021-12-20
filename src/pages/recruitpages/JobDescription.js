@@ -1,7 +1,9 @@
-import React from "react";
+import { React, useState } from "react";
 import styles from "./styles.module.scss";
 import PropTypes from "prop-types";
-import { useState } from "react/cjs/react.development";
+import { Button, Modal } from "react-bootstrap";
+import reportAPI from "../../api/reportAPI";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 JobDescription.propTypes = {
   recruitment: PropTypes.object,
@@ -44,7 +46,7 @@ function getColor(id) {
 }
 
 function getFill(id) {
-  if (id == 0) {
+  if (id === 0) {
     return 'bi-heart';
   }
 
@@ -53,13 +55,41 @@ function getFill(id) {
 
 function JobDescription(props) {
   const { recruitment, emloyer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange } = props;
-
+  const [showReport, setShowReport] = useState(false);
+  const [value, setValue] = useState('');
+  const authContext = useAuth();
   function handleStatus() {
     handleStatusChange(recruitment.recruitment_id, applicationStatus);
   }
-
   function handleFollow() {
     handleFollowChange(recruitment.recruitment_id, isFollowing);
+  }
+
+  function handleOnClickReport() {
+    if (authContext.user_id) {
+      setShowReport(!showReport);
+    }
+  }
+
+  function handleChangeText(e) {
+    setValue(e.target.value);
+  }
+
+  async function createReport(detail) {
+    const params = { detail: detail, receiver_id: emloyer.employer_id };
+    if (detail != '') {
+      const response = await reportAPI.createReport(params);
+
+      if (response.success) {
+        console.log("Tao report thanh cong");
+      }
+    }
+  }
+
+  function submitReport() {
+    console.log(value);
+    createReport(value);
+    handleOnClickReport();
   }
   if (recruitment)
     return (
@@ -132,8 +162,27 @@ function JobDescription(props) {
                 Để đăng ký phỏng vấn, vui lòng nhấn nút đăng ký ở phía trên
               </b>
             </p>
-            <p>Nord Anglia Education</p>
+            <p></p>
             <p>Đăng ngày: {recruitment.created_at}</p>
+            <Button className="btn btn-secondary mt-2 px-4" onClick={handleOnClickReport}><i className="bi bi-flag-fill mr-2"></i>   REPORT</Button>
+            <Modal show={showReport}>
+              <Modal.Header className="modal-title"><h5>Báo Cáo Mới</h5></Modal.Header>
+              <Modal.Body>
+                <form>
+                  <div className="mb-3">
+                    <label for="recipient-name" className="col-form-label"><b>Báo cáo: </b></label>
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" className="col-form-label">Report:</label>
+                    <textarea className="form-control" onChange={handleChangeText}></textarea>
+                  </div>
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={handleOnClickReport}>Close</button>
+                <button type="button" className="btn btn-primary" onClick={submitReport}>Send Report</button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </div>
       </div>

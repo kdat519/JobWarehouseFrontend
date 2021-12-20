@@ -33,7 +33,7 @@ function CardRecruit(props) {
           <i className={`bi bi-hourglass-top ${styles["icon-purple"]} ${styles["inline"]}`}></i>
           <p className={`card-text ${styles["size-085"]} ${styles["inline-block"]} ${styles["ml-03"]}`}>Be an early applicant</p>
           <li className={`card-text ${styles["size-08"]} text-muted ${styles["list-circle"]}`}>{recruitment.detail}</li>
-          <li className={`card-text ${styles["size-08"]} text-muted ${styles["list-circle"]}`}>Lương: {recruitment.min_salary} VND</li>
+          <li className={`card-text ${styles["size-08"]} ${styles["list-circle"]} text-primary`}>Lương: {recruitment.min_salary} VND</li>
         </div>
       </div>
     </>

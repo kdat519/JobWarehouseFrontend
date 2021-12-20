@@ -47,7 +47,7 @@ const NavItems = () => {
 const NavCollapse = () => (
   <div className="collapse navbar-collapse" id="nav-collapse">
     <ul className="navbar-nav me-auto">
-      <NavItem to="/">Tìm việc</NavItem>
+      <NavItem to="/recruitments">Tìm việc</NavItem>
       <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
     </ul>
     <ul className="navbar-nav">

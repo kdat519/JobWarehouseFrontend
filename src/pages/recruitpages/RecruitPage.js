@@ -7,6 +7,7 @@ import JobDescription from "./JobDescription";
 import recruitAPI from "../../api/recruitmentAPI";
 import jobseekerAPI from "../../api/jobseekerAPI";
 import Pagination from "../../components/UserList/Pagination";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 
 function RecruitmentPage() {
@@ -23,6 +24,8 @@ function RecruitmentPage() {
     min_salary: "",
     create_at: "",
   })
+
+  const authContext = useAuth();
 
   function handleFilterChange(newFilters) {
 
@@ -65,43 +68,46 @@ function RecruitmentPage() {
   }, [filter]);
 
   async function handleFollowChange(id, isFollowing) {
-    let response;
-    if (isFollowing === 0) {
-      response = await jobseekerAPI.followRecruit(id);
-    } else {
-      response = await jobseekerAPI.unfollowRecruit(id);
-    }
-    if (response.success) {
-      let newRecruitList = [...recruitList];
-      for (const recruit of newRecruitList) {
-        if (recruit.recruitment.recruitment_id === id) {
-          recruit.isFollowing = recruit.isFollowing === 0 ? 1 : 0;
-          setJobDescrip(recruit);
-        }
+    if (authContext.user_id) {
+      let response;
+      if (isFollowing === 0) {
+        response = await jobseekerAPI.followRecruit(id);
+      } else {
+        response = await jobseekerAPI.unfollowRecruit(id);
       }
-      setRecruitList(newRecruitList);
-      setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
+      if (response.success) {
+        let newRecruitList = [...recruitList];
+        for (const recruit of newRecruitList) {
+          if (recruit.recruitment.recruitment_id === id) {
+            recruit.isFollowing = recruit.isFollowing === 0 ? 1 : 0;
+            setJobDescrip(recruit);
+          }
+        }
+        setRecruitList(newRecruitList);
+        setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
+      }
     }
   };
 
   async function handleStatusChange(id, applicationStatus) {
-    console.log("Application status change");
-    let response;
-    if (applicationStatus === null) {
-      response = await jobseekerAPI.applyRecruit(id);
-    } else {
-      response = await jobseekerAPI.unapplyRecruit(id);
-    }
-    if (response.success) {
-      let newRecruitList = [...recruitList];
-      for (const recruit of newRecruitList) {
-        if (recruit.recruitment.recruitment_id === id) {
-          recruit.applicationStatus = recruit.applicationStatus === null ? 'pending' : null;
-          setJobDescrip(recruit);
-        }
+    if (authContext.user_id) {
+      let response;
+      if (applicationStatus === null) {
+        response = await jobseekerAPI.applyRecruit(id);
+      } else {
+        response = await jobseekerAPI.unapplyRecruit(id);
       }
-      setRecruitList(newRecruitList);
-      setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
+      if (response.success) {
+        let newRecruitList = [...recruitList];
+        for (const recruit of newRecruitList) {
+          if (recruit.recruitment.recruitment_id === id) {
+            recruit.applicationStatus = recruit.applicationStatus === null ? 'pending' : null;
+            setJobDescrip(recruit);
+          }
+        }
+        setRecruitList(newRecruitList);
+        setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
+      }
     }
   }
 

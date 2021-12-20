@@ -68,30 +68,36 @@ function SearchForm(props) {
 
             <div className="row mt-3 justify-content-center">
               <div className="col-12 col-lg-5 d-grid">
-                <Field
-                  name="min_salary"
-                  component="select"
-                  placeholder="Salary"
-                  className="py-1 bg-light"
-                >
-                  <option value="">Lương</option>
-                  <option value="5000000">5.000.000đ+/tháng</option>
-                  <option value="7000000">7.000.000đ+/tháng</option>
-                  <option value="10000000">10.000.000đ+/tháng</option>
-                </Field>
+                <div className="input-group">
+                  <span className={`input-group-text ${styles["same-width"]}`}>Lương</span>
+                  <Field
+                    name="min_salary"
+                    component="select"
+                    placeholder="Salary"
+                    className={`py-1 form-control ${styles["appearance-auto"]}`}
+                  >
+                    <option value=""></option>
+                    <option value="5000000">5.000.000đ+/tháng</option>
+                    <option value="7000000">7.000.000đ+/tháng</option>
+                    <option value="10000000">10.000.000đ+/tháng</option>
+                  </Field>
+                </div>
               </div>
               <div className="col-12 col-lg-5 d-grid">
-                <Field
-                  name="create_at"
-                  component="select"
-                  placeholder="Day"
-                  className="py-1 bg-light"
-                >
-                  <option value="">Ngày đăng</option>
-                  <option value="3">Trên 3 ngày trước</option>
-                  <option value="7">Trên 7 ngày trước</option>
-                  <option value="30">Trên 30 ngày trước</option>
-                </Field>
+                <div className="input-group">
+                  <span className={`input-group-text ${styles["same-width"]}`}>Ngày đăng</span>
+                  <Field
+                    name="create_at"
+                    component="select"
+                    placeholder="Day"
+                    className={`py-1 form-control ${styles["appearance-auto"]}`}
+                  >
+                    <option value=""></option>
+                    <option value="3">Trên 3 ngày trước</option>
+                    <option value="7">Trên 7 ngày trước</option>
+                    <option value="30">Trên 30 ngày trước</option>
+                  </Field>
+                </div>
               </div>
               <div className="col-12 col-lg-2 d-grid">
                 <button type="button" className="btn btn-danger text-nowrap fw-bold " onClick={handleReset}>
