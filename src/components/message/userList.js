@@ -20,7 +20,7 @@ function getStatus(s) {
 
 function UserList(props) {
   const { user, handleClickUserList } = props;
-  const { other_id, name, email, user_id } = user;
+  const { other_id, name, email, user_id, image_link } = user;
   const params = { other_id: other_id, status: 'unseen' };
   const [unSeen, setUnSeen] = useState('seen');
 
@@ -54,7 +54,7 @@ function UserList(props) {
 
   return (
     <li className={`clearfix ${styles[getStatus(unSeen)]}`} onClick={handleOnClick}>
-      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
+      <img src={image_link} alt="avatar" />
       <div className={`${styles['about']}`}>
         <div className={`${styles['name']}`}>{name}</div>
         <div className={`${styles['name']} text-muted h6`}>{email}</div>
