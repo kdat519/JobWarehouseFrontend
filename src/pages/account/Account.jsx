@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./styles.css";
+import ImageCropperForm from "./ImageCropperForm";
 
 export default function Account() {
   const auth = useAuth();
@@ -53,6 +54,10 @@ export default function Account() {
 
         <div className="box mb-5">
           <div className="pe-3">
+          
+          <ChangePasswordForm />
+            <ImageCropperForm />
+            
             {profile.user && (
               <div>
                 <div className="fw-bold mb-2">Kiểu tài khoản</div>
@@ -78,6 +83,8 @@ export default function Account() {
                 <hr />
               </div>
             )}
+           
+            
             <JobseekerEdit
               setReload={setReload}
               reload={reload}
@@ -88,8 +95,8 @@ export default function Account() {
               reload={reload}
               profile={profile}
             />
-            <AvatarUpload />
-            <ChangePasswordForm />
+            {/* <AvatarUpload /> */}
+            
           </div>
 
           <div className="info">
@@ -240,6 +247,7 @@ function AvatarUpload() {
 
   async function onSubmit(data) {
     try {
+      console.log(data);
       const response = await authApi.updateAvatar(data);
       setEdit(false);
       if (response.success) {

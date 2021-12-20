@@ -151,7 +151,7 @@ export default function Profile() {
 
                   {user.birthday && user.birthday !== "0000-00-00" && (
                     <div className="mb-4">
-                      <i class="bi bi-server mx-1"></i>
+                      <i className="bi bi-server mx-1"></i>
                       Ngày sinh: {new Intl.DateTimeFormat("vi-VN").format(
                         new Date(user.birthday)
                       )}
