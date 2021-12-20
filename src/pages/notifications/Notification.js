@@ -7,6 +7,7 @@ import { useAuth } from "../../components/auth/AuthProvider";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
 import EndMsg from "./EndMsg";
+import { useRef } from "react/cjs/react.development";
 
 const NotificationPage = () => {
   const [notiUnSeenList, setNotiUnSeenList] = useState([]);
@@ -16,6 +17,8 @@ const NotificationPage = () => {
     status: "seen",
     get: 10,
   })
+
+  const notiUnSeenListRef = useRef(notiUnSeenList);
 
   function fetchData() {
     setFilters({ ...filters, before: notiSeenList[notiSeenList.length - 1].notification_id });
@@ -34,7 +37,8 @@ const NotificationPage = () => {
     async function fetchUnSeenNotiList() {
       try {
         const response = await notifiactionAPI.showUserNoti(unseenParams);
-        setNotiUnSeenList(response.data);
+        notiUnSeenListRef.current = response.data;
+        setNotiUnSeenList(notiUnSeenListRef.current);
         console.log(response.data);
 
         for (var i = 0; i < response.data.length; i++) {
@@ -65,19 +69,22 @@ const NotificationPage = () => {
   }, [filters])
 
   const authContext = useAuth();
-  var channel = pusher.subscribe('private-NotificationChannel.User.' + String(authContext.user_id));
-  channel.bind('NotificationCreated', function (data) {
-    var t = true;
-    for (var i = 0; i < notiUnSeenList.length; i++) {
-      if (notiUnSeenList[i] === data.model) {
-        t = false;
-      }
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      let channel = pusher.subscribe('private-NotificationChannel.User.' + String(authContext.user_id));
+      channel.bind('NotificationCreated', function (data) {
+        notiUnSeenListRef.current = [data.model, ...notiUnSeenListRef.current];
+        setNotiUnSeenList(notiUnSeenListRef.current);
+        updateStatusMessage(data.model.status, data.model.notification_id);
+      })
     }
-    if (t) {
-      setNotiUnSeenList([data.model, ...notiUnSeenList]);
-      updateStatusMessage(data.model.status, data.model.notification_id);
-    }
-  })
+    return (() => {
+      pusher.unsubscribe('private-NotificationChannel.User.' + String(authContext.user_id));
+      mounted = false;
+    })
+  }, [])
 
   return (
     <>
