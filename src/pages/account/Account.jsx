@@ -6,6 +6,7 @@ import authApi from "../../api/authApi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import AdminNavBar from "../../components/navbar/AdminNavBar";
 import "./styles.css";
 import ImageCropperForm from "./ImageCropperForm";
 
@@ -32,98 +33,104 @@ export default function Account() {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="container mt-5">
-      <div className="mb-4" id="account">
-        <div className="h2 mb-2">
-          <strong>Thông tin cá nhân</strong>
-        </div>
-        <div className="mb-5">
-          {profile.user && (
-            <div>
-              <strong>{profile?.user?.name}, </strong>
-              {profile?.user?.email} <span> &bull; </span>
-              <Link
-                to={`/profile/${profile?.user?.user_id}`}
-                className="fw-bold text-dark"
-              >
-                Xem trang Profile
-              </Link>
-            </div>
-          )}
-        </div>
+    <div>
+             <AdminNavBar />
 
-        <div className="box mb-5">
-          <div className="pe-3">
-            <ChangePasswordForm />
-            <ImageCropperForm />
+      <div className="container mt-5">
+        <div className="mb-4" id="account">
+       
+            <div className="h1 mb-2">Tài khoản</div>
+        
+
+          <div className="mb-5">
             {profile.user && (
               <div>
-                <div className="fw-bold mb-2">Họ tên</div>
-                <div>{profile.user.name}</div>
-                <hr />
-                <div className="fw-bold mb-2">Email</div>
-                <div>{profile.user.email}</div>
-                <hr />
-                <div className="fw-bold mb-2">Số điện thoại</div>
-                <div>{profile.user.phonenumber}</div>
-                <hr />
-                <div className="fw-bold mb-2">Địa chỉ</div>
-                <div>{profile.user.address}</div>
-                <hr />
-              </div>
-            )}
-
-            <JobseekerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            <EmployerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            {/* <AvatarUpload /> */}
-            {profile.user && (
-              <div>
-                <div className="fw-bold mb-2">Kiểu tài khoản</div>
-                <div>
-                  {profile.user.role === "jobseeker"
-                    ? "Nguời tìm việc"
-                    : profile.user.role === "admin"
-                    ? "Admin"
-                    : "Nhà tuyển dụng"}
-                </div>
-                <hr />
+                <strong>{profile?.user?.name}, </strong>
+                {profile?.user?.email} <span> &bull; </span>
+                <Link
+                  to={`/profile/${profile?.user?.user_id}`}
+                  className="fw-bold text-dark"
+                >
+                  Xem trang Profile
+                </Link>
               </div>
             )}
           </div>
 
-          <div className="info">
-            <div className="border border-1 rounded-3 p-4 ms-5">
-              <h3 className="h2 fw-bold mt-3">
-                <i className="bi bi-lock-fill"></i>
-              </h3>
-              <div className="h5 fw-bold mb-3">
-                Những thông tin nào có thể chỉnh sửa?
-              </div>
-              <div className="mb-5">
-                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng
-                để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số
-                thông tin giới thiệu về bản thân.
-              </div>
-              <hr className="mb-5" />
-              <h3 className="h2 fw-bold mt-3">
-                <i className="bi bi-person-badge-fill"></i>
-              </h3>
-              <div className="h5 fw-bold mb-3">
-                Những thông tin nào sẽ được chia sẻ?
-              </div>
-              <div className="mb-4">
-                Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
-                bạn.
-              </div>
+          <div className="box mb-5">
+            <div className="pe-3 pe-4">
+              <ChangePasswordForm />
+              <ImageCropperForm />
+              {profile.user && (
+                <div>
+                  <div className="fw-bold mb-2">Họ tên</div>
+                  <div>{profile.user.name}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Email</div>
+                  <div>{profile.user.email}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Số điện thoại</div>
+                  <div>{profile.user.phonenumber}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Địa chỉ</div>
+                  <div>{profile.user.address}</div>
+                  <hr />
+                </div>
+              )}
+
+              <JobseekerEdit
+                setReload={setReload}
+                reload={reload}
+                profile={profile}
+              />
+              <EmployerEdit
+                setReload={setReload}
+                reload={reload}
+                profile={profile}
+              />
+              {/* <AvatarUpload /> */}
+              {profile.user && (
+                <div>
+                  <div className="fw-bold mb-2">Kiểu tài khoản</div>
+                  <div>
+                    {profile.user.role === "jobseeker"
+                      ? "Nguời tìm việc"
+                      : profile.user.role === "admin"
+                      ? "Admin"
+                      : "Nhà tuyển dụng"}
+                  </div>
+                  <hr />
+                </div>
+              )}
             </div>
+            
+              <div className="info">
+                <div className="border border-1 rounded-3 p-4 ms-5">
+                  <h3 className="h2 fw-bold mt-3">
+                    <i className="bi bi-lock-fill"></i>
+                  </h3>
+                  <div className="h5 fw-bold mb-3">
+                    Những thông tin nào có thể chỉnh sửa?
+                  </div>
+                  <div className="mb-5">
+                    Bạn không thể thay đổi những thông tin mà Job Warehouse sử
+                    dụng để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi
+                    một số thông tin giới thiệu về bản thân.
+                  </div>
+                  <hr className="mb-5" />
+                  <h3 className="h2 fw-bold mt-3">
+                    <i className="bi bi-person-badge-fill"></i>
+                  </h3>
+                  <div className="h5 fw-bold mb-3">
+                    Những thông tin nào sẽ được chia sẻ?
+                  </div>
+                  <div className="mb-4">
+                    Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
+                    bạn.
+                  </div>
+                </div>
+              </div>
+         
           </div>
         </div>
       </div>
@@ -370,7 +377,8 @@ function JobseekerEdit({ reload, setReload, profile }) {
                 </button>
               </div>
               <div className={` ${editGender ? "" : "hidden"}`}>
-                {(!profile.jobseeker.gender || profile.jobseeker.gender === "") && (
+                {(!profile.jobseeker.gender ||
+                  profile.jobseeker.gender === "") && (
                   <select {...register("gender")} className="form-select mb-3">
                     <option value="" hidden></option>
                     <option value="male">Nam</option>
@@ -387,7 +395,6 @@ function JobseekerEdit({ reload, setReload, profile }) {
                   <select {...register("gender")} className="form-select mb-3">
                     <option value="female">Nữ</option>
                     <option value="male">Nam</option>
-                    
                   </select>
                 )}
                 <button type="submit" className="btn btn-primary">

@@ -57,6 +57,7 @@ const App = () => (
       <Route path="/admin" element={<RequireAuth requireRole={Role.Admin}><Admin /></RequireAuth>}>
         <Route index element={<Users />} />
         <Route path="reports" element={<Reports />} />
+        <Route path="users" element={<Users />} />
         <Route path="users/:userId" element={<User />} />
       </Route>
 

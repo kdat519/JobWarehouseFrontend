@@ -2,22 +2,22 @@ import axiosClient from "./axiosClient";
 
 const adminReportApi = {
   getReports: (params) => {
-    const url = "/report";
+    const url = "/review";
     return axiosClient.get(url, {params});
   },
 
   getReportsTo: (id, params) => {
-    const url = `report/to/${id}`;
+    const url = `review/to/${id}`;
     return axiosClient.get(url, {params});
   },
 
   getReportsFrom: (id, params) => {
-    const url = `report/from/${id}`;
+    const url = `review/from/${id}`;
     return axiosClient.get(url, {params});
   },
 
   creatReport: (params) => {
-    const url = "/report/create";
+    const url = "/review/create";
 
     const formData = new FormData();
     formData.append("detail", params.detail);

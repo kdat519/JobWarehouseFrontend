@@ -53,7 +53,7 @@ export default function Users() {
 
   return (
     <div className="container">
-      <h1 className="mt-5 fw-light">Quản lý tài khoản</h1>
+      <h1 className="mt-5 h2">Quản lý tài khoản</h1>
       <SearchForm onSubmit={handleFiltersChange} />
       {users.map((user) => (
         <UserListItem key={user.user_id} user={user} handleBanChange={handleBanChange} />
