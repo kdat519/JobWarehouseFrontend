@@ -23,6 +23,7 @@ import "./styles.scss";
 import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
 import Profile from "./pages/admin/Profile";
 import RecruitmentPage from "./pages/recruitpages/RecruitPage";
+import JobDescriptionPage from "./pages/recruitpages/JobDescripPage";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -48,6 +49,7 @@ const App = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/recruitments" element={<RecruitmentPage />} />
+      <Route path="/jobdescrips" element={<JobDescriptionPage />} />
       <Route
         path="/employers/profile"
         element={

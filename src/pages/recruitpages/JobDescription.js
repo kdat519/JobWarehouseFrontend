@@ -54,7 +54,7 @@ function getFill(id) {
 }
 
 function JobDescription(props) {
-  const { recruitment, emloyer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange } = props;
+  const { recruitment, emloyer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange, KKey } = props;
   const [showReport, setShowReport] = useState(false);
   const [value, setValue] = useState('');
   const authContext = useAuth();
@@ -91,9 +91,17 @@ function JobDescription(props) {
     createReport(value);
     handleOnClickReport();
   }
+
+  function getResponsive(key) {
+    if (key === 1) {
+      return '';
+    }
+
+    return 'd-none d-xl-block';
+  }
   if (recruitment)
     return (
-      <div className={`col-12 col-lg-5 mt-5 ${styles["position-sticky"]}`}>
+      <div className={`col-12 col-lg-5 mt-5 ${styles["position-sticky"]} ${getResponsive(KKey)}`}>
         <div
           className={`shadow border-bottom-0 border-secondary card px-2 pt-4 pb-2 bg-white ${styles["border-radius-top"]}`}
         >

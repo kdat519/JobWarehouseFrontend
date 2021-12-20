@@ -8,6 +8,7 @@ import recruitAPI from "../../api/recruitmentAPI";
 import jobseekerAPI from "../../api/jobseekerAPI";
 import Pagination from "../../components/UserList/Pagination";
 import { useAuth } from "../../components/auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 function RecruitmentPage() {
@@ -27,6 +28,8 @@ function RecruitmentPage() {
 
   const authContext = useAuth();
 
+  let navigate = useNavigate();
+
   function handleFilterChange(newFilters) {
 
     setFilter({
@@ -39,6 +42,11 @@ function RecruitmentPage() {
   }
 
   function handleJobDescripChange(value) {
+    console.log(JSON.stringify(value));
+    localStorage.setItem("Recruit", JSON.stringify(value));
+    if (window.innerWidth <= 1200) {
+      navigate("/jobdescrips", { replace: true });
+    }
     setJobDescrip(value);
   }
 
@@ -129,7 +137,7 @@ function RecruitmentPage() {
             <p className="mb-0">Sắp xếp theo: Ngày đăng tin</p>
           </div>
           {listByPage.map((recruit) => (
-            <div key={recruit.recruitment.recruitment_id}>
+            <div key={recruit.recruitment.recruitment_id} className="d-flex d-xl-block justify-content-center">
               <CardRecruit recruit={recruit} onClick={handleJobDescripChange} />
             </div>
           ))}
