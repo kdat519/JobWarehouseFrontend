@@ -89,9 +89,10 @@ export const readCandidatesForJob = async (jobId) => {
     .filter((candidate) => candidate.recruitment_id === jobId)
     .map((candidate) => ({
       id: candidate.job_seeker_id,
+      userId: candidate.user_id,
       name: candidate.name,
       type: candidate.type,
-      imgSrc: "https://source.unsplash.com/random/100x100",
+      imgSrc: "http://127.0.0.1:8000/api/get-image/" + candidate.user_id,
       qualification: candidate.qualification,
     }));
 };

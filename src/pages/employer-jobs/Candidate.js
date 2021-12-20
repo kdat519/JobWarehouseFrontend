@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import { Link } from "react-router-dom";
 import { CandidateType } from "./CandidatesForJob";
 import styles from "./styles.module.scss";
 
@@ -40,10 +41,16 @@ const Candidate = React.forwardRef((props, ref) => (
       <div className="card-body">
         <img
           src={props.imgSrc}
+          width="100px"
           className={`rounded-circle mb-3 ${styles["negative-margin"]}`}
           alt="Candidate"
         />
-        <h5 className="card-title">{props.name}</h5>
+        <Link
+          className="h5 card-title d-block text-decoration-none text-dark"
+          to={"/profile/" + props.userId}
+        >
+          {props.name}
+        </Link>
         <div className={`${styles["card-content-container"]}`}>
           <p className={`card-text ${styles["line-clamp"]}`}>
             {props.qualification}
