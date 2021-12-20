@@ -20,7 +20,7 @@ function RecruitmentPage() {
 
   const [filter, setFilter] = useState({
     address: "",
-    category: "",
+    job_name: "",
     min_salary: "",
     create_at: "",
   })
@@ -32,7 +32,7 @@ function RecruitmentPage() {
     setFilter({
       ...filter,
       address: newFilters.address,
-      category: newFilters.category,
+      job_name: newFilters.category,
       min_salary: newFilters.min_salary,
       create_at: newFilters.create_at
     })
