@@ -133,7 +133,7 @@ export default function Profile() {
                     <div className="mb-4">
                       <span>
                         <i className="bi bi-house-door-fill mx-1"></i>
-                        {user.address}
+                        Địa chỉ: {user.address}
                       </span>
                     </div>
                   )}
@@ -152,7 +152,7 @@ export default function Profile() {
                   {user.birthday && user.birthday !== "0000-00-00" && (
                     <div className="mb-4">
                       <i class="bi bi-server mx-1"></i>
-                      {new Intl.DateTimeFormat("vi-VN").format(
+                      Ngày sinh: {new Intl.DateTimeFormat("vi-VN").format(
                         new Date(user.birthday)
                       )}
                     </div>
@@ -161,21 +161,21 @@ export default function Profile() {
                   {user.education && (
                     <div className="mb-3">
                       <i className="bi bi-book-fill mx-1"></i>
-                      {user.education}
+                      Giáo dục: {user.education}
                     </div>
                   )}
 
                   {user.qualification && (
                     <div className="mb-3">
                       <i className="bi bi-person-badge-fill mx-1"></i>
-                      {user.qualification}
+                      Chứng chỉ: {user.qualification}
                     </div>
                   )}
 
                   {user.work_experience && (
                     <div className="mb-4">
                       <i className="bi bi-briefcase-fill mx-1"></i>
-                      {user.work_experience}
+                      Kinh nghiệm làm việc: {user.work_experience}
                     </div>
                   )}
 
