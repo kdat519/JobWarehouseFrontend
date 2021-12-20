@@ -225,85 +225,85 @@ function ChangePasswordForm() {
   );
 }
 
-function AvatarUpload() {
-  const schema = Yup.object().shape({
-    avatar: Yup.mixed()
-      .required("Chưa chọn ảnh đại diện.")
-      .test("fileSize", "Kích thước tối đa 2 MB", (value) => {
-        return value && value[0]?.size <= 2000000;
-      }),
-  });
+// function AvatarUpload() {
+//   const schema = Yup.object().shape({
+//     avatar: Yup.mixed()
+//       .required("Chưa chọn ảnh đại diện.")
+//       .test("fileSize", "Kích thước tối đa 2 MB", (value) => {
+//         return value && value[0]?.size <= 2000000;
+//       }),
+//   });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    clearErrors,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+//   const {
+//     register,
+//     handleSubmit,
+//     setValue,
+//     clearErrors,
+//     formState: { errors },
+//   } = useForm({ resolver: yupResolver(schema) });
 
-  const [edit, setEdit] = useState(false);
-  const [message, setMessage] = useState("");
+//   const [edit, setEdit] = useState(false);
+//   const [message, setMessage] = useState("");
 
-  async function onSubmit(data) {
-    try {
-      console.log(data);
-      const response = await authApi.updateAvatar(data);
-      setEdit(false);
-      if (response.success) {
-        setMessage("Cập nhật ảnh đại diện thành công.");
-      } else {
-        setMessage("Cập nhật ảnh đại diện thất bại.");
-      }
-    } catch (error) {
-      setEdit(false);
-      setMessage("Cập nhật ảnh đại diện thất bại.");
-    }
-  }
+//   async function onSubmit(data) {
+//     try {
+//       console.log(data);
+//       const response = await authApi.updateAvatar(data);
+//       setEdit(false);
+//       if (response.success) {
+//         setMessage("Cập nhật ảnh đại diện thành công.");
+//       } else {
+//         setMessage("Cập nhật ảnh đại diện thất bại.");
+//       }
+//     } catch (error) {
+//       setEdit(false);
+//       setMessage("Cập nhật ảnh đại diện thất bại.");
+//     }
+//   }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="">
-          <div className="d-flex align-items-center justify-content-between mb-2">
-            <div className="fw-bold">Ảnh đại diện</div>
-            <button
-              type="button"
-              className="btn btn-link shadow-none text-decoration-none "
-              onClick={() => {
-                setEdit(!edit);
-                setValue("avatar", []);
-                setMessage("");
-                clearErrors("avatar");
-              }}
-            >
-              {edit ? "Hủy" : "Cập nhật"}
-            </button>
-          </div>
-          <div className={` ${edit ? "" : "hidden"}`}>
-            <div className="mb-3">
-              <input
-                {...register("avatar")}
-                type="file"
-                name="avatar"
-                className={`form-control mb-3 ${
-                  errors.avatar ? "is-invalid" : ""
-                }`}
-              />
-              <div className="invalid-feedback">{errors.avatar?.message}</div>
-            </div>
+//   return (
+//     <div>
+//       <form onSubmit={handleSubmit(onSubmit)}>
+//         <div className="">
+//           <div className="d-flex align-items-center justify-content-between mb-2">
+//             <div className="fw-bold">Ảnh đại diện</div>
+//             <button
+//               type="button"
+//               className="btn btn-link shadow-none text-decoration-none "
+//               onClick={() => {
+//                 setEdit(!edit);
+//                 setValue("avatar", []);
+//                 setMessage("");
+//                 clearErrors("avatar");
+//               }}
+//             >
+//               {edit ? "Hủy" : "Cập nhật"}
+//             </button>
+//           </div>
+//           <div className={` ${edit ? "" : "hidden"}`}>
+//             <div className="mb-3">
+//               <input
+//                 {...register("avatar")}
+//                 type="file"
+//                 name="avatar"
+//                 className={`form-control mb-3 ${
+//                   errors.avatar ? "is-invalid" : ""
+//                 }`}
+//               />
+//               <div className="invalid-feedback">{errors.avatar?.message}</div>
+//             </div>
 
-            <button type="submit" className="btn btn-primary ms-auto">
-              Lưu
-            </button>
-          </div>
-          <div className="mb-3">{message}</div>
-          <hr />
-        </div>
-      </form>
-    </div>
-  );
-}
+//             <button type="submit" className="btn btn-primary ms-auto">
+//               Lưu
+//             </button>
+//           </div>
+//           <div className="mb-3">{message}</div>
+//           <hr />
+//         </div>
+//       </form>
+//     </div>
+//   );
+// }
 
 function JobseekerEdit({ reload, setReload, profile }) {
   async function handleSave(data) {
@@ -667,9 +667,7 @@ function EmployerEdit({ reload, setReload, profile }) {
     }
   }
   const validationSchema = Yup.object().shape({
-    num_employee: Yup.number()
-      .integer()
-      .typeError("Số lượng phải là số nguyên"),
+    num_employee: Yup.string(),
     about_us: Yup.string().max(200, "Tối đa 200 ký tự"),
     category: Yup.string().max(200, "Tối đa 200 ký tự"),
   });

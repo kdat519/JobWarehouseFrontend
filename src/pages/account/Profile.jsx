@@ -186,18 +186,18 @@ export default function Profile() {
             </div>
 
             {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
-              <p className="fw-bold mb-4">
-                <a href="" className="text-dark me-2" onClick={handleReport}>
+              <p className="fw-bold mb-4 d-flex align-items-center">
+                <button className="p-0 text-dark me-2 shadow-none btn btn-link fw-bold" onClick={handleReport}>
                   Nhận xét về tài khoản
-                </a>
-                {total}
+                </button>
+                <span className="">{total}</span>
               </p>
             )}
 
             {auth.role === "admin" && auth?.user_id !== user?.user_id && (
               <p className="fw-bold mb-4">
                 <span className="text-dark me-2">Nhận xét về tài khoản</span>
-                {total}
+                <span className="">{total}</span>
               </p>
             )}
 

@@ -98,20 +98,19 @@ export default function User() {
           <UserListItem user={user} handleBanChange={handleBanChange} />
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <a
-                className={`nav-link ${
+              <button
+                className={`nav-link btn btn-link shadow-none ${
                   showReportsTo === "to" ? "active fw-bold" : "text-secondary"
                 }`}
                 data-show="to"
-                href=""
                 onClick={handleShowReports}
               >
                 Nhận xét về tài khoản ({total})
-              </a>
+              </button>
             </li>
             <li className="nav-item">
-              <a
-                className={`nav-link ${
+              <button
+                className={`nav-link btn btn-link shadow-none ${
                   showReportsTo === "from" ? "active fw-bold" : "text-secondary"
                 }`}
                 href=""
@@ -119,7 +118,7 @@ export default function User() {
                 onClick={handleShowReports}
               >
                 Nhận xét đã tạo ({totalFrom})
-              </a>
+              </button>
             </li>
           </ul>
           {showReportsTo === "to" ? (
