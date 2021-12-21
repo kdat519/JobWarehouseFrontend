@@ -83,7 +83,6 @@ const MessagePage = () => {
   }
 
   function addUsertoList(user) {
-    console.log(userList);
     let newUserList = [...userListRef.current];
     let j = -1;
     for (let i = 0; i < newUserList.length; i++) {
@@ -101,18 +100,14 @@ const MessagePage = () => {
   }
 
   async function CreateMessage(detail) {
-    console.log(filterMessageList.other_id);
     const params = {
       detail: detail,
       status: 'unseen',
       receiver_id: filterMessageList.other_id,
     }
     const response = await messageAPI.createChat(params);
-    console.log(response);
 
     if (response.success) {
-      console.log("Tao tin nhan thanh cong");
-      console.log(new Date());
       const messageModel = {
         message_id: response.data.message_id,
         detail: detail,
@@ -124,7 +119,6 @@ const MessagePage = () => {
       messageListRef.current = [...messageListRef.current, messageModel];
       setMessageList(messageListRef.current);
       scrollToBottom();
-      console.log(nameRef.current);
       if (nameRef.current === '') {
         const users = { other_id: filterMessageList.other_id, name: chatName, email: email };
         addUsertoList(users);
@@ -133,14 +127,12 @@ const MessagePage = () => {
   }
 
   async function UpdateMessage() {
-    console.log(messageListRef.current);
     for (let i = 0; i < messageListRef.current.length; i++) {
       if (messageListRef.current[i].status === "unseen" && messageListRef.current[i].receiver_id === authContext.user_id) {
         const params = { status: "seen", message_id: messageListRef.current[i].message_id };
         const response = await messageAPI.updateChat(params);
 
         if (response.success) {
-          console.log("Update tin nhan thanh cong");
           messageListRef.current[i].status = "seen";
         }
       }
@@ -211,14 +203,10 @@ const MessagePage = () => {
     if (mounted) {
       let channel = pusher.subscribe('private-MessageChannel.User.' + String(authContext.user_id));
       channel.bind('MessageCreated', function (data) {
-        console.log(data);
-        console.log(filterMessageListRef.current);
-        console.log(nameRef.current);
         if (nameRef.current === '') {
           getUser(data.model.sender_id);
           const User = userRef.current;
           if (User[0] && User[0].user_id === data.model.sender_id) {
-            console.log(User[0].name);
             const users = { other_id: data.model.sender_id, name: User[0].name, email: User[0].email };
             addUsertoList(users);
           } else {
