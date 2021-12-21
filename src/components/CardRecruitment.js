@@ -15,7 +15,6 @@ CardRecruit.defaultProps = {
 function CardRecruit(props) {
   const { recruit, onClick } = props;
   const { recruitment } = recruit;
-
   function onclick() {
     if (onClick) {
       onClick(recruit);

@@ -22,7 +22,6 @@ function FollowRecruitPage() {
   let navigate = useNavigate();
 
   function handleJobDescripChange(value) {
-    console.log(JSON.stringify(value));
     if (window.innerWidth <= 1200) {
       navigate(`/jobdescrips/${value.recruitment.recruitment_id}`, { replace: true });
     }
@@ -39,13 +38,12 @@ function FollowRecruitPage() {
     async function fetchRecruitList() {
       try {
         const response = await jobseekerAPI.showInterestRecruit();
-        setRecruitList(response.data);
-        console.log(response.data.slice(0, 5));
+        setRecruitList(response);
         setPage(1);
-        setJobDescrip(response.data[0]);
-        setListByPage(response.data.slice(0, 5));
-        setLastPage(Math.ceil(response.data.length / 5));
-        setTotalRecruit(response.data.length);
+        setJobDescrip(response[0]);
+        setListByPage(response.slice(0, 5));
+        setLastPage(Math.ceil(response.length / 5));
+        setTotalRecruit(response.length);
       } catch (error) {
         console.log("Failed to fetch user list: ", error);
       }
