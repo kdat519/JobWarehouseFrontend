@@ -25,6 +25,7 @@ import Profile from "./pages/admin/Profile";
 import RecruitmentPage from "./pages/recruitpages/RecruitPage";
 import JobDescriptionPage from "./pages/recruitpages/JobDescripPage";
 import NotificationPage from "./pages/notifications/Notification"
+import FollowRecruitPage from "./pages/recruitpages/followRecruitPage";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -52,6 +53,7 @@ const App = () => (
       <Route path="/recruitments" element={<RecruitmentPage />} />
       <Route path="/jobdescrips/:userId" element={<JobDescriptionPage />} />
       <Route path="/notifications" element={<NotificationPage />} />
+      <Route path="/following" element={<FollowRecruitPage />} />
       <Route
         path="/employers/profile"
         element={
