@@ -4,6 +4,8 @@ import notifiactionAPI from "../../api/notificationAPI";
 import { useAuth } from "../auth/AuthProvider";
 import { NavItem } from "./GenericNavBar";
 import pusher from "../../api/pusher";
+import styles from "./styles.module.scss";
+
 
 const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
   const handleLogout = (event) => {
@@ -73,15 +75,15 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
 
   return (
     <>
-      <NavItem to="/messages" className="position-relative">
+      <NavItem to="/messages" className={`position-relative ${styles["mr-2"]}`}>
         Tin nhắn
-        <span class={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseen)}`}>
+        <span class={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseen)}`}>
           {countUnseen}
         </span>
       </NavItem>
-      <NavItem to="/notifications" className="position-relative">
+      <NavItem to="/notifications" className={`position-relative ${styles["mr-2"]}`}>
         Thông báo
-        <span class={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseenNoti)}`}>
+        <span class={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseenNoti)}`}>
           {countUnseenNoti}
         </span>
       </NavItem>

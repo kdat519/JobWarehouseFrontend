@@ -4,17 +4,18 @@ import PropTypes from "prop-types";
 import { Button, Modal } from "react-bootstrap";
 import reportAPI from "../../api/reportAPI";
 import { useAuth } from "../../components/auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 JobDescription.propTypes = {
   recruitment: PropTypes.object,
-  emloyer: PropTypes.object,
+  employer: PropTypes.object,
   isFollowing: PropTypes.number,
   getApplyStatus: PropTypes.string
 };
 
 JobDescription.defaultProps = {
   recruit: {},
-  emloyer: {},
+  employer: {},
   isFollowing: 0,
   applicationStatus: null,
 };
@@ -54,11 +55,13 @@ function getFill(id) {
 }
 
 function JobDescription(props) {
-  const { recruitment, emloyer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange, KKey } = props;
+  const { recruitment, employer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange, KKey } = props;
   const [showReport, setShowReport] = useState(false);
   const [value, setValue] = useState('');
   console.log(applicationStatus);
   const authContext = useAuth();
+  let navigate = useNavigate();
+
   function handleStatus() {
     handleStatusChange(recruitment.recruitment_id, applicationStatus);
   }
@@ -69,6 +72,8 @@ function JobDescription(props) {
   function handleOnClickReport() {
     if (authContext.user_id) {
       setShowReport(!showReport);
+    } else {
+      navigate(`/login`, { replace: true });
     }
   }
 
@@ -77,7 +82,7 @@ function JobDescription(props) {
   }
 
   async function createReport(detail) {
-    const params = { detail: detail, receiver_id: emloyer.employer_id };
+    const params = { detail: detail, receiver_id: employer.employer_id };
     if (detail != '') {
       const response = await reportAPI.createReport(params);
 
@@ -100,6 +105,14 @@ function JobDescription(props) {
 
     return 'd-none d-xl-block';
   }
+
+  function getEmployername() {
+    if (employer.user) {
+      return employer.user.name;
+    }
+    return '';
+  }
+
   if (recruitment)
     return (
       <div className={`col-12 col-lg-5 mt-5 ${styles["position-sticky"]} ${getResponsive(KKey)}`}>
@@ -114,6 +127,7 @@ function JobDescription(props) {
               {recruitment.category}
             </h6>
             <p className={`card-subtitle mb-2 `}>{recruitment.address}</p>
+            <p>Người đăng: {getEmployername()}</p>
             <button
               type="button"
               className={`btn ${getColor(getId(applicationStatus))} px-5 ${styles["font-weight-bold"]} mt-1`}
@@ -156,13 +170,13 @@ function JobDescription(props) {
               <li>
                 <p>
                   <b>About us: </b>
-                  {emloyer.about_us}
+                  {employer.about_us}
                 </p>
               </li>
               <li>
                 <p>
                   <b>Xếp hạng: </b>
-                  {emloyer.category}
+                  {employer.category}
                 </p>
               </li>
             </ul>
@@ -179,7 +193,7 @@ function JobDescription(props) {
               <Modal.Body>
                 <form>
                   <div className="mb-3">
-                    <label for="recipient-name" className="col-form-label"><b>Báo cáo: </b></label>
+                    <label for="recipient-name" className="col-form-label"><b>Báo cáo: {getEmployername()}</b></label>
                   </div>
                   <div class="mb-3">
                     <label for="message-text" className="col-form-label">Report:</label>

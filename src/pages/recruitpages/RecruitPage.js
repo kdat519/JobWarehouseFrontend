@@ -43,9 +43,8 @@ function RecruitmentPage() {
 
   function handleJobDescripChange(value) {
     console.log(JSON.stringify(value));
-    localStorage.setItem("Recruit", JSON.stringify(value));
     if (window.innerWidth <= 1200) {
-      navigate("/jobdescrips", { replace: true });
+      navigate(`/jobdescrips/${value.recruitment.recruitment_id}`, { replace: true });
     }
     setJobDescrip(value);
   }
@@ -53,7 +52,6 @@ function RecruitmentPage() {
   function handelPageChange(page) {
     setPage(page);
     setListByPage(recruitList.slice((page - 1) * 5, page * 5));
-    localStorage.setItem("Recruit", JSON.stringify(recruitList[(page - 1) * 5]));
     setJobDescrip(recruitList[(page - 1) * 5]);
   }
 
@@ -64,7 +62,6 @@ function RecruitmentPage() {
         setRecruitList(response);
         console.log(response);
         setPage(1);
-        localStorage.setItem("Recruit", JSON.stringify(response[0]));
         setJobDescrip(response[0]);
         setListByPage(response.slice(0, 5));
         setLastPage(Math.ceil(response.length / 5));
@@ -90,13 +87,14 @@ function RecruitmentPage() {
         for (const recruit of newRecruitList) {
           if (recruit.recruitment.recruitment_id === id) {
             recruit.isFollowing = recruit.isFollowing === 0 ? 1 : 0;
-            localStorage.setItem("Recruit", JSON.stringify(recruit));
             setJobDescrip(recruit);
           }
         }
         setRecruitList(newRecruitList);
         setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
       }
+    } else {
+      navigate(`/login`, { replace: true });
     }
   };
 
@@ -113,13 +111,14 @@ function RecruitmentPage() {
         for (const recruit of newRecruitList) {
           if (recruit.recruitment.recruitment_id === id) {
             recruit.applicationStatus = recruit.applicationStatus === null ? 'pending' : null;
-            localStorage.setItem("Recruit", JSON.stringify(recruit));
             setJobDescrip(recruit);
           }
         }
         setRecruitList(newRecruitList);
         setListByPage(newRecruitList.slice((currentPage - 1) * 5, currentPage * 5));
       }
+    } else {
+      navigate(`/login`, { replace: true });
     }
   }
 
@@ -153,7 +152,7 @@ function RecruitmentPage() {
             />
           </div>
         </div>
-        <JobDescription recruitment={jobDescrip.recruitment} emloyer={jobDescrip.emloyer} isFollowing={jobDescrip.isFollowing} handleFollowChange={handleFollowChange} applicationStatus={jobDescrip.applicationStatus} handleStatusChange={handleStatusChange} />
+        <JobDescription recruitment={jobDescrip.recruitment} employer={jobDescrip.employer} isFollowing={jobDescrip.isFollowing} handleFollowChange={handleFollowChange} applicationStatus={jobDescrip.applicationStatus} handleStatusChange={handleStatusChange} />
       </div>
     </>
   );
