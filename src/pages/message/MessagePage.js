@@ -184,6 +184,13 @@ const MessagePage = () => {
     })
   }, [])
 
+  function getDisplay() {
+    if (imageLink === '') {
+      return 'd-none';
+    }
+    return '';
+  }
+
   return (
     <>
       {role === 'jobseeker' ? <NavBar /> : <EmployerNavBar />}
@@ -212,7 +219,7 @@ const MessagePage = () => {
                 <div class={`${styles['chat-header']} clearfix`}>
                   <div class="row">
                     <div class="col-lg-6">
-                      <img src={imageLink} alt="avatar" />
+                      <img className={getDisplay()} src={imageLink} alt="avatar" />
                       <div class={`${styles['chat-about']} ${styles['margin']}`}>
                         <h6 class="mb-0">{chatName}</h6>
                       </div>
