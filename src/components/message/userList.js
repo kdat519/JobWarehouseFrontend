@@ -52,10 +52,10 @@ function UserList(props) {
 
   function handleOnClick() {
     if (other_id) {
-      handleClickUserList(other_id, name);
+      handleClickUserList(other_id, name, email);
       setUnSeen('seen');
     }
-    else handleClickUserList(user_id, name);
+    else handleClickUserList(user_id, name, email);
   }
 
   return (

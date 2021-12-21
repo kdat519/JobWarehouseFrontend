@@ -20,6 +20,7 @@ const MessagePage = () => {
     get: 10,
   })
   const [chatName, setChatName] = useState('');
+  const [email, setEmail] = useState('');
 
   const [filterMessageList, setFilterMessageList] = useState({
     other_id: null,
@@ -36,6 +37,9 @@ const MessagePage = () => {
 
   const nameRef = useRef('');
 
+  const userRef = useRef({});
+  const userListRef = useRef([]);
+
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -49,22 +53,26 @@ const MessagePage = () => {
     if (name === '') {
       nameRef.current = '';
       const response = await messageAPI.showLatestChat(filteruserList);
+      userListRef.current = response.data;
       setUserList(response.data);
     } else {
       nameRef.current = name;
+      console.log(name)
       const params = {
         searchContent: name,
       }
       const response = await authApi.getUsers(params);
+      userListRef.current = response.users;
       setUserList(response.users);
     }
   }
 
-  function handleClickUserList(id, name) {
+  function handleClickUserList(id, name, email) {
     filterMessageListRef.current = { other_id: id, get: 20 };
     setFilterMessageList(filterMessageListRef.current);
     setImageLink(authApi.getImage(id));
     setChatName(name);
+    setEmail(email);
   }
 
   function handleSubmitText(e) {
@@ -72,6 +80,24 @@ const MessagePage = () => {
       CreateMessage(e.target.value);
       e.target.value = ''
     }
+  }
+
+  function addUsertoList(user) {
+    console.log(userList);
+    let newUserList = [...userListRef.current];
+    let j = -1;
+    for (let i = 0; i < newUserList.length; i++) {
+      if (user.other_id === newUserList[i].other_id) {
+        j = i;
+      }
+    }
+    if (j === -1) {
+      newUserList = [user, ...newUserList];
+    } else {
+      newUserList = [user, ...newUserList.slice(0, j), ...newUserList.slice(j + 1, newUserList.length)];
+    }
+    userListRef.current = newUserList;
+    setUserList(newUserList);
   }
 
   async function CreateMessage(detail) {
@@ -88,6 +114,7 @@ const MessagePage = () => {
       console.log("Tao tin nhan thanh cong");
       console.log(new Date());
       const messageModel = {
+        message_id: response.data.message_id,
         detail: detail,
         status: 'unseen',
         receiver_id: filterMessageList.other_id,
@@ -97,12 +124,16 @@ const MessagePage = () => {
       messageListRef.current = [...messageListRef.current, messageModel];
       setMessageList(messageListRef.current);
       scrollToBottom();
-      if (nameRef.current === '') getUserList('');
+      console.log(nameRef.current);
+      if (nameRef.current === '') {
+        const users = { other_id: filterMessageList.other_id, name: chatName, email: email };
+        addUsertoList(users);
+      }
     }
   }
 
   async function UpdateMessage() {
-    console.log(messageListRef);
+    console.log(messageListRef.current);
     for (let i = 0; i < messageListRef.current.length; i++) {
       if (messageListRef.current[i].status === "unseen" && messageListRef.current[i].receiver_id === authContext.user_id) {
         const params = { status: "seen", message_id: messageListRef.current[i].message_id };
@@ -130,8 +161,10 @@ const MessagePage = () => {
 
             setFilterMessageList(filterMessageListRef.current);
             setChatName(res.data[0].name);
+            setEmail(res.data[0].email);
             setImageLink(authApi.getImage(res.data[0].other_id));
           }
+          userListRef.current = res.data;
           setUserList(res.data);
         })
       } catch (error) {
@@ -161,6 +194,18 @@ const MessagePage = () => {
   }, [filterMessageList]);
 
 
+  async function getUser(id) {
+    try {
+      const response = await authApi.getUser(id);
+
+      if (response.success) {
+        userRef.current = response.data;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -168,8 +213,18 @@ const MessagePage = () => {
       channel.bind('MessageCreated', function (data) {
         console.log(data);
         console.log(filterMessageListRef.current);
-        console.log(nameRef);
-        if (nameRef.current === '') getUserList('');
+        console.log(nameRef.current);
+        if (nameRef.current === '') {
+          getUser(data.model.sender_id);
+          const User = userRef.current;
+          if (User[0] && User[0].user_id === data.model.sender_id) {
+            console.log(User[0].name);
+            const users = { other_id: data.model.sender_id, name: User[0].name, email: User[0].email };
+            addUsertoList(users);
+          } else {
+            getUserList('');
+          }
+        }
         if (filterMessageListRef.current.other_id === data.model.sender_id || filterMessageListRef.current.other_id === data.model.receiver_id) {
           messageListRef.current = [...messageListRef.current, data.model];
           UpdateMessage();

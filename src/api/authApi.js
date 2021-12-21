@@ -63,6 +63,11 @@ const authApi = {
 
   getImage: (userId) => {
     return "http://127.0.0.1:8000/api/get-image/" + userId;
+  },
+
+  getUser: (id) => {
+    const url = `user/${id}`;
+    return axiosClient.get(url);
   }
 };
 
