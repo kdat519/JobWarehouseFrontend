@@ -11,7 +11,7 @@ function getToken() {
 
 const t = getToken();
 
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;
 const pusher = new Pusher('a13024e4824fe0c8b79c', {
   app_id: "1315519",
   cluster: 'ap1',
