@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { readCandidatesForJob, readJobDetail } from "../../api/jobApi";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import { fireErrorMessage } from "../../components/swal-error-message";
 import { TabHeader, TabPane } from "./CandidatesTab";
 
@@ -82,39 +81,34 @@ const CandidatesForJob = () => {
   };
 
   return (
-    <>
-      <header className="mb-5">
-        <EmployerNavBar />
-      </header>
-      <main className="container">
-        <Title jobId={parseInt(jobId)} />
-        <CandidateContext.Provider value={candidateContext}>
-          <nav>
-            <div className="nav nav-tabs">
-              <TabHeader
-                title="Chưa xem"
-                candidateType={CandidateType.AwaitReview}
-              />
-              <TabHeader
-                title="Đã duyệt"
-                candidateType={CandidateType.Reviewed}
-              />
-              <TabHeader title="Đã tuyển" candidateType={CandidateType.Hired} />
-              <TabHeader
-                title="Đã từ chối"
-                candidateType={CandidateType.Rejected}
-              />
-            </div>
-          </nav>
-          <div className="tab-content">
-            <TabPane candidateType={CandidateType.AwaitReview} />
-            <TabPane candidateType={CandidateType.Reviewed} />
-            <TabPane candidateType={CandidateType.Hired} />
-            <TabPane candidateType={CandidateType.Rejected} />
+    <main className="container">
+      <Title jobId={parseInt(jobId)} />
+      <CandidateContext.Provider value={candidateContext}>
+        <nav>
+          <div className="nav nav-tabs">
+            <TabHeader
+              title="Chưa xem"
+              candidateType={CandidateType.AwaitReview}
+            />
+            <TabHeader
+              title="Đã duyệt"
+              candidateType={CandidateType.Reviewed}
+            />
+            <TabHeader title="Đã tuyển" candidateType={CandidateType.Hired} />
+            <TabHeader
+              title="Đã từ chối"
+              candidateType={CandidateType.Rejected}
+            />
           </div>
-        </CandidateContext.Provider>
-      </main>
-    </>
+        </nav>
+        <div className="tab-content">
+          <TabPane candidateType={CandidateType.AwaitReview} />
+          <TabPane candidateType={CandidateType.Reviewed} />
+          <TabPane candidateType={CandidateType.Hired} />
+          <TabPane candidateType={CandidateType.Rejected} />
+        </div>
+      </CandidateContext.Provider>
+    </main>
   );
 };
 //#endregion

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthProvider";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -26,7 +26,9 @@ export default function Login() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => auth.login(data);
+  const location = useLocation();
+  const from = location.state ? location.state.from.pathname : "/";
+  const onSubmit = (data) => auth.login(data, from);
 
   return (
     <div className="login">

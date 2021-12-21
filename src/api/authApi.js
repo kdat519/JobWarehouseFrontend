@@ -75,7 +75,7 @@ const authApi = {
   },
 
   imageURL: (userId) => {
-    return "http://127.0.0.1:8000/api/get-image/" + userId;
+    return process.env.REACT_APP_API_URL + "/get-image/" + userId;
   },
 };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import "./styles.css";
 import ImageCropperForm from "./ImageCropperForm";
+import NavBar from "../../components/navbar/NavBar";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar"
 
 export default function Account() {
   const auth = useAuth();
@@ -32,102 +34,107 @@ export default function Account() {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="container mt-5">
-      <div className="mb-4" id="account">
-        <div className="h2 mb-2">
-          <strong>Thông tin cá nhân</strong>
-        </div>
-        <div className="mb-5">
-          {profile.user && (
-            <div>
-              <strong>{profile?.user?.name}, </strong>
-              {profile?.user?.email} <span> &bull; </span>
-              <Link
-                to={`/profile/${profile?.user?.user_id}`}
-                className="fw-bold text-dark"
-              >
-                Xem trang Profile
-              </Link>
-            </div>
-          )}
-        </div>
-
-        <div className="box mb-5">
-          <div className="pe-3">
-            <ChangePasswordForm />
-            <ImageCropperForm />
+    <>
+      <header className="mb-5">
+        {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />}
+      </header>
+      <main className="container mt-5">
+        <div className="mb-4" id="account">
+          <div className="h2 mb-2">
+            <strong>Thông tin cá nhân</strong>
+          </div>
+          <div className="mb-5">
             {profile.user && (
               <div>
-                <div className="fw-bold mb-2">Họ tên</div>
-                <div>{profile.user.name}</div>
-                <hr />
-                <div className="fw-bold mb-2">Email</div>
-                <div>{profile.user.email}</div>
-                <hr />
-                <div className="fw-bold mb-2">Số điện thoại</div>
-                <div>{profile.user.phonenumber}</div>
-                <hr />
-                <div className="fw-bold mb-2">Địa chỉ</div>
-                <div>{profile.user.address}</div>
-                <hr />
+                <strong>{profile?.user?.name}, </strong>
+                {profile?.user?.email} <span> &bull; </span>
+                <Link
+                  to={`/profile/${profile?.user?.user_id}`}
+                  className="fw-bold text-dark"
+                >
+                  Xem trang Profile
+                </Link>
               </div>
             )}
+          </div>
 
-            <JobseekerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            <EmployerEdit
-              setReload={setReload}
-              reload={reload}
-              profile={profile}
-            />
-            {/* <AvatarUpload /> */}
-            {profile.user && (
-              <div>
-                <div className="fw-bold mb-2">Kiểu tài khoản</div>
+          <div className="box mb-5">
+            <div className="pe-3">
+              <ChangePasswordForm />
+              <ImageCropperForm />
+              {profile.user && (
                 <div>
-                  {profile.user.role === "jobseeker"
-                    ? "Nguời tìm việc"
-                    : profile.user.role === "admin"
-                    ? "Admin"
-                    : "Nhà tuyển dụng"}
+                  <div className="fw-bold mb-2">Họ tên</div>
+                  <div>{profile.user.name}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Email</div>
+                  <div>{profile.user.email}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Số điện thoại</div>
+                  <div>{profile.user.phonenumber}</div>
+                  <hr />
+                  <div className="fw-bold mb-2">Địa chỉ</div>
+                  <div>{profile.user.address}</div>
+                  <hr />
                 </div>
-                <hr />
-              </div>
-            )}
-          </div>
+              )}
 
-          <div className="info">
-            <div className="border border-1 rounded-3 p-4 ms-5">
-              <h3 className="h2 fw-bold mt-3">
-                <i className="bi bi-lock-fill"></i>
-              </h3>
-              <div className="h5 fw-bold mb-3">
-                Những thông tin nào có thể chỉnh sửa?
-              </div>
-              <div className="mb-5">
-                Bạn không thể thay đổi những thông tin mà Job Warehouse sử dụng
-                để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi một số
-                thông tin giới thiệu về bản thân.
-              </div>
-              <hr className="mb-5" />
-              <h3 className="h2 fw-bold mt-3">
-                <i className="bi bi-person-badge-fill"></i>
-              </h3>
-              <div className="h5 fw-bold mb-3">
-                Những thông tin nào sẽ được chia sẻ?
-              </div>
-              <div className="mb-4">
-                Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
-                bạn.
+              <JobseekerEdit
+                setReload={setReload}
+                reload={reload}
+                profile={profile}
+              />
+              <EmployerEdit
+                setReload={setReload}
+                reload={reload}
+                profile={profile}
+              />
+              {/* <AvatarUpload /> */}
+              {profile.user && (
+                <div>
+                  <div className="fw-bold mb-2">Kiểu tài khoản</div>
+                  <div>
+                    {profile.user.role === "jobseeker"
+                      ? "Nguời tìm việc"
+                      : profile.user.role === "admin"
+                      ? "Admin"
+                      : "Nhà tuyển dụng"}
+                  </div>
+                  <hr />
+                </div>
+              )}
+            </div>
+
+            <div className="info">
+              <div className="border border-1 rounded-3 p-4 ms-5">
+                <h3 className="h2 fw-bold mt-3">
+                  <i className="bi bi-lock-fill"></i>
+                </h3>
+                <div className="h5 fw-bold mb-3">
+                  Những thông tin nào có thể chỉnh sửa?
+                </div>
+                <div className="mb-5">
+                  Bạn không thể thay đổi những thông tin mà Job Warehouse sử
+                  dụng để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi
+                  một số thông tin giới thiệu về bản thân.
+                </div>
+                <hr className="mb-5" />
+                <h3 className="h2 fw-bold mt-3">
+                  <i className="bi bi-person-badge-fill"></i>
+                </h3>
+                <div className="h5 fw-bold mb-3">
+                  Những thông tin nào sẽ được chia sẻ?
+                </div>
+                <div className="mb-4">
+                  Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
+                  bạn.
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 
@@ -387,7 +394,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
                   <select {...register("gender")} className="form-select mb-3">
                     <option value="female">Nữ</option>
                     <option value="male">Nam</option>
-                    
+
                   </select>
                 )}
                 <button type="submit" className="btn btn-primary">

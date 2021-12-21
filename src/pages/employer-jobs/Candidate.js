@@ -39,12 +39,14 @@ const Candidate = React.forwardRef((props, ref) => (
         className={`card-img-top bg-secondary ${styles["card-top-height"]}`}
       />
       <div className="card-body">
-        <img
-          src={props.imgSrc}
-          width="100px"
-          className={`rounded-circle mb-3 ${styles["negative-margin"]}`}
-          alt="Candidate"
-        />
+        <Link to={"/profile/" + props.userId}>
+          <img
+            src={props.imgSrc}
+            width="100px"
+            className={`rounded-circle mb-3 ${styles["negative-margin"]}`}
+            alt="Candidate"
+          />
+        </Link>
         <Link
           className="h5 card-title d-block text-decoration-none text-dark"
           to={"/profile/" + props.userId}

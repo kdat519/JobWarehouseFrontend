@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { readJobs } from "../../api/jobApi";
 import doodle from "../../assets/empty-doodle-white.svg";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import { fireErrorMessage } from "../../components/swal-error-message";
 import SearchAndSort, {
   makeOption,
@@ -84,15 +83,10 @@ const Table = () => {
 };
 
 const EmployerJobs = () => (
-  <>
-    <header className="mb-5">
-      <EmployerNavBar />
-    </header>
-    <main className="container">
-      <h1 className="fw-bold mb-4">Tin tuyển dụng của bạn</h1>
-      <Table />
-    </main>
-  </>
+  <main className="container">
+    <h1 className="fw-bold mb-4">Tin tuyển dụng của bạn</h1>
+    <Table />
+  </main>
 );
 
 export default EmployerJobs;
