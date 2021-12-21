@@ -57,6 +57,7 @@ function JobDescription(props) {
   const { recruitment, emloyer, isFollowing, handleFollowChange, applicationStatus, handleStatusChange, KKey } = props;
   const [showReport, setShowReport] = useState(false);
   const [value, setValue] = useState('');
+  console.log(applicationStatus);
   const authContext = useAuth();
   function handleStatus() {
     handleStatusChange(recruitment.recruitment_id, applicationStatus);

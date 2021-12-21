@@ -20,12 +20,15 @@ function JobDescriptionPage() {
       if (response.success) {
         let newJobDescrip = jobDescrip;
         newJobDescrip.isFollowing = jobDescrip.isFollowing === 0 ? 1 : 0;
+        localStorage.setItem("Recruit", JSON.stringify(newJobDescrip));
         setJobDescrip(newJobDescrip);
       }
     }
   };
 
   async function handleStatusChange(id, applicationStatus) {
+    console.log(id);
+    console.log(applicationStatus);
     if (authContext.user_id) {
       let response;
       if (applicationStatus === null) {
@@ -36,8 +39,10 @@ function JobDescriptionPage() {
       console.log(response);
 
       if (response.success) {
+        console.log("thay doi application status");
         let newJobDescrip = jobDescrip;
         newJobDescrip.applicationStatus = jobDescrip.applicationStatus === null ? 'pending' : null;
+        console.log(newJobDescrip.applicationStatus);
         setJobDescrip(newJobDescrip);
       }
     }

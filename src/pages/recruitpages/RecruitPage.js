@@ -53,6 +53,7 @@ function RecruitmentPage() {
   function handelPageChange(page) {
     setPage(page);
     setListByPage(recruitList.slice((page - 1) * 5, page * 5));
+    localStorage.setItem("Recruit", JSON.stringify(recruitList[(page - 1) * 5]));
     setJobDescrip(recruitList[(page - 1) * 5]);
   }
 
@@ -63,6 +64,7 @@ function RecruitmentPage() {
         setRecruitList(response);
         console.log(response);
         setPage(1);
+        localStorage.setItem("Recruit", JSON.stringify(response[0]));
         setJobDescrip(response[0]);
         setListByPage(response.slice(0, 5));
         setLastPage(Math.ceil(response.length / 5));
@@ -88,6 +90,7 @@ function RecruitmentPage() {
         for (const recruit of newRecruitList) {
           if (recruit.recruitment.recruitment_id === id) {
             recruit.isFollowing = recruit.isFollowing === 0 ? 1 : 0;
+            localStorage.setItem("Recruit", JSON.stringify(recruit));
             setJobDescrip(recruit);
           }
         }
@@ -110,6 +113,7 @@ function RecruitmentPage() {
         for (const recruit of newRecruitList) {
           if (recruit.recruitment.recruitment_id === id) {
             recruit.applicationStatus = recruit.applicationStatus === null ? 'pending' : null;
+            localStorage.setItem("Recruit", JSON.stringify(recruit));
             setJobDescrip(recruit);
           }
         }
