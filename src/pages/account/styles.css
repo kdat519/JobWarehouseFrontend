@@ -3,6 +3,7 @@
   margin: auto;
   display: grid;
   grid-template-columns: 300px 1fr;
+  white-space: pre-line;
 }
 
 #profile .profile-avatar {
