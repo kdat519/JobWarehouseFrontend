@@ -17,13 +17,13 @@ const MessagePage = () => {
   const [messageList, setMessageList] = useState([]);
   const [filteruserList, setFilterUserList] = useState({
     user_id: authContext.user_id,
-    get: 15,
+    get: 10,
   })
   const [chatName, setChatName] = useState('');
 
   const [filterMessageList, setFilterMessageList] = useState({
     other_id: null,
-    get: 50,
+    get: 20,
   })
 
   const [imageLink, setImageLink] = useState('');
@@ -61,7 +61,7 @@ const MessagePage = () => {
   }
 
   function handleClickUserList(id, name) {
-    filterMessageListRef.current = { other_id: id, get: 50 };
+    filterMessageListRef.current = { other_id: id, get: 20 };
     setFilterMessageList(filterMessageListRef.current);
     setImageLink(authApi.getImage(id));
     setChatName(name);
@@ -125,7 +125,7 @@ const MessagePage = () => {
           if (res.data.length > 0) {
             filterMessageListRef.current = {
               other_id: res.data[0].other_id,
-              get: 50,
+              get: 20,
             }
 
             setFilterMessageList(filterMessageListRef.current);

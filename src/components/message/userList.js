@@ -59,11 +59,13 @@ function UserList(props) {
   }
 
   return (
-    <li className={`clearfix ${styles[getStatus(unSeen)]}`} onClick={handleOnClick}>
-      <img src={getImage()} alt="avatar" />
-      <div className={`${styles['about']}`}>
+    <li className={`row ${styles[getStatus(unSeen)]}`} onClick={handleOnClick}>
+      <div className={`p-0 col-2 ${styles["col-7"]}`}>
+        <img src={getImage()} alt="avatar" />
+      </div>
+      <div className={`${styles['about']} col-9 ${styles["col-5"]}`}>
         <div className={`${styles['name']}`}>{name}</div>
-        <div className={`${styles['name']} text-muted h6`}>{email}</div>
+        <div className={`${styles['name']} text-muted h6 text-truncate`}>{email}</div>
       </div>
     </li>
   )
