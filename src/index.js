@@ -23,11 +23,8 @@ import "./styles.scss";
 import ProfileJobSeeker from "./pages/admin/ProfileJobSeeker";
 import Profile from "./pages/admin/Profile";
 import RecruitmentPage from "./pages/recruitpages/RecruitPage";
-<<<<<<< HEAD
 import JobDescriptionPage from "./pages/recruitpages/JobDescripPage";
-=======
 import NotificationPage from "./pages/notifications/Notification"
->>>>>>> feature/notifications
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -53,11 +50,8 @@ const App = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/recruitments" element={<RecruitmentPage />} />
-<<<<<<< HEAD
       <Route path="/jobdescrips/:userId" element={<JobDescriptionPage />} />
-=======
       <Route path="/notifications" element={<NotificationPage />} />
->>>>>>> feature/notifications
       <Route
         path="/employers/profile"
         element={
