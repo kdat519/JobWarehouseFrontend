@@ -58,19 +58,20 @@ const TextareaTinyMCE = ({ name, label }) => {
             height: 300,
             menubar: false,
             branding: false,
-            statusbar: false,
             plugins: ["advlist autolink lists link paste"],
             toolbar:
               "undo redo | styleselect | " +
               "bold italic | bullist numlist outdent indent | " +
               "removeformat",
             style_formats: [
-              { title: "Tiêu đề", format: "h4" },
+              { title: "Tiêu đề", format: "h5" },
               { title: "Nội dung", format: "p" },
             ],
+            content_css:
+              "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
             content_style:
               "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');" +
-              "body { font-family: Inter; }",
+              "body { font-family: Inter; margin: 1rem }",
             setup: mimicBoostrap,
           }}
         />

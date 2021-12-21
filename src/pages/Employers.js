@@ -1,12 +1,13 @@
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { readEmployers } from "../api/employerApi";
 import doodle from "../assets/empty-doodle.svg";
 import NavBar from "../components/navbar/NavBar";
 import { fireErrorMessage } from "../components/swal-error-message";
 import TableHeaders, {
   makeHeader,
-  Row
+  Row,
 } from "../components/table-headers/TableHeaders";
 
 const SmallInfo = ({ category, numOfEmployees }) => (
@@ -25,17 +26,12 @@ const SmallInfo = ({ category, numOfEmployees }) => (
 const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
   <Row>
     <div className="col-3 col-lg-1">
-      <img src={imgSrc} className="img-thumbnail" alt="" />
+      <img src={imgSrc} height="75px" className="img-thumbnail" alt="" />
     </div>
     <div className="col-9 col-lg-2">
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-decoration-none text-dark fw-bold"
-      >
+      <Link to={url} className="text-decoration-none text-dark fw-bold">
         {name}
-      </a>
+      </Link>
       <SmallInfo category={category} numOfEmployees={numOfEmployees} />
     </div>
     <div className="col-1 d-none d-lg-block">{category}</div>

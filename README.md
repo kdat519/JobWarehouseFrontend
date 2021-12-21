@@ -3,8 +3,8 @@
 - Sử dụng:
     - Xây dựng UI: [React](https://reactjs.org/)
     - Điều hướng website: [React Router](https://reactrouter.com/)
-    - Tạo form input: [Formik](https://formik.org/)
-    - Style UI: [Bootstrap](https://getbootstrap.com/)
+    - Tạo form input: [Formik](https://formik.org/), [React Hook Form](https://react-hook-form.com/)
+    - Style UI, hiệu ứng: [Bootstrap](https://getbootstrap.com/), [Framer Motion](https://www.framer.com/motion/), [sweetalert2](https://sweetalert2.github.io/)
 - Quản lý package bằng [npm](https://www.npmjs.com/)
 - Build bằng [Create React App](https://create-react-app.dev/)
 
@@ -20,6 +20,8 @@ npm start
 # Build
 npm run build
 ```
+
+Đặt biến môi trường `REACT_APP_API_URL` là đường dẫn đến API trong file `.env`.
 
 ## Git workflow
 

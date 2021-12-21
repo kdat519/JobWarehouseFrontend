@@ -92,7 +92,7 @@ export const readCandidatesForJob = async (jobId) => {
       userId: candidate.user_id,
       name: candidate.name,
       type: candidate.type,
-      imgSrc: "http://127.0.0.1:8000/api/get-image/" + candidate.user_id,
+      imgSrc: process.env.REACT_APP_API_URL + "/get-image/" + candidate.user_id,
       qualification: candidate.qualification,
     }));
 };

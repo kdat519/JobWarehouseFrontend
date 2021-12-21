@@ -1,13 +1,13 @@
 import "bootstrap";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AuthProvider, { Role } from "./components/auth/AuthProvider";
 import RequireAuth from "./components/auth/RequireAuth";
 import NavBar from "./components/navbar/NavBar";
 import Account from "./pages/account/Account";
 import Admin from "./pages/admin/Admin";
-import Profile from "./pages/admin/Profile";
+import Profile from "./pages/account/Profile";
 import Reports from "./pages/admin/Reports";
 import User from "./pages/admin/User";
 import Users from "./pages/admin/Users";
@@ -23,6 +23,7 @@ import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
 import "./styles.scss";
+import ForEmployersLayout from "./pages/ForEmployersLayout";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -39,6 +40,10 @@ const RequireEmployer = ({ element }) => (
   <RequireAuth requireRole={Role.Employer}>{element}</RequireAuth>
 );
 
+const RequireAdmin = ({ element }) => (
+  <RequireAuth requireRole={Role.Admin}>{element}</RequireAuth>
+);
+
 const App = () => (
   <AuthProvider>
     <Routes>
@@ -47,14 +52,7 @@ const App = () => (
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/admin"
-        element={
-          <RequireAuth requireRole={Role.Admin}>
-            <Admin />
-          </RequireAuth>
-        }
-      >
+      <Route path="/admin" element={<RequireAdmin element={<Admin />} />}>
         <Route index element={<Users />} />
         <Route path="reports" element={<Reports />} />
         <Route path="users/:userId" element={<User />} />
@@ -64,22 +62,19 @@ const App = () => (
       <Route path="account" element={<Account />} />
 
       <Route path="/employers" element={<Employers />} />
-      <Route path="/for-employers" element={<EmployerHomePage />} />
-      <Route
-        path="/for-employers/post-job"
-        element={<RequireEmployer element={<PostJobLayout />} />}
-      >
-        <Route index element={<PostJob />} />
-        <Route path=":jobId" element={<EditJob />} />
+
+      <Route path="/for-employers" element={<ForEmployersLayout />}>
+        <Route index element={<EmployerHomePage />} />
+        <Route path="*" element={<RequireEmployer element={<Outlet />} />}>
+          <Route path="post-job" element={<PostJobLayout />}>
+            <Route index element={<PostJob />} />
+            <Route path=":jobId" element={<EditJob />} />
+          </Route>
+          <Route path="jobs" element={<EmployerJobs />} />
+          <Route path="jobs/:jobId" element={<CandidatesForJob />} />
+        </Route>
       </Route>
-      <Route
-        path="/for-employers/jobs"
-        element={<RequireEmployer element={<EmployerJobs />} />}
-      />
-      <Route
-        path="/for-employers/jobs/:jobId"
-        element={<RequireEmployer element={<CandidatesForJob />} />}
-      />
+
       <Route path="*" element={<EmptyPage />} />
     </Routes>
   </AuthProvider>

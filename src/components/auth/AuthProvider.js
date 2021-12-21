@@ -18,8 +18,8 @@ const AuthProvider = ({ children }) => {
   const [registerError, setRegisterError] = useState();
   const [loginError, setLoginError] = useState();
 
-  const login = (data) => {
-    (async function (data) {
+  const login = (data, from) => {
+    (async function (data, from) {
       const response = await authApi.login(data);
 
       if (response.access_token) {
@@ -27,19 +27,20 @@ const AuthProvider = ({ children }) => {
         setUser(response.user);
         setLoginError(undefined);
         if (response?.user?.role === "admin") {
-          navigate("/admin");
+          navigate("/admin", { replace: true });
         } else {
-          navigate("/");
+          navigate(from, { replace: true });
         }
       } else {
         setRegisterError(undefined);
         setLoginError(response.message);
       }
-    })(data);
+    })(data, from);
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
+    setUser(undefined);
     setRegisterError(undefined);
     setLoginError(undefined);
     navigate("/");
