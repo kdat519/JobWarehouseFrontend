@@ -118,7 +118,10 @@ export default function Profile() {
                 )}
                 <hr />
                 <p className="h5  mb-4">Thông tin liên hệ</p>
-                <p className="h6  mb-4 text-nowrap"><i className="bi bi-envelope"> </i>{user.email}</p>
+                <p className="h6  mb-4 text-nowrap">
+                  <i className="bi bi-envelope"> </i>
+                  {user.email}
+                </p>
                 <p className="h6 mb-4 text-nowrap">
                   <i className="bi bi-telephone"> </i>
                   {user.phonenumber}
@@ -138,6 +141,23 @@ export default function Profile() {
                     <p className="h4 ">Giới thiệu</p>
                     <p className="mb-4 pre-line">{user.about_us}</p>
 
+                    {user.num_employee && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-person-fill mx-2"></i>
+                          Số lượng nhân viên: {user.num_employee}
+                        </span>
+                      </div>
+                    )}
+
+                    {user.category && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-tag-fill mx-2"></i>
+                          Lĩnh vực: {user.category}
+                        </span>
+                      </div>
+                    )}
                     {user.address && (
                       <div className="mb-4">
                         <span>
@@ -146,7 +166,6 @@ export default function Profile() {
                         </span>
                       </div>
                     )}
-
                     <hr />
                   </div>
                 )}
