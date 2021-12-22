@@ -136,7 +136,7 @@ export default function Profile() {
                 {user.role === "employer" && (
                   <div>
                     <p className="h4 ">Giới thiệu</p>
-                    <p className="mb-4">{user.about_us}</p>
+                    <p className="mb-4 pre-line">{user.about_us}</p>
 
                     {user.address && (
                       <div className="mb-4">
@@ -156,7 +156,7 @@ export default function Profile() {
                 {user.role === "jobseeker" && (
                   <div>
                     <p className="h4 ">Giới thiệu</p>
-                    <p className="mb-4">{user.skill}</p>
+                    <p className="mb-4 pre-line">{user.skill}</p>
 
                     {user.birthday && user.birthday !== "0000-00-00" && (
                       <div className="mb-4">
@@ -264,7 +264,7 @@ export default function Profile() {
                       )}
                     </span>
                   </div>
-                  <p className="">{report.detail} </p>
+                  <p className="pre-line">{report.detail} </p>
                   <div className="fw-light h6 d-flex">
                     <div className="rounded-circle mb-5 report-avatar border">
                       <Link

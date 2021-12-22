@@ -11,7 +11,7 @@ export default function ReportListItem({ report }) {
           <span> {report.receiver_email} </span>
         </Link>
       </p>
-      <p className="">{report.detail} </p>
+      <p className="pre-line">{report.detail} </p>
       <p className="text-muted">
         <Link
           className="text-decoration-none text-dark"

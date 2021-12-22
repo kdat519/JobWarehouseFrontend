@@ -5,6 +5,10 @@
   grid-template-columns: 300px 1fr;
 }
 
+.pre-line {
+  white-space: pre-line;
+}
+
 #profile .profile-avatar {
   width: 150px;
   height: 150px;
