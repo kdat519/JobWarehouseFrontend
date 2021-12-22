@@ -77,6 +77,16 @@ const authApi = {
   imageURL: (userId) => {
     return process.env.REACT_APP_API_URL + "/get-image/" + userId;
   },
+
+  getUsers: (params) => {
+    const url = "auth/users";
+    return axiosClient.get(url, { params });
+  },
+
+  getUser: (id) => {
+    const url = `user/${id}`;
+    return axiosClient.get(url);
+  }
 };
 
 export default authApi;

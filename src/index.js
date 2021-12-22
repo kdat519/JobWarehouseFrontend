@@ -20,6 +20,7 @@ import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
 import ForEmployersLayout from "./pages/ForEmployersLayout";
 import HomePage from "./pages/homepage/HomePage";
+import MessagePage from "./pages/message/MessagePage";
 import NotificationPage from "./pages/notifications/Notification";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
@@ -70,6 +71,7 @@ const App = () => (
       <Route path="/notifications" element={<NotificationPage />} />
 
       <Route path="/following" element={<JobsPage interestOnly />} />
+      <Route path="/messages" element={<MessagePage />} />
 
       <Route path="/employers" element={<Employers />} />
 
