@@ -27,6 +27,11 @@ const jobseekerAPI = {
     const formData = new FormData();
     formData.append('recruitment_id', params);
     return axiosClient.post(url, formData);
+  },
+
+  showInterestRecruit: () => {
+    const url = "jobseeker/interestedRecruitments";
+    return axiosClient.get(url);
   }
 }
 

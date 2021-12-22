@@ -18,7 +18,6 @@ const getParagraph = (html) => /(?<=<p>).*?(?=<\/p>)/.exec(html)?.at(0);
 function CardRecruit(props) {
   const { recruit, onClick } = props;
   const { recruitment } = recruit;
-
   function onclick() {
     if (onClick) {
       onClick(recruit);
