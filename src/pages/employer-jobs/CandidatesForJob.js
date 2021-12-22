@@ -14,22 +14,6 @@ export const CandidateType = {
 const CandidateContext = React.createContext();
 export const useCandidate = () => useContext(CandidateContext);
 
-const Title = ({ jobId }) => {
-  const [jobName, setJobName] = useState("");
-  useEffect(
-    () =>
-      readJobDetail(jobId)
-        .then((job) => {
-          setJobName(": " + job.jobName);
-        })
-        .catch(() => {
-          // Ignore
-        }),
-    [jobId]
-  );
-  return <h1 className="fw-bold mb-4">{"Danh sách ứng viên" + jobName}</h1>;
-};
-
 const genCandidateLists = (candidates) => {
   const filterByType = (type) =>
     new Map(
@@ -50,22 +34,28 @@ const CandidatesForJob = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
 
+  const [jobInfo, setJobInfo] = useState({ name: "", updatedAt: Date.now() });
   const [candidates, setCandidates] = useState([]);
   const candidateLists = genCandidateLists(candidates);
   const [activeTab, setActiveTab] = useState(CandidateType.AwaitReview);
 
-  useEffect(
-    () =>
-      readCandidatesForJob(parseInt(jobId))
-        .then((candidates) => {
-          setCandidates(candidates);
-        })
-        .catch(() => {
-          fireErrorMessage();
-          navigate("/for-employers/jobs");
-        }),
-    [jobId, navigate]
-  );
+  useEffect(() => {
+    readCandidatesForJob(parseInt(jobId))
+      .then((candidates) => {
+        setCandidates(candidates);
+      })
+      .catch(() => {
+        fireErrorMessage();
+        navigate("/for-employers/jobs");
+      });
+    readJobDetail(jobId)
+      .then((job) => {
+        setJobInfo({ name: ": " + job.jobName, updatedAt: job.updatedAt });
+      })
+      .catch(() => {
+        setJobInfo({ name: "", updatedAt: null });
+      });
+  }, [jobId, navigate]);
 
   const changeActiveTab = (candidateType) => (event) => {
     event.preventDefault();
@@ -78,11 +68,12 @@ const CandidatesForJob = () => {
     setCandidates: setCandidates,
     activeTab: activeTab,
     changeActiveTab: changeActiveTab,
+    jobUpdatedDate: jobInfo.updatedAt,
   };
 
   return (
     <main className="container">
-      <Title jobId={parseInt(jobId)} />
+      <h1 className="fw-bold mb-4">{"Danh sách ứng viên" + jobInfo.name}</h1>
       <CandidateContext.Provider value={candidateContext}>
         <nav>
           <div className="nav nav-tabs">

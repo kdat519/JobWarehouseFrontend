@@ -79,22 +79,22 @@ export const readJobDetail = async (id) => {
     minSalary: job.min_salary,
     detail: job.detail.replace(/(\r\n|\r|\n)/g, "\n"),
     requirement: job.requirement.replace(/(\r\n|\r|\n)/g, "\n"),
+    updatedAt: ISO8601ToDate(job.updated_at),
   };
 };
 
 export const readCandidatesForJob = async (jobId) => {
-  const response = await axiosClient.get("employer/getApplications");
-  return response.data
-    .flat()
-    .filter((candidate) => candidate.recruitment_id === jobId)
-    .map((candidate) => ({
-      id: candidate.job_seeker_id,
-      userId: candidate.user_id,
-      name: candidate.name,
-      type: candidate.type,
-      imgSrc: process.env.REACT_APP_API_URL + "/get-image/" + candidate.user_id,
-      qualification: candidate.qualification,
-    }));
+  const response = await axiosClient.get("employer/getApplications", {
+    params: { recruitment_id: jobId },
+  });
+  return response.data[0].map((candidate) => ({
+    id: candidate.job_seeker_id,
+    userId: candidate.user_id,
+    name: candidate.name,
+    type: candidate.type,
+    imgSrc: process.env.REACT_APP_API_URL + "/get-image/" + candidate.user_id,
+    qualification: candidate.qualification,
+  }));
 };
 
 export const updateCandidateType = async (jobId, candidateId, type) => {
