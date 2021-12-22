@@ -37,7 +37,17 @@ export default function Account() {
   return (
     <>
       <header className="mb-5">
-        {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />}
+        {(() => {
+          switch (auth.role) {
+            case Role.Employer:
+              return <EmployerNavBar />;
+            case Role.Admin:
+              return <AdminNavBar />;
+            default:
+              return <NavBar />;
+          }
+        })()}
+        {/* {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />} */}
       </header>
       <main className="container mt-5">
         <div className="mb-4" id="account">

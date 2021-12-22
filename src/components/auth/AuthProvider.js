@@ -29,7 +29,17 @@ const AuthProvider = ({ children }) => {
         if (response?.user?.role === "admin") {
           navigate("/admin", { replace: true });
         } else {
-          navigate(from, { replace: true });
+          if (
+            response?.user?.role === Role.Employer &&
+            /^(?!\/for-employers)/gm.test(from)
+          )
+            navigate("/for-employers", { replace: true });
+          else if (
+            response?.user?.role === Role.JobSeeker &&
+            /^\/(for-employers|admin)/gm.test(from)
+          )
+            navigate("/", { replace: true });
+          else navigate(from, { replace: true });
         }
       } else {
         setRegisterError(undefined);

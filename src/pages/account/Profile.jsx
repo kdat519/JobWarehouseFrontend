@@ -9,6 +9,7 @@ import adminReportApi from "../../api/adminReportApi";
 import authApi from "../../api/authApi";
 import { Role, useAuth } from "../../components/auth/AuthProvider";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import AdminNavBar from "../../components/navbar/AdminNavBar";
 import NavBar from "../../components/navbar/NavBar";
 import "./styles.css";
 
@@ -87,7 +88,16 @@ export default function Profile() {
   return (
     <>
       <header className="mb-5">
-        {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />}
+      {(() => {
+          switch (auth.role) {
+            case Role.Employer:
+              return <EmployerNavBar />;
+            case Role.Admin:
+              return <AdminNavBar />;
+            default:
+              return <NavBar />;
+          }
+        })()}
       </header>
       <main className="container mt-5">
         {user?.role && user?.role !== "admin" && (
