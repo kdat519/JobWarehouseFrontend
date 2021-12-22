@@ -10,7 +10,7 @@ import AdminNavBar from "../../components/navbar/AdminNavBar";
 import "./styles.css";
 import ImageCropperForm from "./ImageCropperForm";
 import NavBar from "../../components/navbar/NavBar";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar"
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 
 export default function Account() {
   const auth = useAuth();
@@ -70,7 +70,6 @@ export default function Account() {
 
           <div className="box mb-5">
             <div className="pe-3 pe-4">
-              
               <ImageCropperForm />
               {profile.user && (
                 <div>
@@ -113,8 +112,7 @@ export default function Account() {
                   <hr />
                 </div>
               )}
-                            <ChangePasswordForm />
-
+              <ChangePasswordForm />
             </div>
 
             <div className="info">
