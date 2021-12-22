@@ -187,14 +187,7 @@ export default function Profile() {
                       </div>
                     )}
 
-                    {user.address && (
-                      <div className="mb-4">
-                        <span>
-                          <i className="bi bi-house-door-fill me-3"></i>
-                          Địa chỉ: {user.address}
-                        </span>
-                      </div>
-                    )}
+                    
 
                     {user.education && (
                       <div className="mb-3">
@@ -214,6 +207,14 @@ export default function Profile() {
                       <div className="mb-4">
                         <i className="bi bi-briefcase-fill me-3"></i>
                         Kinh nghiệm làm việc: {user.work_experience}
+                      </div>
+                    )}
+                    {user.address && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-house-door-fill me-3"></i>
+                          Địa chỉ: {user.address}
+                        </span>
                       </div>
                     )}
                     <hr />
