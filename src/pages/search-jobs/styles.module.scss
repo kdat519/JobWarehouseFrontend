@@ -1,0 +1,91 @@
+@use "sass:math";
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+.mt-6 {
+  margin-top: 5rem;
+}
+
+.ml-10 {
+  margin-left: 10rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.ml-2 {
+  margin-left: 2rem;
+}
+
+.ml-3 {
+  margin-left: 3rem;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.size-08 {
+  font-size: 0.8rem;
+}
+
+.w-40 {
+  max-width: 34rem;
+}
+
+.mr-10 {
+  margin-right: 10rem;
+}
+
+.ml--2 {
+  margin-left: -1.8rem;
+}
+
+.font-weight-bold {
+  font-weight: bolder;
+}
+
+.font-size-25 {
+  font-size: 17px;
+}
+
+.border-radius-top {
+  border-radius: 6px 6px 0px 0px;
+}
+
+.border-radius-bot {
+  border-radius: 0px 0px 6px 6px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-25 {
+  height: 25rem;
+}
+
+.vh-50 {
+  height: 70vh;
+}
+
+.position-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.content {
+  background-color: $light;
+  padding: 0.5rem;
+  border-radius: 5px;
+
+  h5 {
+    font-weight: bold;
+    color: $secondary;
+  }
+}

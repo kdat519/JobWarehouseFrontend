@@ -4,8 +4,7 @@ import queryString from "query-string";
 // https://github.com/axios/axios#request
 
 const axiosClient = axios.create({
-  //baseURL: process.env.REACT_APP_API_URL,
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "content-type": "application/json",
   },

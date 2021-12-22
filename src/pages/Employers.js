@@ -1,52 +1,14 @@
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { readEmployers } from "../api/employerApi";
+import doodle from "../assets/empty-doodle.svg";
 import NavBar from "../components/navbar/NavBar";
+import { fireErrorMessage } from "../components/swal-error-message";
 import TableHeaders, {
   makeHeader,
   Row,
 } from "../components/table-headers/TableHeaders";
-
-const data = [
-  {
-    url: "https://uet.vnu.edu.vn/",
-    imgSrc: "https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png",
-    name: "Trường Đại học Công nghệ",
-    category: "Giáo dục",
-    numOfEmployees: 15000,
-    about:
-      "Trường ĐHCN đã khẳng định được vị thế là một cơ sở đào tạo đại học " +
-      "có uy tín trong hệ thống giáo dục đại học của cả nước, là địa chỉ " +
-      "tin cậy, tiềm năng về đào tạo và nghiên cứu đối với đối tác, doanh " +
-      "nghiệp trong và ngoài nước.",
-    followed: true,
-  },
-  {
-    url: "https://vnu.edu.vn/",
-    imgSrc: "https://vnu.edu.vn/home/images/logo.png",
-    name: "Đại học Quốc gia Hà Nội",
-    category: "Giáo dục",
-    numOfEmployees: 50000,
-    about:
-      "Đại học Quốc gia Hà Nội (ĐHQGHN - tên giao dịch bằng tiếng Anh: " +
-      "Vietnam National University, Hanoi; viết tắt là VNU) là  trung tâm " +
-      "đào tạo, nghiên cứu khoa học, chuyển giao tri thức và công nghệ đa " +
-      "ngành, đa lĩnh vực, chất lượng cao; ngang tầm khu vực, dần đạt trình " +
-      "độ quốc tế; đáp ứng yêu cầu phát triển của đất nước, phù hợp với xu " +
-      "hướng phát triển giáo dục đại học tiên tiến.",
-    followed: false,
-  },
-  {
-    url: "https://indeed.com/",
-    imgSrc:
-      "https://upload.wikimedia.org/wikipedia/commons/f/fa/Indeed_logo.png",
-    name: "Indeed",
-    category: "Công nghệ",
-    numOfEmployees: 1500,
-    about:
-      "Chúng tôi vô cùng ngưỡng mộ nền tảng đăng và tìm kiếm việc làm Job Warehouse.",
-    followed: true,
-  },
-];
 
 const SmallInfo = ({ category, numOfEmployees }) => (
   <div className="row d-lg-none align-items-center">
@@ -61,20 +23,25 @@ const SmallInfo = ({ category, numOfEmployees }) => (
   </div>
 );
 
-const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
+const Employer = ({
+  imgSrc,
+  userId,
+  name,
+  category,
+  numOfEmployees,
+  about,
+}) => (
   <Row>
     <div className="col-3 col-lg-1">
-      <img src={imgSrc} className="img-thumbnail" alt="" />
+      <img src={imgSrc} height="75px" className="img-thumbnail" alt="" />
     </div>
     <div className="col-9 col-lg-2">
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        to={"/profile/" + userId}
         className="text-decoration-none text-dark fw-bold"
       >
         {name}
-      </a>
+      </Link>
       <SmallInfo category={category} numOfEmployees={numOfEmployees} />
     </div>
     <div className="col-1 d-none d-lg-block">{category}</div>
@@ -85,11 +52,11 @@ const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
   </Row>
 );
 
-const SearchBox = () => (
+const SearchBox = ({ handleSearch }) => (
   <Formik
     initialValues={{ search: "" }}
     onSubmit={(values) => {
-      alert(JSON.stringify(values));
+      handleSearch(values.search);
     }}
   >
     <Form className="input-group mb-5">
@@ -97,7 +64,7 @@ const SearchBox = () => (
         type="text"
         name="search"
         className="form-control"
-        placeholder="Tên nhà tuyển dụng"
+        placeholder="Tên nhà tuyển dụng, Lĩnh vực"
       />
       <button className="btn btn-outline-secondary" type="submit">
         Tìm kiếm
@@ -106,6 +73,100 @@ const SearchBox = () => (
   </Formik>
 );
 
+const Pagination = ({ current, last, handleChange }) => (
+  <nav>
+    <ul className="pagination justify-content-center">
+      {Array.from(Array(last), (_, i) => {
+        const page = i + 1;
+        let result = (
+          <li
+            key={page}
+            className={"page-item " + (current === page ? "active" : "")}
+          >
+            <button className="page-link" onClick={handleChange(page)}>
+              {page}
+            </button>
+          </li>
+        );
+        if (page > 1 && page < last) {
+          if (page === current + 2 || page === current - 2)
+            result = (
+              <li key={page} className="page-item disabled">
+                <button className="page-link">...</button>
+              </li>
+            );
+          if (page < current - 2 || page > current + 2) result = null;
+        }
+        return result;
+      })}
+    </ul>
+  </nav>
+);
+
+const Table = () => {
+  const [state, setState] = useState({
+    search: "",
+    employers: [],
+    currentPage: 1,
+    lastPage: 1,
+  });
+
+  const handleSearch = (search = "", page = 1) => {
+    readEmployers(search, page)
+      .then((value) => {
+        setState({
+          search: search,
+          employers: value.employers,
+          currentPage: value.currentPage,
+          lastPage: value.lastPage,
+        });
+      })
+      .catch(fireErrorMessage);
+  };
+
+  useEffect(handleSearch, []);
+
+  return (
+    <>
+      <SearchBox handleSearch={handleSearch} />
+      {state.employers.length ? (
+        <TableHeaders
+          headers={[
+            makeHeader(1, ""),
+            makeHeader(2, "Nhà tuyển dụng"),
+            makeHeader(1, "Lĩnh vực"),
+            makeHeader(1, "Quy mô"),
+            makeHeader(7, "Giới thiệu"),
+          ]}
+        >
+          {state.employers.map((employer) => (
+            <Employer key={employer.userId} {...employer} />
+          ))}
+        </TableHeaders>
+      ) : (
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-5">
+            <img src={doodle} alt="" />
+            <h6 className="display-6 fs-2 text-center">
+              Không có kết quả nào!
+            </h6>
+          </div>
+        </div>
+      )}
+      {state.lastPage > 1 && (
+        <Pagination
+          current={state.currentPage}
+          last={state.lastPage}
+          handleChange={(page) => (event) => {
+            event.preventDefault();
+            handleSearch(state.search, page);
+          }}
+        />
+      )}
+    </>
+  );
+};
+
 const Employers = () => (
   <>
     <header className="mb-5">
@@ -113,20 +174,7 @@ const Employers = () => (
     </header>
     <main className="container">
       <h6 className="display-6">Tìm những nhà tuyển dụng tốt nhất</h6>
-      <SearchBox />
-      <TableHeaders
-        headers={[
-          makeHeader(1, ""),
-          makeHeader(2, "Nhà tuyển dụng"),
-          makeHeader(1, "Lĩnh vực"),
-          makeHeader(1, "Quy mô"),
-          makeHeader(7, "Giới thiệu"),
-        ]}
-      >
-        {data.map((employer) => (
-          <Employer key={employer.name} {...employer} />
-        ))}
-      </TableHeaders>
+      <Table />
     </main>
   </>
 );

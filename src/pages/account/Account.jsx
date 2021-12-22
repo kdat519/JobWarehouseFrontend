@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
@@ -9,6 +9,8 @@ import * as Yup from "yup";
 import AdminNavBar from "../../components/navbar/AdminNavBar";
 import "./styles.css";
 import ImageCropperForm from "./ImageCropperForm";
+import NavBar from "../../components/navbar/NavBar";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar"
 
 export default function Account() {
   const auth = useAuth();
@@ -33,14 +35,23 @@ export default function Account() {
     return <Navigate to="/login" />;
   }
   return (
-    <div>
-             <AdminNavBar />
-
-      <div className="container mt-5">
+    <>
+      <header className="mb-5">
+        {(() => {
+          switch (auth.role) {
+            case Role.Employer:
+              return <EmployerNavBar />;
+            case Role.Admin:
+              return <AdminNavBar />;
+            default:
+              return <NavBar />;
+          }
+        })()}
+        {/* {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />} */}
+      </header>
+      <main className="container mt-5">
         <div className="mb-4" id="account">
-       
-            <div className="h1 mb-2">Tài khoản</div>
-        
+          <div className="h1 mb-2">Tài khoản</div>
 
           <div className="mb-5">
             {profile.user && (
@@ -103,38 +114,37 @@ export default function Account() {
                 </div>
               )}
             </div>
-            
-              <div className="info">
-                <div className="border border-1 rounded-3 p-4 ms-5">
-                  <h3 className="h2  mt-3">
-                    <i className="bi bi-lock-fill"></i>
-                  </h3>
-                  <div className="h5  mb-3">
-                    Những thông tin nào có thể chỉnh sửa?
-                  </div>
-                  <div className="mb-5">
-                    Bạn không thể thay đổi những thông tin mà Job Warehouse sử
-                    dụng để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi
-                    một số thông tin giới thiệu về bản thân.
-                  </div>
-                  <hr className="mb-5" />
-                  <h3 className="h2  mt-3">
-                    <i className="bi bi-person-badge-fill"></i>
-                  </h3>
-                  <div className="h5  mb-3">
-                    Những thông tin nào sẽ được chia sẻ?
-                  </div>
-                  <div className="mb-4">
-                    Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
-                    bạn.
-                  </div>
+
+            <div className="info">
+              <div className="border border-1 rounded-3 p-4 ms-5">
+                <h3 className="h2  mt-3">
+                  <i className="bi bi-lock-fill"></i>
+                </h3>
+                <div className="h5  mb-3">
+                  Những thông tin nào có thể chỉnh sửa?
+                </div>
+                <div className="mb-5">
+                  Bạn không thể thay đổi những thông tin mà Job Warehouse sử
+                  dụng để xác minh danh tính của bạn. Bạn chỉ có thể thay đổi
+                  một số thông tin giới thiệu về bản thân.
+                </div>
+                <hr className="mb-5" />
+                <h3 className="h2  mt-3">
+                  <i className="bi bi-person-badge-fill"></i>
+                </h3>
+                <div className="h5  mb-3">
+                  Những thông tin nào sẽ được chia sẻ?
+                </div>
+                <div className="mb-4">
+                  Mọi thông tin sẽ được chia sẻ trên trang Profile cá nhân của
+                  bạn.
                 </div>
               </div>
-         
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 

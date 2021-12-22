@@ -18,8 +18,8 @@ const AuthProvider = ({ children }) => {
   const [registerError, setRegisterError] = useState();
   const [loginError, setLoginError] = useState();
 
-  const login = (data) => {
-    (async function (data) {
+  const login = (data, from) => {
+    (async function (data, from) {
       const response = await authApi.login(data);
 
       if (response.access_token) {
@@ -27,19 +27,30 @@ const AuthProvider = ({ children }) => {
         setUser(response.user);
         setLoginError(undefined);
         if (response?.user?.role === "admin") {
-          navigate("/admin");
+          navigate("/admin", { replace: true });
         } else {
-          navigate("/");
+          if (
+            response?.user?.role === Role.Employer &&
+            /^(?!\/for-employers)/gm.test(from)
+          )
+            navigate("/for-employers", { replace: true });
+          else if (
+            response?.user?.role === Role.JobSeeker &&
+            /^\/(for-employers|admin)/gm.test(from)
+          )
+            navigate("/", { replace: true });
+          else navigate(from, { replace: true });
         }
       } else {
         setRegisterError(undefined);
         setLoginError(response.message);
       }
-    })(data);
+    })(data, from);
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
+    setUser(undefined);
     setRegisterError(undefined);
     setLoginError(undefined);
     navigate("/");

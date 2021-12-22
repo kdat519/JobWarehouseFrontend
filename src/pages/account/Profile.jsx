@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
+import * as yup from "yup";
 import adminApi from "../../api/adminApi";
 import adminReportApi from "../../api/adminReportApi";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
-import { useAuth } from "../../components/auth/AuthProvider";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import "./styles.css";
 import authApi from "../../api/authApi";
-
+import { Role, useAuth } from "../../components/auth/AuthProvider";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import AdminNavBar from "../../components/navbar/AdminNavBar";
+import NavBar from "../../components/navbar/NavBar";
+import "./styles.css";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -86,9 +86,20 @@ export default function Profile() {
     }
   }
   return (
-    <div>
-      <AdminNavBar />
-      <div className="container mt-5">
+    <>
+      <header className="mb-5">
+      {(() => {
+          switch (auth.role) {
+            case Role.Employer:
+              return <EmployerNavBar />;
+            case Role.Admin:
+              return <AdminNavBar />;
+            default:
+              return <NavBar />;
+          }
+        })()}
+      </header>
+      <main className="container mt-5">
         {user?.role && user?.role !== "admin" && (
           <div id="profile">
             <div>
@@ -310,7 +321,7 @@ export default function Profile() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

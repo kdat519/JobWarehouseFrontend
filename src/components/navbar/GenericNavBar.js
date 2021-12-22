@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Role, useAuth } from "../auth/AuthProvider";
 
 export const ThemeContext = createContext(null);
@@ -27,19 +27,31 @@ const CollapseButton = () => (
 const SmallScreenNav = () => {
   const themeContext = useTheme();
   const authContext = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const loginBtnClassName =
     "d-lg-none btn fw-bold mx-1 " +
     (themeContext.value === Role.JobSeeker
       ? "btn-primary text-white"
       : "btn-light text-dark") +
-    (authContext.username ? " d-none" : "");
+    (authContext.role === themeContext.value ? " d-none" : "");
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    navigate("/login", { replace: true, state: { from: location } });
+  };
 
   return (
     <div className="navbar-nav flex-row justify-content-end">
-      <NavItem to="/login" className={loginBtnClassName}>
-        Đăng nhập
-      </NavItem>
+      <li className="nav-item">
+        <button
+          className={"nav-link px-2 " + loginBtnClassName}
+          onClick={handleLogin}
+        >
+          Đăng nhập
+        </button>
+      </li>
       <CollapseButton />
     </div>
   );
