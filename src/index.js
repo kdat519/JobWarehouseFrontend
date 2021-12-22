@@ -6,8 +6,8 @@ import AuthProvider, { Role } from "./components/auth/AuthProvider";
 import RequireAuth from "./components/auth/RequireAuth";
 import NavBar from "./components/navbar/NavBar";
 import Account from "./pages/account/Account";
-import Admin from "./pages/admin/Admin";
 import Profile from "./pages/account/Profile";
+import Admin from "./pages/admin/Admin";
 import Reports from "./pages/admin/Reports";
 import User from "./pages/admin/User";
 import Users from "./pages/admin/Users";
@@ -18,12 +18,15 @@ import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
 import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
+import ForEmployersLayout from "./pages/ForEmployersLayout";
 import HomePage from "./pages/homepage/HomePage";
+import NotificationPage from "./pages/notifications/Notification";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
+import JobDescriptionPage from "./pages/recruitpages/JobDescripPage";
+import RecruitmentPage from "./pages/recruitpages/RecruitPage";
 import "./styles.scss";
-import ForEmployersLayout from "./pages/ForEmployersLayout";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -61,6 +64,10 @@ const App = () => (
 
       <Route path="profile/:userId" element={<Profile />} />
       <Route path="account" element={<Account />} />
+
+      <Route path="/recruitments" element={<RecruitmentPage />} />
+      <Route path="/jobdescrips/:userId" element={<JobDescriptionPage />} />
+      <Route path="/notifications" element={<NotificationPage />} />
 
       <Route path="/employers" element={<Employers />} />
 
