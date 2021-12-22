@@ -20,7 +20,7 @@ export default function AdminNavBar() {
           </NavLink>
 
           <button
-            className="navbar-toggler"
+            className="navbar-toggler shadow-none"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
@@ -28,21 +28,21 @@ export default function AdminNavBar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item">
                 <NavLink className="nav-link px-2" to="/admin/users">
                   Tài khoản
                 </NavLink>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <NavLink className="nav-link px-2" to="/admin/reports">
                   Nhận xét
                 </NavLink>
               </li>
-              {/* <li class="nav-item">
+              {/* <li className="nav-item">
                 <NavLink className="nav-link px-2" to="/account">
                   Cài đặt
                 </NavLink>
