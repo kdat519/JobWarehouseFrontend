@@ -9,7 +9,7 @@ export const readEmployers = async (search = "", page = 1) => {
         employers: response.employers.data.map((employer) => ({
           imgSrc:
             process.env.REACT_APP_API_URL + "/get-image/" + employer.user_id,
-          url: "/profile/" + employer.user_id,
+          userId: employer.user_id,
           name: employer.name,
           category: employer.category,
           numOfEmployees: employer.num_employee,

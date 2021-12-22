@@ -24,8 +24,8 @@ import NotificationPage from "./pages/notifications/Notification";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
-import JobDescriptionPage from "./pages/recruitpages/JobDescripPage";
-import RecruitmentPage from "./pages/recruitpages/RecruitPage";
+import JobDescriptionPage from "./pages/search-jobs/JobDescriptionPage";
+import RecruitmentPage from "./pages/search-jobs/JobsPage";
 import "./styles.scss";
 
 const EmptyPage = () => (
@@ -65,8 +65,8 @@ const App = () => (
       <Route path="profile/:userId" element={<Profile />} />
       <Route path="account" element={<Account />} />
 
-      <Route path="/recruitments" element={<RecruitmentPage />} />
-      <Route path="/jobdescrips/:userId" element={<JobDescriptionPage />} />
+      <Route path="/jobs" element={<RecruitmentPage />} />
+      <Route path="/jobs/:jobId" element={<JobDescriptionPage />} />
       <Route path="/notifications" element={<NotificationPage />} />
 
       <Route path="/employers" element={<Employers />} />

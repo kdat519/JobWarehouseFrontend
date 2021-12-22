@@ -16,6 +16,10 @@
   margin-left: 1rem;
 }
 
+.ml-2 {
+  margin-left: 2rem;
+}
+
 .ml-3 {
   margin-left: 3rem;
 }
@@ -64,9 +68,24 @@
   height: 25rem;
 }
 
+.vh-50 {
+  height: 70vh;
+}
+
 .position-sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 2rem;
   height: fit-content;
+}
+
+.content {
+  background-color: $light;
+  padding: 0.5rem;
+  border-radius: 5px;
+
+  h5 {
+    font-weight: bold;
+    color: $secondary;
+  }
 }

@@ -23,13 +23,23 @@ const SmallInfo = ({ category, numOfEmployees }) => (
   </div>
 );
 
-const Employer = ({ imgSrc, url, name, category, numOfEmployees, about }) => (
+const Employer = ({
+  imgSrc,
+  userId,
+  name,
+  category,
+  numOfEmployees,
+  about,
+}) => (
   <Row>
     <div className="col-3 col-lg-1">
       <img src={imgSrc} height="75px" className="img-thumbnail" alt="" />
     </div>
     <div className="col-9 col-lg-2">
-      <Link to={url} className="text-decoration-none text-dark fw-bold">
+      <Link
+        to={"/profile/" + userId}
+        className="text-decoration-none text-dark fw-bold"
+      >
         {name}
       </Link>
       <SmallInfo category={category} numOfEmployees={numOfEmployees} />
@@ -130,7 +140,7 @@ const Table = () => {
           ]}
         >
           {state.employers.map((employer) => (
-            <Employer key={employer.name} {...employer} />
+            <Employer key={employer.userId} {...employer} />
           ))}
         </TableHeaders>
       ) : (

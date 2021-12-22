@@ -28,7 +28,7 @@ export const updateJobStatus = async (id, status) => {
   return response.success ? Promise.resolve() : Promise.reject();
 };
 
-const ISO8601ToDate = (dateString) => {
+export const ISO8601ToDate = (dateString) => {
   dateString = dateString.split("T")[0].split("-");
   return new Date(dateString[0], dateString[1] - 1, dateString[2]);
 };
