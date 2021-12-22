@@ -68,7 +68,7 @@
   height: 25rem;
 }
 
-.vh-50 {
+.vh-75 {
   height: 70vh;
 }
 
@@ -79,13 +79,12 @@
   height: fit-content;
 }
 
-.content {
-  background-color: $light;
-  padding: 0.5rem;
-  border-radius: 5px;
+.d-none-short-screen {
+  display: block;
+}
 
-  h5 {
-    font-weight: bold;
-    color: $secondary;
+@media (max-height: 900px) {
+  .d-none-short-screen {
+    display: none;
   }
 }

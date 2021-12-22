@@ -65,7 +65,7 @@ function getFill(id) {
   if (id === 0) {
     return "bi-heart";
   }
-  return "bi-heart-fill";
+  return "bi-heart-fill ";
 }
 
 function JobDescription(props) {
@@ -142,16 +142,29 @@ function JobDescription(props) {
             >
               {recruitment.job_name}
             </Link>
-            <h6 className={getCardClass("card-subtitle") + " mb-2 text-muted"}>
+            <h6
+              className={
+                getCardClass("card-subtitle " + styles["d-none-short-screen"]) +
+                " mb-2 text-muted"
+              }
+            >
               {recruitment.category}
             </h6>
-            <p className={`${getCardClass("card-subtitle")} mb-2`}>
+            <p
+              className={`${getCardClass(
+                "card-subtitle " + styles["d-none-short-screen"]
+              )} mb-2`}
+            >
               Lương: {recruitment.min_salary} VND
             </p>
-            <p className={`${getCardClass("card-subtitle")} mb-2`}>
+            <p
+              className={`${getCardClass(
+                "card-subtitle " + styles["d-none-short-screen"]
+              )} mb-2`}
+            >
               {recruitment.address}
             </p>
-            <p>
+            <p className={getCardClass(styles["d-none-short-screen"])}>
               <Link
                 to={"/profile/" + employer.user.user_id}
                 className="text-dark"
@@ -177,30 +190,28 @@ function JobDescription(props) {
             </button>
             <button
               type="button"
-              className={`btn btn-secondary mt-1 ${styles["ml-1"]}`}
+              className={`btn btn-${
+                isFollowing ? "danger" : "secondary"
+              } mt-1 ${styles["ml-1"]}`}
               onClick={handleFollow}
             >
-              <i
-                className={`bi ${getFill(isFollowing)} ${
-                  styles["font-size-25"]
-                } px-1 mt-1`}
-              ></i>
+              <i className={`bi ${getFill(isFollowing)} px-1 mt-1`}></i>
             </button>
           </div>
         </div>
         <div className="overflow-auto">
           <div className={getCardClass("card-body", "container mt-5")}>
-            <h4 className="fw-bold">Thông tin chi tiết</h4>
+            <h5 className="fw-bold">Thông tin chi tiết</h5>
             <div
-              className={styles["content"]}
+              className="bg-light p-3 rounded"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(recruitment.detail),
               }}
             />
 
-            <h4 className="fw-bold mt-3">Yêu cầu</h4>
+            <h5 className="fw-bold mt-3">Yêu cầu</h5>
             <div
-              className={styles["content"]}
+              className="bg-light p-3 rounded"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(recruitment.requirement),
               }}

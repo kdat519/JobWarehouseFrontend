@@ -2,10 +2,11 @@ import { React, useEffect, useState } from "react";
 import NavBar from "../../components/navbar/NavBar";
 import JobDescription from "./JobDescription";
 import jobseekerAPI from "../../api/jobseekerAPI";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import { useParams } from "react-router-dom";
 import recruitAPI from "../../api/recruitmentAPI";
 import { useNavigate } from "react-router-dom";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 
 function JobDescriptionPage() {
   const [jobDescription, setJobDescription] = useState({});
@@ -79,7 +80,14 @@ function JobDescriptionPage() {
   return (
     <>
       <header>
-        <NavBar dark />
+        {(() => {
+          switch (authContext.role) {
+            case Role.Employer:
+              return <EmployerNavBar />;
+            default:
+              return <NavBar dark />;
+          }
+        })()}
       </header>
       <main>
         <JobDescription

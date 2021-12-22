@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import jobseekerAPI from "../../api/jobseekerAPI";
 import recruitAPI from "../../api/recruitmentAPI";
 import doodle from "../../assets/empty-doodle.svg";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import CardRecruit from "../../components/CardRecruitment";
 import Pagination from "../../components/list/Pagination";
 import NavBar from "../../components/navbar/NavBar";
@@ -12,7 +12,7 @@ import { fireErrorMessage } from "../../components/swal-error-message";
 import JobDescription from "./JobDescription";
 import styles from "./styles.module.scss";
 
-function RecruitmentPage() {
+function RecruitmentPage({ interestOnly = false }) {
   const [recruitList, setRecruitList] = useState([]);
   const [listByPage, setListByPage] = useState([]);
   const [currentPage, setPage] = useState(0);
@@ -58,7 +58,9 @@ function RecruitmentPage() {
   useEffect(() => {
     async function fetchRecruitList() {
       try {
-        const response = await recruitAPI.showAll(filter);
+        const response = interestOnly
+          ? await jobseekerAPI.showInterestRecruit()
+          : await recruitAPI.showAll(filter);
         if (response) setRecruitList(response);
         else setRecruitList([]);
         // console.log(response);
@@ -74,10 +76,10 @@ function RecruitmentPage() {
     }
 
     fetchRecruitList();
-  }, [filter]);
+  }, [filter, interestOnly]);
 
   async function handleFollowChange(id, isFollowing) {
-    if (authContext.user_id) {
+    if (authContext.role === Role.JobSeeker) {
       let response;
       if (isFollowing === 0) {
         response = await jobseekerAPI.followRecruit(id);
@@ -103,7 +105,7 @@ function RecruitmentPage() {
   }
 
   async function handleStatusChange(id, applicationStatus) {
-    if (authContext.user_id) {
+    if (authContext.role === Role.JobSeeker) {
       let response;
       if (applicationStatus === null) {
         response = await jobseekerAPI.applyRecruit(id);
@@ -135,11 +137,17 @@ function RecruitmentPage() {
         <NavBar />
       </header>
       <main className="container">
-        <div className={`row justify-content-center mb-5`}>
-          <div className="col-12 col-lg-8">
-            <SearchForm onSearchFormChange={handleFilterChange} />
+        {interestOnly ? (
+          <h1 className="fw-bold mb-5 text-center">
+            Tin tuyển dụng đang quan tâm
+          </h1>
+        ) : (
+          <div className={`row justify-content-center mb-5`}>
+            <div className="col-12 col-lg-8">
+              <SearchForm onSearchFormChange={handleFilterChange} />
+            </div>
           </div>
-        </div>
+        )}
 
         {totalRecruit > 0 ? (
           <div className={`row justify-content-center`}>
@@ -168,7 +176,7 @@ function RecruitmentPage() {
               className={`col-12 col-lg-6 mt-2 d-none d-lg-block ${styles["position-sticky"]}`}
             >
               <div
-                className={`shadow border-secondary card bg-white px-2 pt-5 pb-5 ${styles["vh-50"]}`}
+                className={`shadow border-secondary card bg-white px-2 pt-3 pb-4 ${styles["vh-75"]}`}
               >
                 <JobDescription
                   {...jobDetail}

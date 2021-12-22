@@ -70,19 +70,27 @@ const NavItems = () => {
   );
 };
 
-const NavCollapse = () => (
-  <div className="collapse navbar-collapse" id="nav-collapse">
-    <ul className="navbar-nav me-auto">
-      <NavItem to="/jobs">Tìm việc</NavItem>
-      <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
-    </ul>
-    <ul className="navbar-nav">
-      <NavItems />
-      <div className="vr text-dark d-none d-lg-block" />
-      <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
-    </ul>
-  </div>
-);
+const NavCollapse = () => {
+  const themeContext = useTheme();
+  return (
+    <div className="collapse navbar-collapse" id="nav-collapse">
+      <ul className="navbar-nav me-auto">
+        <NavItem to="/jobs">Tìm việc</NavItem>
+        <NavItem to="/employers">Tìm nhà tuyển dụng</NavItem>
+      </ul>
+      <ul className="navbar-nav">
+        <NavItems />
+        <div
+          className={
+            "vr d-none d-lg-block " +
+            (themeContext.value === Role.JobSeeker ? "text-dark" : "text-light")
+          }
+        />
+        <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
+      </ul>
+    </div>
+  );
+};
 
 const NavBar = ({ dark = false }) => (
   <ThemeContext.Provider

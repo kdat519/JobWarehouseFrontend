@@ -25,9 +25,8 @@ import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
 import JobDescriptionPage from "./pages/search-jobs/JobDescriptionPage";
-import RecruitmentPage from "./pages/search-jobs/JobsPage";
+import JobsPage from "./pages/search-jobs/JobsPage";
 import "./styles.scss";
-import FollowRecruitPage from "./pages/recruitpages/followRecruitPage";
 
 const EmptyPage = () => (
   <div className="d-flex flex-column vh-100">
@@ -66,11 +65,11 @@ const App = () => (
       <Route path="profile/:userId" element={<Profile />} />
       <Route path="account" element={<Account />} />
 
-      <Route path="/jobs" element={<RecruitmentPage />} />
+      <Route path="/jobs" element={<JobsPage />} />
       <Route path="/jobs/:jobId" element={<JobDescriptionPage />} />
       <Route path="/notifications" element={<NotificationPage />} />
 
-      <Route path="/following" element={<FollowRecruitPage />} />
+      <Route path="/following" element={<JobsPage interestOnly />} />
 
       <Route path="/employers" element={<Employers />} />
 
