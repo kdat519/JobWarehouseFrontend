@@ -3,6 +3,9 @@
   margin: auto;
   display: grid;
   grid-template-columns: 300px 1fr;
+}
+
+.pre-line {
   white-space: pre-line;
 }
 

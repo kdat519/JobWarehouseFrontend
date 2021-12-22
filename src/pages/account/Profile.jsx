@@ -150,8 +150,25 @@ export default function Profile() {
                 {user.role === "employer" && (
                   <div>
                     <p className="h4 ">Giới thiệu</p>
-                    <p className="mb-4">{user.about_us}</p>
+                    <p className="mb-4 pre-line">{user.about_us}</p>
 
+                    {user.num_employee && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-person-fill mx-2"></i>
+                          Số lượng nhân viên: {user.num_employee}
+                        </span>
+                      </div>
+                    )}
+
+                    {user.category && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-tag-fill mx-2"></i>
+                          Lĩnh vực: {user.category}
+                        </span>
+                      </div>
+                    )}
                     {user.address && (
                       <div className="mb-4">
                         <span>
@@ -160,7 +177,6 @@ export default function Profile() {
                         </span>
                       </div>
                     )}
-
                     <hr />
                   </div>
                 )}
@@ -170,7 +186,7 @@ export default function Profile() {
                 {user.role === "jobseeker" && (
                   <div>
                     <p className="h4 ">Giới thiệu</p>
-                    <p className="mb-4">{user.skill}</p>
+                    <p className="mb-4 pre-line">{user.skill}</p>
 
                     {user.birthday && user.birthday !== "0000-00-00" && (
                       <div className="mb-4">
@@ -182,14 +198,7 @@ export default function Profile() {
                       </div>
                     )}
 
-                    {user.address && (
-                      <div className="mb-4">
-                        <span>
-                          <i className="bi bi-house-door-fill me-3"></i>
-                          Địa chỉ: {user.address}
-                        </span>
-                      </div>
-                    )}
+                    
 
                     {user.education && (
                       <div className="mb-3">
@@ -209,6 +218,14 @@ export default function Profile() {
                       <div className="mb-4">
                         <i className="bi bi-briefcase-fill me-3"></i>
                         Kinh nghiệm làm việc: {user.work_experience}
+                      </div>
+                    )}
+                    {user.address && (
+                      <div className="mb-4">
+                        <span>
+                          <i className="bi bi-house-door-fill me-3"></i>
+                          Địa chỉ: {user.address}
+                        </span>
                       </div>
                     )}
                     <hr />
@@ -278,7 +295,7 @@ export default function Profile() {
                       )}
                     </span>
                   </div>
-                  <p className="">{report.detail} </p>
+                  <p className="pre-line">{report.detail} </p>
                   <div className="fw-light h6 d-flex">
                     <div className="rounded-circle mb-5 report-avatar border">
                       <Link
