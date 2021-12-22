@@ -29,18 +29,20 @@ export const TabHeader = ({ candidateType, title }) => {
 const DAYS_BEFORE_HIRE_PERMIT = 7;
 
 const changeCandidateType =
-  (candidateId, setCandidates, jobId, jobUpdatedDate) => (type) => (event) => {
+  (candidateId, setCandidates, jobId, update, create) => (type) => (event) => {
     event.preventDefault();
 
-    if (type === CandidateType.Hired && jobUpdatedDate === null) {
+    if (type === CandidateType.Hired && update === null) {
       fireErrorMessage();
       return;
     }
 
+    const updateAfterSomeTime = Math.abs(update - create) > 1000 * 60 * 10;
     const daysLeft =
       DAYS_BEFORE_HIRE_PERMIT -
-      Math.floor((new Date() - jobUpdatedDate) / (1000 * 60 * 60 * 24));
-    if (type === CandidateType.Hired && daysLeft > 0) {
+      Math.floor((new Date() - update) / (1000 * 60 * 60 * 24));
+
+    if (type === CandidateType.Hired && updateAfterSomeTime && daysLeft > 0) {
       Swal.fire({
         icon: "info",
         title: "<h3>Chưa thể tuyển dụng<h3>",

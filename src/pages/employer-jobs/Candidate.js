@@ -55,7 +55,29 @@ const Candidate = React.forwardRef((props, ref) => (
         </Link>
         <div className={`${styles["card-content-container"]}`}>
           <p className={`card-text ${styles["line-clamp"]}`}>
-            {props.qualification}
+            {props.education && (
+              <>
+                <i className="bi bi-book-fill" /> <strong>Giáo dục:</strong>{" "}
+                {props.education}
+                <br />
+              </>
+            )}
+
+            {props.qualification && (
+              <>
+                <i className="bi bi-person-badge-fill" />{" "}
+                <strong>Chứng chỉ:</strong> {props.qualification}
+                <br />
+              </>
+            )}
+
+            {props.workExperience && (
+              <>
+                <i className="bi bi-briefcase-fill" />{" "}
+                <strong>Kinh nghiệm làm việc:</strong> {props.workExperience}
+                <br />
+              </>
+            )}
           </p>
         </div>
         {props.type === CandidateType.AwaitReview ||

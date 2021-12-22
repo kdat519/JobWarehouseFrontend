@@ -94,6 +94,8 @@ export const readCandidatesForJob = async (jobId) => {
     type: candidate.type,
     imgSrc: process.env.REACT_APP_API_URL + "/get-image/" + candidate.user_id,
     qualification: candidate.qualification,
+    education: candidate.education,
+    workExperience: candidate.work_experience,
   }));
 };
 

@@ -77,13 +77,13 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
     <>
       <NavItem to="/messages" className={`position-relative ${styles["mr-2"]}`}>
         Tin nhắn
-        <span class={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseen)}`}>
+        <span className={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseen)}`}>
           {countUnseen}
         </span>
       </NavItem>
       <NavItem to="/notifications" className={`position-relative ${styles["mr-2"]}`}>
         Thông báo
-        <span class={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseenNoti)}`}>
+        <span className={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseenNoti)}`}>
           {countUnseenNoti}
         </span>
       </NavItem>

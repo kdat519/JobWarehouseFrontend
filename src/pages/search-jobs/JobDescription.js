@@ -240,7 +240,7 @@ function JobDescription(props) {
                       <b>Báo cáo: {getEmployerName()}</b>
                     </label>
                   </div>
-                  <div class="mb-3">
+                  <div className="mb-3">
                     <label for="message-text" className="col-form-label">
                       Report:
                     </label>
