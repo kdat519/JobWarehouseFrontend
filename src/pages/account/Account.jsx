@@ -99,7 +99,6 @@ export default function Account() {
                 reload={reload}
                 profile={profile}
               />
-              <ChangePasswordForm />
               {/* <AvatarUpload /> */}
               {profile.user && (
                 <div>
@@ -114,6 +113,8 @@ export default function Account() {
                   <hr />
                 </div>
               )}
+                            <ChangePasswordForm />
+
             </div>
 
             <div className="info">

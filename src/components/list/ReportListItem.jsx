@@ -21,7 +21,7 @@ export default function ReportListItem({ report }) {
           <span> {report.sender_email} </span>
         </Link>
         nhận xét vào
-        <span> {new Date(Date.parse(report.update_at)).toLocaleString()}</span>
+        <span> {new Date(Date.parse(report?.updated_at)).toLocaleString()}</span>
       </p>
     </div>
   );

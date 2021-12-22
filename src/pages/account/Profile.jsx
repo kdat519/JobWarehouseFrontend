@@ -291,7 +291,7 @@ export default function Profile() {
                   <div className="mb-2">
                     <span>
                       {new Intl.DateTimeFormat("vi-VN").format(
-                        new Date(report.update_at)
+                        new Date(report?.updated_at)
                       )}
                     </span>
                   </div>
