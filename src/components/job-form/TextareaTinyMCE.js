@@ -60,13 +60,9 @@ const TextareaTinyMCE = ({ name, label }) => {
             branding: false,
             plugins: ["advlist autolink lists link paste"],
             toolbar:
-              "undo redo | styleselect | " +
+              "undo redo | " +
               "bold italic | bullist numlist outdent indent | " +
               "removeformat",
-            style_formats: [
-              { title: "Tiêu đề", format: "h5" },
-              { title: "Nội dung", format: "p" },
-            ],
             content_css:
               "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
             content_style:
