@@ -70,7 +70,7 @@ export default function Account() {
 
           <div className="box mb-5">
             <div className="pe-3 pe-4">
-              <ChangePasswordForm />
+              
               <ImageCropperForm />
               {profile.user && (
                 <div>
@@ -99,6 +99,7 @@ export default function Account() {
                 reload={reload}
                 profile={profile}
               />
+              <ChangePasswordForm />
               {/* <AvatarUpload /> */}
               {profile.user && (
                 <div>
@@ -151,7 +152,7 @@ export default function Account() {
 function ChangePasswordForm() {
   const schema = Yup.object().shape({
     new_password: Yup.string()
-      .min(6, "Mật khẩu phải ít nhất 6 ký tự")
+      .min(8, "Mật khẩu phải ít nhất 8 ký tự")
       .required("Mật khẩu là bắt buộc"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("new_password"), null], "Mật khẩu không trùng nhau")
@@ -247,7 +248,7 @@ function ChangePasswordForm() {
 //     avatar: Yup.mixed()
 //       .required("Chưa chọn ảnh đại diện.")
 //       .test("fileSize", "Kích thước tối đa 2 MB", (value) => {
-//         return value && value[0]?.size <= 2000000;
+//         return value && value[0]?.size <= 20000000;
 //       }),
 //   });
 
@@ -342,10 +343,10 @@ function JobseekerEdit({ reload, setReload, profile }) {
   const validationSchema = Yup.object().shape({
     birthday: Yup.string(),
     gender: Yup.string(),
-    qualification: Yup.string().max(200, "Tối đa 200 ký tự"),
-    work_experience: Yup.string().max(200, "Tối đa 200 ký tự"),
-    skill: Yup.string().max(200, "Tối đa 200 ký tự"),
-    education: Yup.string().max(200, "Tối đa 200 ký tự"),
+    qualification: Yup.string().max(2000, "Tối đa 2000 ký tự"),
+    work_experience: Yup.string().max(2000, "Tối đa 2000 ký tự"),
+    skill: Yup.string().max(2000, "Tối đa 2000 ký tự"),
+    education: Yup.string().max(2000, "Tối đa 2000 ký tự"),
   });
 
   const {
@@ -685,8 +686,8 @@ function EmployerEdit({ reload, setReload, profile }) {
   }
   const validationSchema = Yup.object().shape({
     num_employee: Yup.string(),
-    about_us: Yup.string().max(200, "Tối đa 200 ký tự"),
-    category: Yup.string().max(200, "Tối đa 200 ký tự"),
+    about_us: Yup.string().max(2000, "Tối đa 2000 ký tự"),
+    category: Yup.string().max(2000, "Tối đa 2000 ký tự"),
   });
 
   const {
