@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import Swal from "sweetalert2";
 import { updateCandidateType } from "../../api/jobApi";
 import doodle from "../../assets/empty-doodle-white.svg";
 import { fireErrorMessage } from "../../components/swal-error-message";
 import MotionCandidate from "./Candidate";
-import { useCandidate } from "./CandidatesForJob";
+import { CandidateType, useCandidate } from "./CandidatesForJob";
 
 export const TabHeader = ({ candidateType, title }) => {
   const { activeTab, changeActiveTab, candidateLists } = useCandidate();
@@ -25,9 +26,35 @@ export const TabHeader = ({ candidateType, title }) => {
   );
 };
 
+const DAYS_BEFORE_HIRE_PERMIT = 7;
+
 const changeCandidateType =
-  (candidateId, setCandidates, jobId) => (type) => (event) => {
+  (candidateId, setCandidates, jobId, jobUpdatedDate) => (type) => (event) => {
     event.preventDefault();
+
+    if (type === CandidateType.Hired && jobUpdatedDate === null) {
+      fireErrorMessage();
+      return;
+    }
+
+    const daysLeft =
+      DAYS_BEFORE_HIRE_PERMIT -
+      Math.floor((new Date() - jobUpdatedDate) / (1000 * 60 * 60 * 24));
+    if (type === CandidateType.Hired && daysLeft > 0) {
+      Swal.fire({
+        icon: "info",
+        title: "<h3>Chưa thể tuyển dụng<h3>",
+        html:
+          "<p>Bạn không thể xác nhận tuyển dụng nhân viên mới ngay sau khi sửa tin tuyển dụng. " +
+          "Bạn cần đợi " +
+          daysLeft +
+          "&nbsp;ngày&nbsp;nữa<p>",
+        showConfirmButton: false,
+        showCloseButton: true,
+      });
+      return;
+    }
+
     updateCandidateType(parseInt(jobId), candidateId, type)
       .then((candidates) => {
         setCandidates(candidates);
@@ -35,14 +62,25 @@ const changeCandidateType =
       .catch(fireErrorMessage);
   };
 
-const candidates = (candidateLists, candidateType, setCandidates, jobId) => (
+const candidates = (
+  candidateLists,
+  candidateType,
+  setCandidates,
+  jobId,
+  jobUpdatedDate
+) => (
   <AnimatePresence>
     {Array.from(candidateLists[candidateType].values()).map((candidate) => (
       <MotionCandidate
         key={candidate.id}
         exit={{ opacity: 0 }}
         layout="position"
-        handleClick={changeCandidateType(candidate.id, setCandidates, jobId)}
+        handleClick={changeCandidateType(
+          candidate.id,
+          setCandidates,
+          jobId,
+          jobUpdatedDate
+        )}
         {...candidate}
       />
     ))}
@@ -50,7 +88,8 @@ const candidates = (candidateLists, candidateType, setCandidates, jobId) => (
 );
 
 export const TabPane = ({ candidateType }) => {
-  const { activeTab, candidateLists, setCandidates, jobId } = useCandidate();
+  const { activeTab, candidateLists, setCandidates, jobId, jobUpdatedDate } =
+    useCandidate();
 
   return (
     <div
@@ -63,7 +102,13 @@ export const TabPane = ({ candidateType }) => {
             exit={{ opacity: 0 }}
             className="d-flex flex-wrap"
           >
-            {candidates(candidateLists, candidateType, setCandidates, jobId)}
+            {candidates(
+              candidateLists,
+              candidateType,
+              setCandidates,
+              jobId,
+              jobUpdatedDate
+            )}
           </motion.div>
         ) : (
           <motion.div key="empty" className="row justify-content-center">
