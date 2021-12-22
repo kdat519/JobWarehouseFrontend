@@ -55,6 +55,7 @@ const App = () => (
       <Route path="/admin" element={<RequireAdmin element={<Admin />} />}>
         <Route index element={<Users />} />
         <Route path="reports" element={<Reports />} />
+        <Route path="users" element={<Users />} />
         <Route path="users/:userId" element={<User />} />
       </Route>
 

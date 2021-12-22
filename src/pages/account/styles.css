@@ -1,8 +1,9 @@
 #profile {
-  max-width: 1000px;
+  max-width: 992px;
   margin: auto;
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: 300px 1fr;
+  white-space: pre-line;
 }
 
 #profile .profile-avatar {
@@ -12,6 +13,12 @@
   display: block;
   margin: auto;
   overflow: hidden;
+}
+
+#profile .box p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+
 }
 
 #profile .profile-avatar img {
@@ -44,7 +51,7 @@
   }
 
 #account {
-  max-width: 1000px;
+  max-width: 992px;
   margin: auto;
 }
 

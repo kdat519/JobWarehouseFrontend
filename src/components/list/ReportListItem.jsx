@@ -12,18 +12,16 @@ export default function ReportListItem({ report }) {
         </Link>
       </p>
       <p className="">{report.detail} </p>
-      <p className="fw-light h6">
-      <small>
+      <p className="text-muted">
         <Link
           className="text-decoration-none text-dark"
           to={`/admin/users/${report.sender_id}`}
         >
-          <span className="fw-bold"> {report.sender_name},</span>
+          <span className=""> {report.sender_name},</span>
           <span> {report.sender_email} </span>
         </Link>
         nhận xét vào
         <span> {new Date(Date.parse(report.created_at)).toLocaleString()}</span>
-        </small>
       </p>
     </div>
   );

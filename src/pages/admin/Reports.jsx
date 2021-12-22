@@ -33,7 +33,7 @@ export default function Reports() {
 
   return (
     <div className="container">
-      <h1 className="mt-5 fw-light">Xem báo cáo</h1>
+      <h1 className="mt-5 h2 mb-4">Nhận xét mới nhất</h1>
       {reports.map((report, index) => (
         <div
           key={index}
