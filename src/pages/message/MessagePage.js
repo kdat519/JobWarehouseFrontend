@@ -7,6 +7,7 @@ import ChatLine from "../../components/message/ChatLine";
 import UserList from "../../components/message/UserList";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
+import { Link } from "react-router-dom";
 
 const MessagePage = () => {
   const authContext = useAuth();
@@ -41,7 +42,8 @@ const MessagePage = () => {
   const userListRef = useRef([]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current)
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   function handleSearchChange(e) {
@@ -249,6 +251,7 @@ const MessagePage = () => {
     };
   }, []);
 
+
   return (
     <div className="d-flex flex-column vh-100">
       <header>{role === "jobseeker" ? <NavBar /> : <EmployerNavBar />}</header>
@@ -301,7 +304,7 @@ const MessagePage = () => {
                   />
                 </div>
                 <div className="col">
-                  <h5 className="fw-bold m-0">{chatName}</h5>
+                  <Link className="fw-bold m-0 h6 text-decoration-none" to={`/profile/${filterMessageListRef.current.other_id}`}>{chatName}</Link>
                 </div>
               </div>
             </div>
