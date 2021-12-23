@@ -1,12 +1,11 @@
 import { React, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import jobseekerAPI from "../../api/jobseekerAPI";
+import recruitAPI from "../../api/recruitmentAPI";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
 import JobDescription from "./JobDescription";
-import jobseekerAPI from "../../api/jobseekerAPI";
-import { Role, useAuth } from "../../components/auth/AuthProvider";
-import { useParams } from "react-router-dom";
-import recruitAPI from "../../api/recruitmentAPI";
-import { useNavigate } from "react-router-dom";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 
 function JobDescriptionPage() {
   const [jobDescription, setJobDescription] = useState({});
@@ -94,6 +93,7 @@ function JobDescriptionPage() {
           {...jobDescription}
           handleFollowChange={handleFollowChange}
           handleStatusChange={handleStatusChange}
+          editable={authContext.user_id === jobDescription.employer?.user_id}
         />
       </main>
     </>

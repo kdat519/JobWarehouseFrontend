@@ -82,7 +82,11 @@ const Job = ({ jobName, id, createdAt, status, candidates, hired }) => (
         <div className="col-4 col-sm-3 col-md-2 d-lg-none fw-bold">
           Công việc:
         </div>
-        <div className="col-7 col-sm-auto text-truncate">{jobName}</div>
+        <div className="col-7 col-sm-auto text-truncate">
+          <Link to={`/jobs/${id}`} className="text-decoration-none text-dark">
+            {jobName}
+          </Link>
+        </div>
         <div className="col-1 d-lg-none ms-auto p-0">
           <EditButton id={id} />
         </div>

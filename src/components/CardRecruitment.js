@@ -13,7 +13,7 @@ CardRecruit.defaultProps = {
   onClick: null,
 };
 
-const getParagraph = (html) => /(?<=<p>).*?(?=<\/p>)/.exec(html)?.at(0);
+const getParagraph = (html) => /(?<=<p>).*?(?=<)/.exec(html)?.at(0);
 
 function CardRecruit(props) {
   const { recruit, onClick } = props;
@@ -50,24 +50,22 @@ function CardRecruit(props) {
             const content = getParagraph(
               DOMPurify.sanitize(recruitment.detail)
             );
-            console.log(content);
             return (
               content && (
-                <li
-                  className={`card-text ${styles["size-08"]} text-muted ${styles["list-circle"]}`}
+                <div
+                  className={`card-text ${styles["size-08"]} text-muted ${styles["list-circle"]} line-clamp`}
                 >
-                  {/* TODO: text truncate */}
-                  {content}
-                </li>
+                  {content + "..."}
+                </div>
               )
             );
           })()}
-          <li
+          <div
             className={`card-text ${styles["size-08"]} ${styles["list-circle"]} text-primary`}
           >
             Lương: {Intl.NumberFormat("vi-VN").format(recruitment.min_salary)}{" "}
             VND
-          </li>
+          </div>
         </div>
       </div>
     </>

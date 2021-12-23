@@ -42,13 +42,13 @@ function Notification(props) {
   const time = getTime(created_at);
   const Title = title.toUpperCase();
   return (
-    <div className={`toast show ${styles[`w-20`]}`}>
+    <div className={`toast show ${styles["notification-w"]}`}>
       <div className="toast-header">
         <span className={`rounded ${styles[`mr-1`]} ${styles[`square`]} bg-primary`} />
         <strong className={`${styles[`mr-auto`]}`}>{Title} NOTIFICATION</strong>
         <small>{time}</small>
       </div>
-      <div className="toast-body bg-secondary text-white">
+      <div className="toast-body bg-light text-dark">
         {detail}
       </div>
     </div>

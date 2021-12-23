@@ -21,6 +21,7 @@ JobDescription.defaultProps = {
   isFollowing: 0,
   applicationStatus: null,
   isCard: false,
+  editable: false,
 };
 
 function getId(s) {
@@ -77,6 +78,7 @@ function JobDescription(props) {
     applicationStatus,
     handleStatusChange,
     isCard,
+    editable,
   } = props;
   const [showReport, setShowReport] = useState(false);
   const [value, setValue] = useState("");
@@ -198,6 +200,12 @@ function JobDescription(props) {
             >
               <i className={`bi ${getFill(isFollowing)} px-1 mt-1`}></i>
             </button>
+            {editable && <Link
+              className={`btn btn-outline-secondary mt-1 ${styles["ml-1"]}`}
+              to={`/for-employers/post-job/${recruitment.recruitment_id}`}
+            >
+              <i className="bi bi-pencil-square" />
+            </Link>}
           </div>
         </div>
         <div className="overflow-auto">

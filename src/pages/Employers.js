@@ -47,7 +47,7 @@ const Employer = ({
     <div className="col-1 d-none d-lg-block">{category}</div>
     <div className="col-1 d-none d-lg-block">{numOfEmployees}</div>
     <div className="col-12 col-lg-7 mt-3 mt-lg-0">
-      <p className="my-0">{about}</p>
+      <p className="my-0 line-clamp">{about}</p>
     </div>
   </Row>
 );

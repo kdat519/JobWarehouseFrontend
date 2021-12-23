@@ -90,11 +90,13 @@ const NavCollapse = () => {
         <NavItems />
         <div
           className={
-            "vr d-none d-lg-block " +
+            "vr d-none d-xl-block " +
             (themeContext.value === Role.JobSeeker ? "text-dark" : "text-light")
           }
         />
-        <NavItem to="/for-employers">Nhà tuyển dụng/Đăng việc làm</NavItem>
+        <NavItem to="/for-employers" className="d-block d-lg-none d-xl-block">
+          Nhà tuyển dụng/Đăng việc làm
+        </NavItem>
       </ul>
     </div>
   );
