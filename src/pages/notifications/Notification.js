@@ -108,7 +108,12 @@ const NotificationPage = () => {
           <h5>Chưa xem</h5>
         </div>
         {notiUnSeenList.map((noti) => (
-          <Notification key={noti.notification_id} noti={noti} />
+          <div
+            key={noti.notification_id}
+            className="d-flex justify-content-center align-items-center mt-4"
+          >
+            <Notification noti={noti} />
+          </div>
         ))}
         <div className="text-center mt-5">
           <h5>Đã xem</h5>
