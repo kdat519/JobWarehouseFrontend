@@ -14,6 +14,7 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
 
   const [countUnseen, setCountUnseen] = useState(0);
   const [countUnseenNoti, setCountUnseenNoti] = useState(0);
+  const countUnseenRef = useRef(0);
   const countUnseenNotiRef = useRef(0);
   const authContext = useAuth();
 
@@ -21,21 +22,45 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
     if (id === 0) {
       return "d-none";
     }
-    return "";
+    return "d-inline-block";
+  }
+
+  function getwidth(id) {
+    if (id === 0) {
+      return '';
+    }
+    return "w-23";
+  }
+
+  function getheight(id) {
+    if (id === 0) {
+      return '';
+    }
+    return "h-20";
+  }
+
+  function getmargin(id) {
+    if (id === 0) {
+      return '';
+    }
+    return "mr-2";
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      async function getUnseen() {
+    async function getUnseen() {
+      try {
         const response = await messageApi.countUnseen();
-        if (response.data) {
+        if (response.success) {
+          console.log(response.data);
+          countUnseenRef.current = response.data;
           setCountUnseen(response.data);
         }
+      } catch (error) {
+        console.log(error);
       }
+    }
 
-      getUnseen();
-    }, 3000);
-    return () => clearInterval(interval);
+    getUnseen();
   }, []);
 
   useEffect(() => {
@@ -44,6 +69,7 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
         const params = { status: "unseen" };
         const response = await notificationApi.countNoti(params);
         if (response.success) {
+          console.log(response.data);
           setCountUnseenNoti(response.data);
           countUnseenNotiRef.current = response.data;
         }
@@ -76,31 +102,51 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      let channel = pusher.subscribe(
+        "private-MessageChannel.User." + String(authContext.user_id)
+      );
+      channel.bind("MessageCreated", function (data) {
+        if (data.model) {
+          countUnseenRef.current = 1;
+          console.log(countUnseenRef);
+          setCountUnseen(countUnseenRef.current);
+        }
+      });
+    }
+    return () => {
+      pusher.unsubscribe(
+        "private-MessageChannel.User." + String(authContext.user_id)
+      );
+      mounted = false;
+    };
+  }, []);
+
   return (
     <>
-      <NavItem to="/messages" className={`position-relative ${styles["mr-2"]}`}>
+      <NavItem to="/messages" className={`position-relative ${styles[getmargin(countUnseen)]}`}>
         Tin nhắn
         <span
-          className={`position-absolute ${
-            styles["top-5"]
-          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
-            countUnseen
-          )}`}
+          className={`position-absolute ${styles["top-5"]
+            } ${styles[getwidth(countUnseen)]} ${styles[getheight(countUnseen)]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+              countUnseen
+            )}`}
         >
-          {countUnseen}
+
         </span>
       </NavItem>
       <NavItem
         to="/notifications"
-        className={`position-relative ${styles["mr-2"]}`}
+        className={`position-relative ${styles[getmargin(countUnseenNoti)]}`}
       >
         Thông báo
         <span
-          className={`position-absolute ${
-            styles["top-5"]
-          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
-            countUnseenNoti
-          )}`}
+          className={`position-absolute ${styles["top-5"]
+            } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+              countUnseenNoti
+            )}`}
         >
           {countUnseenNoti}
         </span>
