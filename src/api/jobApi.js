@@ -107,3 +107,7 @@ export const updateCandidateType = async (jobId, candidateId, type) => {
   const response = await axiosClient.post("employer/recruitments", formData);
   return response.success ? readCandidatesForJob(jobId) : Promise.reject();
 };
+
+export const readJobsGuest = (employerId) => {
+  return axiosClient.get("employer/" + employerId + "/recruitments");
+};

@@ -155,7 +155,8 @@ function JobDescription(props) {
                 "card-subtitle " + styles["d-none-short-screen"]
               )} mb-2`}
             >
-              Lương: {recruitment.min_salary} VND
+              Lương: {Intl.NumberFormat("vi-VN").format(recruitment.min_salary)}{" "}
+              VND
             </p>
             <p
               className={`${getCardClass(

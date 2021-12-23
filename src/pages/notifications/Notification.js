@@ -9,6 +9,8 @@ import Loader from "./Loader";
 import EndMsg from "./EndMsg";
 import { useRef } from "react/cjs/react.development";
 
+// TODO: restyle
+
 const NotificationPage = () => {
   const [notiUnSeenList, setNotiUnSeenList] = useState([]);
   const [notiSeenList, setNotiSeenList] = useState([]);

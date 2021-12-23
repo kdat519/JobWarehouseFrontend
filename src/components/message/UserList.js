@@ -58,6 +58,7 @@ function UserList(props) {
       }
        py-3 align-items-center`}
       onClick={handleOnClick}
+      style={{ cursor: "pointer" }}
     >
       <div className="col-10 col-md-2 pe-0">
         <img className="rounded-circle w-100" src={getImage()} alt="avatar" />

@@ -6,8 +6,7 @@ import { NavItem } from "./GenericNavBar";
 import pusher from "../../api/pusher";
 import styles from "./styles.module.scss";
 
-
-const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
+const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
   const handleLogout = (event) => {
     event.preventDefault();
     logout();
@@ -22,7 +21,7 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
     if (id === 0) {
       return "d-none";
     }
-    return '';
+    return "";
   }
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
       getUnseen();
     }, 3000);
     return () => clearInterval(interval);
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function getUnseenNoti() {
@@ -54,36 +53,55 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
     }
 
     getUnseenNoti();
-  }, [])
+  }, []);
 
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      let channel = pusher.subscribe('private-NotificationChannel.User.' + String(authContext.user_id));
-      channel.bind('NotificationCreated', function (data) {
+      let channel = pusher.subscribe(
+        "private-NotificationChannel.User." + String(authContext.user_id)
+      );
+      channel.bind("NotificationCreated", function (data) {
         if (data.model) {
           countUnseenNotiRef.current += 1;
           setCountUnseenNoti(countUnseenNotiRef.current);
         }
-      })
+      });
     }
-    return (() => {
-      pusher.unsubscribe('private-NotificationChannel.User.' + String(authContext.user_id));
+    return () => {
+      pusher.unsubscribe(
+        "private-NotificationChannel.User." + String(authContext.user_id)
+      );
       mounted = false;
-    })
-  }, [])
+    };
+  }, []);
 
   return (
     <>
       <NavItem to="/messages" className={`position-relative ${styles["mr-2"]}`}>
         Tin nhắn
-        <span className={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseen)}`}>
+        <span
+          className={`position-absolute ${
+            styles["top-5"]
+          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+            countUnseen
+          )}`}
+        >
           {countUnseen}
         </span>
       </NavItem>
-      <NavItem to="/notifications" className={`position-relative ${styles["mr-2"]}`}>
+      <NavItem
+        to="/notifications"
+        className={`position-relative ${styles["mr-2"]}`}
+      >
         Thông báo
-        <span className={`position-absolute ${styles["top-5"]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(countUnseenNoti)}`}>
+        <span
+          className={`position-absolute ${
+            styles["top-5"]
+          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+            countUnseenNoti
+          )}`}
+        >
           {countUnseenNoti}
         </span>
       </NavItem>
@@ -97,7 +115,9 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
           {username}
         </a>
         <ul
-          className={"dropdown-menu dropdown-menu-end " + (dropdownTheme || "")}
+          className={
+            "dropdown-menu dropdown-menu-end " + (dark && "dropdown-menu-dark")
+          }
         >
           {children}
           <li>

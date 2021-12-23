@@ -5,6 +5,7 @@ import AuthUserNavLayout from "./AuthUserNavLayout";
 import brandNameLogo from "./brandname.svg";
 import brandNameLogoWhite from "./brandname-white.svg";
 import GenericNavBar, {
+  jobSeekerDark,
   NavItem,
   ThemeContext,
   useTheme,
@@ -28,20 +29,27 @@ const BrandName = () => {
   );
 };
 
-const AuthUserNav = ({ username, logout }) => (
-  <AuthUserNavLayout username={username} logout={logout}>
-    <li>
-      <Link className="dropdown-item" to="/account">
-        Tài khoản
-      </Link>
-    </li>
-    <li>
-      <Link className="dropdown-item" to="/following">
-        Tin tuyển dụng đang theo dõi
-      </Link>
-    </li>
-  </AuthUserNavLayout>
-);
+const AuthUserNav = ({ username, logout }) => {
+  const themeContext = useTheme();
+  return (
+    <AuthUserNavLayout
+      username={username}
+      logout={logout}
+      dark={themeContext !== Role.JobSeeker}
+    >
+      <li>
+        <Link className="dropdown-item" to="/account">
+          Tài khoản
+        </Link>
+      </li>
+      <li>
+        <Link className="dropdown-item" to="/following">
+          Tin tuyển dụng đang theo dõi
+        </Link>
+      </li>
+    </AuthUserNavLayout>
+  );
+};
 
 const GuestNav = () => {
   const themeContext = useTheme();
@@ -94,7 +102,7 @@ const NavCollapse = () => {
 
 const NavBar = ({ dark = false }) => (
   <ThemeContext.Provider
-    value={{ value: dark ? Role.Employer : Role.JobSeeker }}
+    value={{ value: dark ? jobSeekerDark : Role.JobSeeker }}
   >
     <GenericNavBar brandName={<BrandName />} navCollapse={<NavCollapse />} />
   </ThemeContext.Provider>

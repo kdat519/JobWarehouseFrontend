@@ -21,7 +21,6 @@
 #profile .box p {
   text-overflow: ellipsis;
   overflow: hidden;
-
 }
 
 #profile .profile-avatar img {
@@ -49,9 +48,9 @@
 }
 
 #account .preview img {
-    width: 100%;
-    display: block;
-  }
+  width: 100%;
+  display: block;
+}
 
 #account {
   max-width: 992px;
@@ -73,9 +72,26 @@
   }
 }
 
+
+#name-in-block {
+  display: none;
+}
+
+.attr-not-in-block {
+  display: block;
+}
+
 @media screen and (max-width: 1000px) {
   #profile {
     display: block;
+  }
+
+  #name-in-block {
+    display: block;
+  }
+
+  .attr-not-in-block {
+    display: none;
   }
 
   #account .box {

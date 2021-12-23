@@ -44,7 +44,7 @@ function CardRecruit(props) {
           <p
             className={`card-text ${styles["size-085"]} ${styles["inline-block"]} ${styles["ml-03"]}`}
           >
-            Be an early applicant
+            Hãy ứng tuyển sớm
           </p>
           {(() => {
             const content = getParagraph(
@@ -56,6 +56,7 @@ function CardRecruit(props) {
                 <li
                   className={`card-text ${styles["size-08"]} text-muted ${styles["list-circle"]}`}
                 >
+                  {/* TODO: text truncate */}
                   {content}
                 </li>
               )
@@ -64,7 +65,8 @@ function CardRecruit(props) {
           <li
             className={`card-text ${styles["size-08"]} ${styles["list-circle"]} text-primary`}
           >
-            Lương: {recruitment.min_salary} VND
+            Lương: {Intl.NumberFormat("vi-VN").format(recruitment.min_salary)}{" "}
+            VND
           </li>
         </div>
       </div>

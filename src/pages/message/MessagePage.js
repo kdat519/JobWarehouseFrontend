@@ -8,6 +8,8 @@ import UserList from "../../components/message/UserList";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
 
+// TODO: handle empty user list
+
 const MessagePage = () => {
   const authContext = useAuth();
   const role = authContext.role;

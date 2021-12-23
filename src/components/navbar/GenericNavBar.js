@@ -5,6 +5,8 @@ import { Role, useAuth } from "../auth/AuthProvider";
 export const ThemeContext = createContext(null);
 export const useTheme = () => useContext(ThemeContext);
 
+export const jobSeekerDark = "jobSeekerDark";
+
 export const NavItem = ({ className, to, children }) => (
   <li className="nav-item">
     <NavLink className={"nav-link px-2 " + (className || "")} to={to} end>
@@ -35,7 +37,10 @@ const SmallScreenNav = () => {
     (themeContext.value === Role.JobSeeker
       ? "btn-primary text-white"
       : "btn-light text-dark") +
-    (authContext.role === themeContext.value ? " d-none" : "");
+    (authContext.role ===
+    (themeContext.value === jobSeekerDark ? Role.JobSeeker : themeContext.value)
+      ? " d-none"
+      : "");
 
   const handleLogin = (event) => {
     event.preventDefault();

@@ -64,7 +64,7 @@ const changeCandidateType =
       .catch(fireErrorMessage);
   };
 
-const candidates = (
+const Candidates = (
   candidateLists,
   candidateType,
   setCandidates,
@@ -104,13 +104,13 @@ export const TabPane = ({ candidateType }) => {
             exit={{ opacity: 0 }}
             className="d-flex flex-wrap"
           >
-            {candidates(
-              candidateLists,
-              candidateType,
-              setCandidates,
-              jobId,
-              jobUpdatedDate
-            )}
+            <Candidates
+              candidateLists={candidateLists}
+              candidateType={candidateType}
+              setCandidates={setCandidates}
+              jobId={jobId}
+              jobUpdatedDate={jobUpdatedDate}
+            />
           </motion.div>
         ) : (
           <motion.div key="empty" className="row justify-content-center">

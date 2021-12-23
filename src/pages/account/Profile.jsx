@@ -7,10 +7,13 @@ import * as yup from "yup";
 import adminApi from "../../api/adminApi";
 import adminReportApi from "../../api/adminReportApi";
 import authApi from "../../api/authApi";
+import { readJobsGuest } from "../../api/jobApi";
 import { Role, useAuth } from "../../components/auth/AuthProvider";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import CardRecruit from "../../components/CardRecruitment";
 import AdminNavBar from "../../components/navbar/AdminNavBar";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
+import { fireErrorMessage } from "../../components/swal-error-message";
 import "./styles.css";
 
 export default function Profile() {
@@ -88,7 +91,7 @@ export default function Profile() {
   return (
     <>
       <header className="mb-5">
-      {(() => {
+        {(() => {
           switch (auth.role) {
             case Role.Employer:
               return <EmployerNavBar />;
@@ -107,6 +110,7 @@ export default function Profile() {
                 <div className="rounded-circle mb-5 profile-avatar border">
                   <img src={authApi.imageURL(user.user_id)} alt="avatar" />
                 </div>
+                <p className="h2" id="name-in-block">{user.name}</p>
                 <p className="h5  mb-3 ">
                   {user.role === "jobseeker"
                     ? "Người tìm việc"
@@ -141,8 +145,8 @@ export default function Profile() {
             </div>
 
             <div className="info px-5">
-              <p className="h2 ">{user.name}</p>
-              <p className="mb-5">
+              <p className="h2 attr-not-in-block">{user.name}</p>
+              <p className="mb-5 attr-not-in-block">
                 Tham gia năm {new Date(user.created_at).getFullYear()}
               </p>
 
@@ -198,8 +202,6 @@ export default function Profile() {
                       </div>
                     )}
 
-                    
-
                     {user.education && (
                       <div className="mb-3">
                         <i className="bi bi-book-fill me-3"></i>
@@ -233,7 +235,70 @@ export default function Profile() {
                 )}
               </div>
 
-              {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
+              {user.role === Role.Employer ? (
+                <>
+                  <ul className="nav nav-tabs" id="myTab">
+                    <li className="nav-item">
+                      <button
+                        className="nav-link text-dark active"
+                        id="reviews-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#reviews"
+                      >
+                        Nhận xét
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className="nav-link text-dark"
+                        id="jobs-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#jobs"
+                      >
+                        Tin tuyển dụng
+                      </button>
+                    </li>
+                  </ul>
+                  <div className="tab-content" id="myTabContent">
+                    <div
+                      className="tab-pane fade show active mt-2"
+                      id="reviews"
+                    >
+                      <Reviews
+                        auth={auth}
+                        user={user}
+                        handleReport={handleReport}
+                        total={total}
+                        writeReport={writeReport}
+                        handleSubmit={handleSubmit}
+                        errors={errors}
+                        register={register}
+                        onSubmit={onSubmit}
+                        handleCancel={handleCancel}
+                        reports={reports}
+                      />
+                    </div>
+                    <div className="tab-pane fade mt-2" id="jobs">
+                      <Jobs employerId={user.employer_id} />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <Reviews
+                  auth={auth}
+                  user={user}
+                  handleReport={handleReport}
+                  total={total}
+                  writeReport={writeReport}
+                  handleSubmit={handleSubmit}
+                  errors={errors}
+                  register={register}
+                  onSubmit={onSubmit}
+                  handleCancel={handleCancel}
+                  reports={reports}
+                />
+              )}
+              {/* {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
                 <div>
                   <p className=" mb-4 d-flex align-items-center">
                     <button
@@ -317,11 +382,141 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         )}
       </main>
     </>
+  );
+}
+
+function Reviews({
+  auth,
+  user,
+  handleReport,
+  total,
+  writeReport,
+  handleSubmit,
+  errors,
+  register,
+  onSubmit,
+  handleCancel,
+  reports,
+}) {
+  return (
+    <>
+      {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
+        <div>
+          <p className=" mb-4 d-flex align-items-center">
+            <button
+              className="p-0 text-dark me-2 shadow-none btn btn-link "
+              onClick={handleReport}
+            >
+              Nhận xét về tài khoản
+            </button>
+            <span className="">{total}</span>
+          </p>
+        </div>
+      )}
+
+      {auth.role === "admin" && auth?.user_id !== user?.user_id && (
+        <p className=" mb-4">
+          <span className="text-dark me-2">Nhận xét về tài khoản</span>
+          <span className="">{total}</span>
+        </p>
+      )}
+
+      {writeReport && (
+        <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="">
+            <textarea
+              className={`form-control ${errors.detail ? "is-invalid" : ""}`}
+              id="detail"
+              name="detail"
+              type="text"
+              {...register("detail")}
+              style={{ height: 200 }}
+            />
+            <div className="invalid-feedback">{errors.detail?.message}</div>
+          </div>
+          <div>
+            <button className="btn btn-primary mt-2 me-2" type="submit">
+              Nhận xét
+            </button>
+            <button
+              className="btn btn-secondary mt-2"
+              type="button"
+              onClick={handleCancel}
+            >
+              Hủy bỏ
+            </button>
+          </div>
+        </form>
+      )}
+
+      {reports.map((report, index) => (
+        <div key={index} className="mb-1">
+          <div className="mb-2">
+            <span>
+              {new Intl.DateTimeFormat("vi-VN").format(
+                new Date(report?.updated_at)
+              )}
+            </span>
+          </div>
+          <p className="pre-line">{report.detail} </p>
+          <div className="fw-light h6 d-flex">
+            <div className="rounded-circle mb-5 report-avatar border">
+              <Link
+                className="text-decoration-none text-dark "
+                to={`/profile/${report.sender_id}`}
+              >
+                <img src={authApi.imageURL(report.sender_id)} alt="avatar" />
+              </Link>
+            </div>
+
+            <div className="mx-3">
+              <div className="">{report.sender_name}</div>
+              <div className="fw-light text-muted">{report.sender_email}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function Jobs({ employerId }) {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    readJobsGuest(employerId)
+      .then((response) =>
+        Array.isArray(response) ? response : Promise.reject()
+      )
+      .then((data) => {
+        console.log(data);
+        setJobs(data);
+      })
+      .catch(fireErrorMessage);
+  }, [employerId]);
+
+  const navigate = useNavigate();
+  const handleChooseJob = (recruit) =>
+    navigate(`/jobs/${recruit.recruitment.recruitment_id}`);
+
+  return jobs.length ? (
+    <>
+      {jobs.map((job) => (
+        <div key={job.recruitment_id} className="d-flex justify-content-center">
+          <CardRecruit
+            recruit={{ recruitment: job }}
+            onClick={handleChooseJob}
+          />
+        </div>
+      ))}
+    </>
+  ) : (
+    <h6>Không có bài đăng nào</h6>
   );
 }
