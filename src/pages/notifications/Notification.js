@@ -24,7 +24,9 @@ const NotificationPage = () => {
   const notiUnSeenListRef = useRef(notiUnSeenList);
 
   function fetchData() {
-    setFilters({ ...filters, before: notiSeenList[notiSeenList.length - 1].notification_id });
+    if (notiSeenList[notiSeenList.length - 1]) {
+      setFilters({ ...filters, before: notiSeenList[notiSeenList.length - 1].notification_id });
+    }
   }
 
   const unseenParams = { status: "unseen", get: 1000 };

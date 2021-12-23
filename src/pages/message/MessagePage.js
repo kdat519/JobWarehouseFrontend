@@ -109,7 +109,6 @@ const MessagePage = () => {
       receiver_id: filterMessageList.other_id,
     };
     const response = await messageAPI.createChat(params);
-
     if (response.success) {
       const messageModel = {
         message_id: response.data.message_id,
