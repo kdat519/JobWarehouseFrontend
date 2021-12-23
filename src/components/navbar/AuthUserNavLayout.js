@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import MessageApi from "../../api/messageApi";
-import notifiactionAPI from "../../api/notificationAPI";
+import messageApi from "../../api/messageAPI";
+import notificationApi from "../../api/notificationAPI";
 import { useAuth } from "../auth/AuthProvider";
 import { NavItem } from "./GenericNavBar";
 import pusher from "../../api/pusher";
@@ -28,7 +28,7 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       async function getUnseen() {
-        const response = await MessageApi.countUnseen();
+        const response = await messageApi.countUnseen();
         if (response.data) {
           setCountUnseen(response.data);
         }
@@ -43,7 +43,7 @@ const AuthUserNavLayout = ({ logout, username, dropdownTheme, children }) => {
     async function getUnseenNoti() {
       try {
         const params = { status: "unseen" };
-        const response = await notifiactionAPI.countNoti(params);
+        const response = await notificationApi.countNoti(params);
         if (response.success) {
           setCountUnseenNoti(response.data);
           countUnseenNotiRef.current = response.data;

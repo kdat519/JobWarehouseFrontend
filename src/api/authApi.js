@@ -86,7 +86,7 @@ const authApi = {
   getUser: (id) => {
     const url = `user/${id}`;
     return axiosClient.get(url);
-  }
+  },
 };
 
 export default authApi;

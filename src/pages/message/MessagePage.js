@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import NavBar from "../../components/navbar/NavBar";
-import EmployerNavBar from "../../components/navbar/EmployerNavBar";
-import styles from './styles.module.scss';
-import UserList from "../../components/message/userList";
-import ChatLine from "../../components/message/chatLine";
-import { useAuth } from "../../components/auth/AuthProvider";
-import messageAPI from "../../api/messageAPI";
+import React, { useEffect, useRef, useState } from "react";
 import authApi from "../../api/authApi";
+import messageAPI from "../../api/messageAPI";
 import pusher from "../../api/pusher";
+import { useAuth } from "../../components/auth/AuthProvider";
+import ChatLine from "../../components/message/ChatLine";
+import UserList from "../../components/message/UserList";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import NavBar from "../../components/navbar/NavBar";
 
 const MessagePage = () => {
   const authContext = useAuth();
@@ -18,49 +17,49 @@ const MessagePage = () => {
   const [filteruserList, setFilterUserList] = useState({
     user_id: authContext.user_id,
     get: 10,
-  })
-  const [chatName, setChatName] = useState('');
-  const [email, setEmail] = useState('');
+  });
+  const [chatName, setChatName] = useState("");
+  const [email, setEmail] = useState("");
 
   const [filterMessageList, setFilterMessageList] = useState({
     other_id: null,
     get: 20,
-  })
+  });
 
-  const [imageLink, setImageLink] = useState('');
+  const [imageLink, setImageLink] = useState("");
 
   const filterMessageListRef = useRef(filterMessageList);
 
   const messageListRef = useRef(messageList);
 
   const messagesEndRef = useRef(null);
+  const newMessageRef = useRef(null);
 
-  const nameRef = useRef('');
+  const nameRef = useRef("");
 
   const userRef = useRef({});
   const userListRef = useRef([]);
 
-
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   function handleSearchChange(e) {
     getUserList(e.target.value);
   }
 
   async function getUserList(name) {
-    if (name === '') {
-      nameRef.current = '';
+    if (name === "") {
+      nameRef.current = "";
       const response = await messageAPI.showLatestChat(filteruserList);
       userListRef.current = response.data;
       setUserList(response.data);
     } else {
       nameRef.current = name;
-      console.log(name)
+      console.log(name);
       const params = {
         searchContent: name,
-      }
+      };
       const response = await authApi.getUsers(params);
       userListRef.current = response.users;
       setUserList(response.users);
@@ -78,7 +77,7 @@ const MessagePage = () => {
   function handleSubmitText(e) {
     if (e.key === "Enter") {
       CreateMessage(e.target.value);
-      e.target.value = ''
+      e.target.value = "";
     }
   }
 
@@ -93,7 +92,11 @@ const MessagePage = () => {
     if (j === -1) {
       newUserList = [user, ...newUserList];
     } else {
-      newUserList = [user, ...newUserList.slice(0, j), ...newUserList.slice(j + 1, newUserList.length)];
+      newUserList = [
+        user,
+        ...newUserList.slice(0, j),
+        ...newUserList.slice(j + 1, newUserList.length),
+      ];
     }
     userListRef.current = newUserList;
     setUserList(newUserList);
@@ -102,25 +105,29 @@ const MessagePage = () => {
   async function CreateMessage(detail) {
     const params = {
       detail: detail,
-      status: 'unseen',
+      status: "unseen",
       receiver_id: filterMessageList.other_id,
-    }
+    };
     const response = await messageAPI.createChat(params);
 
     if (response.success) {
       const messageModel = {
         message_id: response.data.message_id,
         detail: detail,
-        status: 'unseen',
+        status: "unseen",
         receiver_id: filterMessageList.other_id,
         sender_id: authContext.user_id,
         created_at: new Date(),
-      }
+      };
       messageListRef.current = [...messageListRef.current, messageModel];
       setMessageList(messageListRef.current);
       scrollToBottom();
-      if (nameRef.current === '') {
-        const users = { other_id: filterMessageList.other_id, name: chatName, email: email };
+      if (nameRef.current === "") {
+        const users = {
+          other_id: filterMessageList.other_id,
+          name: chatName,
+          email: email,
+        };
         addUsertoList(users);
       }
     }
@@ -128,8 +135,14 @@ const MessagePage = () => {
 
   async function UpdateMessage() {
     for (let i = 0; i < messageListRef.current.length; i++) {
-      if (messageListRef.current[i].status === "unseen" && messageListRef.current[i].receiver_id === authContext.user_id) {
-        const params = { status: "seen", message_id: messageListRef.current[i].message_id };
+      if (
+        messageListRef.current[i].status === "unseen" &&
+        messageListRef.current[i].receiver_id === authContext.user_id
+      ) {
+        const params = {
+          status: "seen",
+          message_id: messageListRef.current[i].message_id,
+        };
         const response = await messageAPI.updateChat(params);
 
         if (response.success) {
@@ -149,7 +162,7 @@ const MessagePage = () => {
             filterMessageListRef.current = {
               other_id: res.data[0].other_id,
               get: 20,
-            }
+            };
 
             setFilterMessageList(filterMessageListRef.current);
             setChatName(res.data[0].name);
@@ -158,7 +171,7 @@ const MessagePage = () => {
           }
           userListRef.current = res.data;
           setUserList(res.data);
-        })
+        });
       } catch (error) {
         console.log("Failed to fetch user list: ", error);
       }
@@ -176,7 +189,7 @@ const MessagePage = () => {
           UpdateMessage();
           setMessageList(messageListRef.current);
           scrollToBottom();
-        })
+        });
       } catch (error) {
         console.log("Failed to fetch user list: ", error);
       }
@@ -184,7 +197,6 @@ const MessagePage = () => {
 
     fetchChatList();
   }, [filterMessageList]);
-
 
   async function getUser(id) {
     try {
@@ -194,106 +206,130 @@ const MessagePage = () => {
         userRef.current = response.data;
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      let channel = pusher.subscribe('private-MessageChannel.User.' + String(authContext.user_id));
-      channel.bind('MessageCreated', function (data) {
-        if (nameRef.current === '') {
+      let channel = pusher.subscribe(
+        "private-MessageChannel.User." + String(authContext.user_id)
+      );
+      channel.bind("MessageCreated", function (data) {
+        if (nameRef.current === "") {
           getUser(data.model.sender_id);
           const User = userRef.current;
           if (User[0] && User[0].user_id === data.model.sender_id) {
-            const users = { other_id: data.model.sender_id, name: User[0].name, email: User[0].email };
+            const users = {
+              other_id: data.model.sender_id,
+              name: User[0].name,
+              email: User[0].email,
+            };
             addUsertoList(users);
           } else {
-            getUserList('');
+            getUserList("");
           }
         }
-        if (filterMessageListRef.current.other_id === data.model.sender_id || filterMessageListRef.current.other_id === data.model.receiver_id) {
+        if (
+          filterMessageListRef.current.other_id === data.model.sender_id ||
+          filterMessageListRef.current.other_id === data.model.receiver_id
+        ) {
           messageListRef.current = [...messageListRef.current, data.model];
           UpdateMessage();
           setMessageList(messageListRef.current);
           scrollToBottom();
         }
-      })
+      });
     }
-    return (() => {
-      pusher.unsubscribe('private-MessageChannel.User.' + String(authContext.user_id));
+    return () => {
+      pusher.unsubscribe(
+        "private-MessageChannel.User." + String(authContext.user_id)
+      );
       mounted = false;
-    })
-  }, [])
-
-  function getDisplay() {
-    if (imageLink === '') {
-      return 'd-none';
-    }
-    return '';
-  }
+    };
+  }, []);
 
   return (
-    <>
-      {role === 'jobseeker' ? <NavBar /> : <EmployerNavBar />}
-      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
-      <div class="mt-3 mx-3">
-        <div class="row clearfix">
-          <div class="col-lg-12">
-            <div class={`${styles['card']} ${styles['chat-app']}`}>
-              <div id="plist" class={`${styles['people-list']}`}>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class={`${styles['font-size']} input-group-text`}><i class="fa fa-search"></i></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Search..." onChange={handleSearchChange} />
-                </div>
-                <ul class={`list-unstyled ${styles['chat-list']} mt-2 mb-0`}>
-                  {userList.map((user) => (
-                    <div key={user.other_id}>
-                      <UserList user={user} handleClickUserList={handleClickUserList}></UserList>
-                    </div>
-                  ))}
-                </ul>
+    <div className="d-flex flex-column vh-100">
+      <header>{role === "jobseeker" ? <NavBar /> : <EmployerNavBar />}</header>
+      <main className="d-flex align-items-center" style={{ flex: "0 1 100%" }}>
+        <div className="container">
+          <div class="row align-items-center">
+            <div class="col-2 col-md-4">
+              <div class="d-none d-md-flex input-group mb-2">
+                <span class="input-group-text">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tìm kiếm..."
+                  onChange={handleSearchChange}
+                />
               </div>
-              <div class={`${styles['chat']}`}>
-                <div class={`${styles['chat-header']} clearfix`}>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <img className={getDisplay()} src={imageLink} alt="avatar" />
-                      <div class={`${styles['chat-about']} ${styles['margin']}`}>
-                        <h6 class="mb-0">{chatName}</h6>
-                      </div>
-                    </div>
-                  </div>
+            </div>
+            <div class="col-10 col-md-8 border-start">
+              <div class="row border-bottom align-items-center py-2">
+                <div className="col-1 pe-0">
+                  <img
+                    className="rounded-circle w-100"
+                    src={imageLink}
+                    alt="avatar"
+                  />
                 </div>
-                <div class={`${styles['chat-history']} ${styles['h-27']} overflow-auto`}>
-                  <ul class="mb-0">
-                    {messageList.map((message) => (
-                      <div key={message.message_id}>
-                        <ChatLine message={message} />
-                      </div>
-                    ))}
-                  </ul>
-                  <div ref={messagesEndRef} />
-                </div>
-                <div class={`${styles['chat-message']} clearfix`}>
-                  <div class="input-group mb-0">
-                    <div class="input-group-prepend">
-                      <span class={`${styles['font-size']} input-group-text`}><i class="fa fa-send"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Enter text here..." onKeyPress={handleSubmitText} />
-                  </div>
+                <div className="col">
+                  <h5 className="fw-bold m-0">{chatName}</h5>
                 </div>
               </div>
             </div>
           </div>
+          <div class="row" style={{ height: "75vh" }}>
+            <div class="col-2 col-md-4 h-100" style={{ overflowY: "auto" }}>
+              {userList.map((user) => (
+                <UserList
+                  key={user.other_id}
+                  user={user}
+                  handleClickUserList={handleClickUserList}
+                  active={filterMessageList.other_id === user.other_id}
+                />
+              ))}
+            </div>
+            <div class="col-10 col-md-8 overflow-auto border-start h-100">
+              {messageList.map((message) => (
+                <ChatLine key={message.message_id} message={message} />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 col-md-4" />
+            <div class="col-10 col-md-8 border-start">
+              <div class="input-group py-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nhập tin nhắn..."
+                  onKeyPress={handleSubmitText}
+                  ref={newMessageRef}
+                />
+                <button
+                  class="btn btn-outline-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    CreateMessage(newMessageRef.current.value);
+                    newMessageRef.current.value = "";
+                  }}
+                >
+                  <i class="bi bi-send" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </>
-  )
-}
+      </main>
+    </div>
+  );
+};
 
 export default MessagePage;

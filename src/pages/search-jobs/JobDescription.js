@@ -132,7 +132,7 @@ function JobDescription(props) {
   if (recruitment)
     return (
       <>
-        <div className={getCardClass("", "bg-light py-5")}>
+        <div className={getCardClass("", "bg-light-darker py-5")}>
           <div className={getCardClass("card-body", "container")}>
             <Link
               to={`/jobs/${recruitment.recruitment_id}`}

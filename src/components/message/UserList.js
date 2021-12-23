@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styles from './styles.module.scss';
 import PropTypes from "prop-types";
-import messageAPI from '../../api/messageAPI';
+import messageAPI from "../../api/messageAPI";
 import authApi from "../../api/authApi";
 
 UserList.propTypes = {
@@ -14,27 +13,22 @@ UserList.defaultProps = {
   handleClickUserList: null,
 };
 
-function getStatus(s) {
-  if (s === 'unseen') return s;
-  return '';
-}
-
 function UserList(props) {
-  const { user, handleClickUserList } = props;
+  const { user, active, handleClickUserList } = props;
   const { other_id, name, email, user_id } = user;
-  const params = { other_id: other_id, status: 'unseen' };
-  const [unSeen, setUnSeen] = useState('seen');
+  const [unSeen, setUnSeen] = useState("seen");
 
   useEffect(() => {
     async function CountUnseen() {
+      const params = { other_id: other_id, status: "unseen" };
       if (other_id) {
         console.log(1);
         try {
           const response = await messageAPI.checkUnseen(params);
           if (response.data > 0) {
-            setUnSeen('unseen');
+            setUnSeen("unseen");
           } else {
-            setUnSeen('seen');
+            setUnSeen("seen");
           }
         } catch (error) {
           console.log("Failed to fetch user list: ", error);
@@ -43,7 +37,7 @@ function UserList(props) {
     }
 
     CountUnseen();
-  }, [user]);
+  }, [other_id, user]);
 
   function getImage() {
     if (other_id) return authApi.imageURL(other_id);
@@ -53,22 +47,33 @@ function UserList(props) {
   function handleOnClick() {
     if (other_id) {
       handleClickUserList(other_id, name, email);
-      setUnSeen('seen');
-    }
-    else handleClickUserList(user_id, name, email);
+      setUnSeen("seen");
+    } else handleClickUserList(user_id, name, email);
   }
 
   return (
-    <li className={`row ${styles[getStatus(unSeen)]}`} onClick={handleOnClick}>
-      <div className={`p-0 col-2 ${styles["col-7"]}`}>
-        <img src={getImage()} alt="avatar" />
+    <div
+      className={`row ${active && "bg-light-darker rounded-start "} ${
+        unSeen === "unseen" && "bg-primary text-light"
+      }
+       py-3 align-items-center`}
+      onClick={handleOnClick}
+    >
+      <div className="col-10 col-md-2 pe-0">
+        <img className="rounded-circle w-100" src={getImage()} alt="avatar" />
       </div>
-      <div className={`${styles['about']} col-9 ${styles["col-5"]}`}>
-        <div className={`${styles['name']}`}>{name}</div>
-        <div className={`${styles['name']} text-muted h6 text-truncate`}>{email}</div>
+      <div className="d-none d-md-block col-10">
+        <div>{name}</div>
+        <div
+          className={
+            "text-truncate text-" + (unSeen === "unseen" ? "light" : "muted")
+          }
+        >
+          {email}
+        </div>
       </div>
-    </li>
-  )
+    </div>
+  );
 }
 
 export default UserList;

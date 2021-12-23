@@ -41,6 +41,11 @@ const messageAPI = {
   checkUnseen: (params) => {
     const url = "chat/between/count";
     return axiosClient.get(url, { params });
+  },
+
+  countUnseen: () => {
+    const url = "chat/count/unseen";
+    return axiosClient.get(url);
   }
 }
 
