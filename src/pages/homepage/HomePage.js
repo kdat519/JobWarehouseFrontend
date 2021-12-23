@@ -10,17 +10,17 @@ const HomePage = () => (
     </header>
     <main className={`${styles["background-image"]} d-flex align-items-center`}>
       <div className="container">
-        <h3 className="display-3 fw-bold text-light text-center">
+        <h3 className="display-3 fw-bold text-dark text-center">
           Tăng&nbsp;tốc&nbsp;- Bứt&nbsp;phá&nbsp;- Làm&nbsp;chủ tương&nbsp;lai
         </h3>
-        <p className="lead text-light text-center">
+        <p className="lead text-dark text-center fs-4">
           Bạn muốn tìm kiếm công việc phù hợp với bản thân mình. Chúng tôi sẽ
-          giúp bạn!!!
+          giúp bạn!
         </p>
         <div className={`mx-auto ${styles["fit-content"]}`}>
           <Link
-            className="btn btn-light fw-bold text-dark btn-lg"
-            to="/recruitments"
+            className="btn btn-primary fw-bold text-light btn-lg"
+            to="/jobs"
           >
             Tìm việc làm
           </Link>

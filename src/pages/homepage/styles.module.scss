@@ -3,19 +3,19 @@
 @import "../../../node_modules/bootstrap/scss/mixins";
 
 @mixin bg-im($img-url) {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url($img-url);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url($img-url);
   background-size: cover;
   background-position: center;
 }
 
 .background-image {
-  @include bg-im("./homepage-bg.png");
+  @include bg-im("./homepage-bg.jpg");
   flex: 100%;
 }
 
 @include media-breakpoint-down(md) {
   .background-image {
-    @include bg-im("./homepage-bg-md.png");
+    @include bg-im("./homepage-bg-md.jpg");
   }
 }
 
