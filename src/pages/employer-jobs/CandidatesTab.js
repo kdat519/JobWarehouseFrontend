@@ -64,13 +64,13 @@ const changeCandidateType =
       .catch(fireErrorMessage);
   };
 
-const Candidates = (
+const Candidates = ({
   candidateLists,
   candidateType,
   setCandidates,
   jobId,
-  jobUpdatedDate
-) => (
+  jobUpdatedDate,
+}) => (
   <AnimatePresence>
     {Array.from(candidateLists[candidateType].values()).map((candidate) => (
       <MotionCandidate

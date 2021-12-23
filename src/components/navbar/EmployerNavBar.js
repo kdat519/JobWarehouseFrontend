@@ -16,11 +16,7 @@ const BrandName = () => (
 );
 
 const AuthUserNav = ({ username, logout }) => (
-  <AuthUserNavLayout
-    username={username}
-    logout={logout}
-    dropdownTheme="dropdown-menu-dark"
-  >
+  <AuthUserNavLayout username={username} logout={logout} dark>
     <li>
       <Link className="dropdown-item" to="/account">
         Tài khoản

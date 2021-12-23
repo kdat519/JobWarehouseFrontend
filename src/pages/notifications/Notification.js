@@ -3,11 +3,12 @@ import notifiactionAPI from "../../api/notificationAPI";
 import NavBar from "../../components/navbar/NavBar";
 import Notification from "../../components/notifications/Notification";
 import pusher from "../../api/pusher";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
 import EndMsg from "./EndMsg";
 import { useRef } from "react/cjs/react.development";
+import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 
 // TODO: restyle
 
@@ -90,7 +91,7 @@ const NotificationPage = () => {
 
   return (
     <>
-      <NavBar />
+      {authContext.role === Role.Employer ? <EmployerNavBar /> : <NavBar />}
       <div className="text-center mt-5"><h5>Chưa xem</h5></div>
       {notiUnSeenList.map((noti) => (
         <div key={noti.notification_id} className="d-flex justify-content-center align-items-center mt-4">

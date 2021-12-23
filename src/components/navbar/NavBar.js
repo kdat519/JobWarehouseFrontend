@@ -35,7 +35,7 @@ const AuthUserNav = ({ username, logout }) => {
     <AuthUserNavLayout
       username={username}
       logout={logout}
-      dark={themeContext !== Role.JobSeeker}
+      dark={themeContext.value !== Role.JobSeeker}
     >
       <li>
         <Link className="dropdown-item" to="/account">

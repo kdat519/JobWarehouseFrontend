@@ -8,8 +8,6 @@ import UserList from "../../components/message/UserList";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
 
-// TODO: handle empty user list
-
 const MessagePage = () => {
   const authContext = useAuth();
   const role = authContext.role;
@@ -257,6 +255,17 @@ const MessagePage = () => {
       <header>{role === "jobseeker" ? <NavBar /> : <EmployerNavBar />}</header>
       <main className="d-flex align-items-center" style={{ flex: "0 1 100%" }}>
         <div className="container">
+          <div class="d-flex d-md-none input-group mb-2">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Tìm kiếm người dùng..."
+              onChange={handleSearchChange}
+            />
+          </div>
           <div class="row align-items-center">
             <div class="col-2 col-md-4">
               <div class="d-none d-md-flex input-group mb-2">
@@ -266,13 +275,25 @@ const MessagePage = () => {
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Tìm kiếm..."
+                  placeholder="Tìm kiếm người dùng..."
                   onChange={handleSearchChange}
                 />
               </div>
             </div>
             <div class="col-10 col-md-8 border-start">
-              <div class="row border-bottom align-items-center py-2">
+              <h6
+                className={
+                  "display-6 border-bottom " + (userList.length ? "d-none" : "")
+                }
+              >
+                Bắt đầu nhắn tin
+              </h6>
+              <div
+                class={
+                  "row border-bottom align-items-center py-2 " +
+                  (userList.length ? "" : "d-none")
+                }
+              >
                 <div className="col-1 pe-0">
                   <img
                     className="rounded-circle w-100"
@@ -286,7 +307,7 @@ const MessagePage = () => {
               </div>
             </div>
           </div>
-          <div class="row" style={{ height: "75vh" }}>
+          <div class="row" style={{ height: "70vh" }}>
             <div class="col-2 col-md-4 h-100" style={{ overflowY: "auto" }}>
               {userList.map((user) => (
                 <UserList

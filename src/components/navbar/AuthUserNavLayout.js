@@ -116,7 +116,8 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
         </a>
         <ul
           className={
-            "dropdown-menu dropdown-menu-end " + (dark && "dropdown-menu-dark")
+            "dropdown-menu dropdown-menu-end " +
+            (dark ? "dropdown-menu-dark" : "")
           }
         >
           {children}
