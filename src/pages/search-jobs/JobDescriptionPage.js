@@ -86,6 +86,7 @@ function JobDescriptionPage() {
           {...jobDescription}
           handleFollowChange={handleFollowChange}
           handleStatusChange={handleStatusChange}
+          canApply={authContext.role === Role.JobSeeker}
           editable={authContext.user_id === jobDescription.employer?.user_id}
         />
       </main>

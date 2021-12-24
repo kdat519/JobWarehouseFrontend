@@ -180,6 +180,7 @@ function RecruitmentPage({ interestOnly = false }) {
                   handleFollowChange={handleFollowChange}
                   handleStatusChange={handleStatusChange}
                   isCard
+                  canApply
                 />
               </div>
             </div>

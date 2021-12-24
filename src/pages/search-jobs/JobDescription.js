@@ -21,6 +21,7 @@ JobDescription.defaultProps = {
   isFollowing: 0,
   applicationStatus: null,
   isCard: false,
+  canApply: true,
   editable: false,
 };
 
@@ -78,6 +79,7 @@ function JobDescription(props) {
     applicationStatus,
     handleStatusChange,
     isCard,
+    canApply,
     editable,
   } = props;
   const [showReport, setShowReport] = useState(false);
@@ -134,14 +136,24 @@ function JobDescription(props) {
       <>
         <div className={getCardClass("", "bg-light-darker py-5")}>
           <div className={getCardClass("card-body", "container")}>
-            <Link
-              to={`/jobs/${recruitment.recruitment_id}`}
-              className={`h3 d-block text-decoration-none text-dark ${getCardClass(
-                "card-title"
-              )} fw-bold mb-4`}
-            >
-              {recruitment.job_name}
-            </Link>
+            <div>
+              <Link
+                to={`/jobs/${recruitment.recruitment_id}`}
+                className={`h3 text-decoration-none text-dark ${getCardClass(
+                  "card-title"
+                )} fw-bold mb-4 align-middle`}
+              >
+                {recruitment.job_name}
+              </Link>
+              {editable && (
+                <Link
+                  className={`text-decoration-none text-dark ms-3 align-middle`}
+                  to={`/for-employers/post-job/${recruitment.recruitment_id}`}
+                >
+                  <i className="bi bi-pencil-square" />
+                </Link>
+              )}
+            </div>
             <h6
               className={
                 getCardClass("card-subtitle " + styles["d-none-short-screen"]) +
@@ -180,31 +192,27 @@ function JobDescription(props) {
                 year: "numeric",
               }).format(ISO8601ToDate(recruitment.created_at))}
             </p>
-            <button
-              type="button"
-              className={`btn ${getColor(getId(applicationStatus))} px-5 ${
-                styles["font-weight-bold"]
-              } mt-1`}
-              onClick={handleStatus}
-            >
-              {getApplyStatus(getId(applicationStatus))}
-            </button>
-            <button
-              type="button"
-              className={`btn btn-${
-                isFollowing ? "danger" : "secondary"
-              } mt-1 ${styles["ml-1"]}`}
-              onClick={handleFollow}
-            >
-              <i className={`bi ${getFill(isFollowing)} px-1 mt-1`}></i>
-            </button>
-            {editable && (
-              <Link
-                className={`btn btn-outline-secondary mt-1 ${styles["ml-1"]}`}
-                to={`/for-employers/post-job/${recruitment.recruitment_id}`}
-              >
-                <i className="bi bi-pencil-square" />
-              </Link>
+            {canApply && (
+              <div>
+                <button
+                  type="button"
+                  className={`btn ${getColor(getId(applicationStatus))} px-5 ${
+                    styles["font-weight-bold"]
+                  } mt-1`}
+                  onClick={handleStatus}
+                >
+                  {getApplyStatus(getId(applicationStatus))}
+                </button>
+                <button
+                  type="button"
+                  className={`btn btn-${
+                    isFollowing ? "danger" : "secondary"
+                  } mt-1 ${styles["ml-1"]}`}
+                  onClick={handleFollow}
+                >
+                  <i className={`bi ${getFill(isFollowing)} px-1 mt-1`}></i>
+                </button>
+              </div>
             )}
           </div>
         </div>
