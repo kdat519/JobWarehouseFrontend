@@ -58,7 +58,7 @@ const MessagePage = () => {
       setUserList(response.data);
     } else {
       nameRef.current = name;
-      console.log(name);
+
       const params = {
         searchContent: name,
       };
@@ -174,7 +174,7 @@ const MessagePage = () => {
           setUserList(res.data);
         });
       } catch (error) {
-        console.log("Failed to fetch user list: ", error);
+
       }
     }
 
@@ -192,7 +192,7 @@ const MessagePage = () => {
           scrollToBottom();
         });
       } catch (error) {
-        console.log("Failed to fetch user list: ", error);
+
       }
     }
 
@@ -207,7 +207,7 @@ const MessagePage = () => {
         userRef.current = response.data;
       }
     } catch (error) {
-      console.log(error);
+
     }
   }
 

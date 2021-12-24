@@ -36,8 +36,8 @@ function JobDescriptionPage() {
   }
 
   async function handleStatusChange(id, applicationStatus) {
-    console.log(id);
-    console.log(applicationStatus);
+
+
     if (authContext.user_id) {
       let response;
       if (applicationStatus === null) {
@@ -45,10 +45,10 @@ function JobDescriptionPage() {
       } else {
         response = await jobseekerAPI.unapplyRecruit(id);
       }
-      console.log(response);
+
 
       if (response.success) {
-        console.log("thay doi application status");
+
         let newJobDescription = { ...jobDescription };
         newJobDescription.applicationStatus =
           jobDescription.applicationStatus === null ? "pending" : null;
@@ -65,11 +65,11 @@ function JobDescriptionPage() {
         const response = await recruitAPI.showOne(jobId);
 
         if (response.success) {
-          console.log(response);
+
           setJobDescription(response);
         }
       } catch (error) {
-        console.log(error);
+
       }
     }
 

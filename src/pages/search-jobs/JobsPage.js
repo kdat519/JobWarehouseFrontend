@@ -42,7 +42,7 @@ function RecruitmentPage({ interestOnly = false }) {
   }
 
   function handleChooseJob(value) {
-    console.log(JSON.stringify(value));
+
     if (window.innerWidth <= 992) {
       navigate(`/jobs/${value.recruitment.recruitment_id}`);
     }
@@ -63,7 +63,7 @@ function RecruitmentPage({ interestOnly = false }) {
           : await recruitAPI.showAll(filter);
         if (response) setRecruitList(response);
         else setRecruitList([]);
-        // console.log(response);
+        //
         setPage(1);
         setJobDetail(response[0]);
         setListByPage(response.slice(0, 5));
@@ -71,7 +71,7 @@ function RecruitmentPage({ interestOnly = false }) {
         setTotalRecruit(response.length);
       } catch (error) {
         fireErrorMessage();
-        // console.log("Failed to fetch user list: ", error);
+        //
       }
     }
 

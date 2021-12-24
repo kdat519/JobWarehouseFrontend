@@ -49,7 +49,6 @@ const NavCollapse = () => (
   <div className="collapse navbar-collapse" id="nav-collapse">
     <ul className="navbar-nav ms-auto">
       <NavItem to="/for-employers/post-job">Đăng việc làm</NavItem>
-      {/* <NavItem to="/for-employers/candidates">Tìm ứng viên</NavItem> */}
       <NavItems />
       <div className="vr text-light d-none d-lg-block" />
       <NavItem to="/">Tìm việc</NavItem>

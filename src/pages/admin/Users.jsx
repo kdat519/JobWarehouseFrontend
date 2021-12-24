@@ -44,7 +44,7 @@ export default function Users() {
         setLastPage(response.users.last_page);
         setCurrentPage(response.users.current_page);
       } catch (error) {
-        console.log("Failed to fetch user list: ", error);
+
       }
     }
 

@@ -22,7 +22,7 @@ function UserList(props) {
     async function CountUnseen() {
       const params = { other_id: other_id, status: "unseen" };
       if (other_id) {
-        console.log(1);
+
         try {
           const response = await messageAPI.checkUnseen(params);
           if (response.data > 0) {
@@ -31,7 +31,7 @@ function UserList(props) {
             setUnSeen("seen");
           }
         } catch (error) {
-          console.log("Failed to fetch user list: ", error);
+
         }
       }
     }

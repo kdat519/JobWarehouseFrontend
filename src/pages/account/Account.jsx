@@ -24,7 +24,7 @@ export default function Account() {
         const response = await authApi.getProfile();
         if (!response.error) setProfile(response);
       } catch (error) {
-        console.log("Failed to fetch profile: ", error);
+
       }
     }
 
@@ -47,7 +47,6 @@ export default function Account() {
               return <NavBar />;
           }
         })()}
-        {/* {auth.role === Role.Employer ? <EmployerNavBar /> : <NavBar />} */}
       </header>
       <main className="container mt-5">
         <div className="mb-4" id="account">
@@ -98,7 +97,6 @@ export default function Account() {
                 reload={reload}
                 profile={profile}
               />
-              {/* <AvatarUpload /> */}
               {profile.user && (
                 <div>
                   <div className=" mb-2">Kiểu tài khoản</div>
@@ -170,7 +168,7 @@ function ChangePasswordForm() {
     try {
       const response = await authApi.updatePassword(data);
       setEditPassword(false);
-      console.log("cap nhat");
+
       if (response.success) {
         setMessage("Cập nhật mật khẩu thành công.");
       } else {
@@ -264,7 +262,7 @@ function ChangePasswordForm() {
 
 //   async function onSubmit(data) {
 //     try {
-//       console.log(data);
+//
 //       const response = await authApi.updateAvatar(data);
 //       setEdit(false);
 //       if (response.success) {
@@ -336,7 +334,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
         setEditBirthday(false);
       }
     } catch (error) {
-      console.log("Failed to update profile: ", error);
+
     }
   }
   const validationSchema = Yup.object().shape({
@@ -680,7 +678,7 @@ function EmployerEdit({ reload, setReload, profile }) {
         setEditNumEmployee(false);
       }
     } catch (error) {
-      console.log("Failed to update profile: ", error);
+
     }
   }
   const validationSchema = Yup.object().shape({

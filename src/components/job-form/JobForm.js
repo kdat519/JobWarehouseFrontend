@@ -104,8 +104,8 @@ const CancelButton = () => {
 
 const SubmitButton = () => {
   const { initialValues, values, dirty } = useFormikContext();
-  console.log("init", initialValues);
-  console.log(values);
+
+
   const btnColor = !dirty ? "btn-secondary" : "btn-primary";
   return (
     <button type="submit" className={"btn " + btnColor} disabled={!dirty}>

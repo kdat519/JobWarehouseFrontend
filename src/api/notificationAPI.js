@@ -14,10 +14,10 @@ const notifiactionAPI = {
   update: (params) => {
     const url = "notification/update";
     const formData = new FormData();
-    console.log(params.notification_id);
+
     formData.append("status", params.status);
     formData.append("notification_id", params.notification_id);
-    //console.log(formData);
+    //
     return axiosClient.post(url, formData);
   },
 

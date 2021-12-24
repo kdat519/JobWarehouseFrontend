@@ -7,7 +7,7 @@ export default function Reports() {
   const [reports, setReports] = useState([]);
   const [lastPage, setLastPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  
+
 
   const [filters, setFilters] = useState({ page: 1 });
 
@@ -22,9 +22,9 @@ export default function Reports() {
         setReports(response.data.data);
         setLastPage(response.data.last_page);
         setCurrentPage(response.data.current_page);
-        
+
       } catch (error) {
-        console.log("Failed to fetch report list: ", error);
+
       }
     }
 

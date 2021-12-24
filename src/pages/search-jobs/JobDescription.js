@@ -82,7 +82,7 @@ function JobDescription(props) {
   } = props;
   const [showReport, setShowReport] = useState(false);
   const [value, setValue] = useState("");
-  console.log(applicationStatus);
+
   const authContext = useAuth();
   let navigate = useNavigate();
 
@@ -110,13 +110,13 @@ function JobDescription(props) {
     if (detail !== "") {
       const response = await reportAPI.createReport(params);
       if (response.success) {
-        console.log("Tao report thanh cong");
+
       }
     }
   }
 
   function submitReport() {
-    console.log(value);
+
     createReport(value);
     handleOnClickReport();
   }

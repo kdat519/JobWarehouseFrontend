@@ -15,7 +15,7 @@ export default function User() {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
       } catch (error) {
-        console.log("Failed to fetch user: ", error);
+
       }
     }
     fetchUser();
@@ -50,7 +50,7 @@ export default function User() {
         setCurrentPage(response.data.current_page);
         setTotal(response.data.total);
       } catch (error) {
-        console.log("Failed to fetch report list: ", error);
+
       }
     }
 
@@ -77,7 +77,7 @@ export default function User() {
         setCurrentPageFrom(response.data.current_page);
         setTotalFrom(response.data.total);
       } catch (error) {
-        console.log("Failed to fetch report list: ", error);
+
       }
     }
 

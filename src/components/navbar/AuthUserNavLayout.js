@@ -51,12 +51,12 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       try {
         const response = await messageApi.countUnseen();
         if (response.success) {
-          console.log(response.data);
+
           countUnseenRef.current = response.data;
           setCountUnseen(response.data);
         }
       } catch (error) {
-        console.log(error);
+
       }
     }
 
@@ -69,12 +69,12 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
         const params = { status: "unseen" };
         const response = await notificationApi.countNoti(params);
         if (response.success) {
-          console.log(response.data);
+
           setCountUnseenNoti(response.data);
           countUnseenNotiRef.current = response.data;
         }
       } catch (error) {
-        console.log(error);
+
       }
     }
 
@@ -111,7 +111,7 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       channel.bind("MessageCreated", function (data) {
         if (data.model) {
           countUnseenRef.current = 1;
-          console.log(countUnseenRef);
+
           setCountUnseen(countUnseenRef.current);
         }
       });

@@ -26,7 +26,7 @@ export default function Profile() {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
       } catch (error) {
-        console.log("Failed to fetch user: ", error);
+
       }
     }
     fetchUser();
@@ -43,7 +43,7 @@ export default function Profile() {
         setReports(response.data.data);
         setTotal(response.data.total);
       } catch (error) {
-        console.log("Failed to fetch report list: ", error);
+
       }
     }
     fetchReports();
@@ -85,7 +85,7 @@ export default function Profile() {
         setValue("detail", "");
       }
     } catch (error) {
-      console.log("Failed to update profile: ", error);
+
     }
   }
   return (
@@ -298,91 +298,6 @@ export default function Profile() {
                   reports={reports}
                 />
               )}
-              {/* {auth.role !== "admin" && auth?.user_id !== user?.user_id && (
-                <div>
-                  <p className=" mb-4 d-flex align-items-center">
-                    <button
-                      className="p-0 text-dark me-2 shadow-none btn btn-link "
-                      onClick={handleReport}
-                    >
-                      Nhận xét về tài khoản
-                    </button>
-                    <span className="">{total}</span>
-                  </p>
-                </div>
-              )}
-
-              {auth.role === "admin" && auth?.user_id !== user?.user_id && (
-                <p className=" mb-4">
-                  <span className="text-dark me-2">Nhận xét về tài khoản</span>
-                  <span className="">{total}</span>
-                </p>
-              )}
-
-              {writeReport && (
-                <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
-                  <div className="">
-                    <textarea
-                      className={`form-control ${
-                        errors.detail ? "is-invalid" : ""
-                      }`}
-                      id="detail"
-                      name="detail"
-                      type="text"
-                      {...register("detail")}
-                      style={{ height: 200 }}
-                    />
-                    <div className="invalid-feedback">
-                      {errors.detail?.message}
-                    </div>
-                  </div>
-                  <div>
-                    <button className="btn btn-primary mt-2 me-2" type="submit">
-                      Nhận xét
-                    </button>
-                    <button
-                      className="btn btn-secondary mt-2"
-                      type="button"
-                      onClick={handleCancel}
-                    >
-                      Hủy bỏ
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {reports.map((report, index) => (
-                <div key={index} className="mb-1">
-                  <div className="mb-2">
-                    <span>
-                      {new Intl.DateTimeFormat("vi-VN").format(
-                        new Date(report?.updated_at)
-                      )}
-                    </span>
-                  </div>
-                  <p className="pre-line">{report.detail} </p>
-                  <div className="fw-light h6 d-flex">
-                    <div className="rounded-circle mb-5 report-avatar border">
-                      <Link
-                        className="text-decoration-none text-dark "
-                        to={`/profile/${report.sender_id}`}
-                      >
-                        <img
-                          src={authApi.imageURL(report.sender_id)}
-                          alt="avatar"
-                        />
-                      </Link>
-                    </div>
-
-                    <div className="mx-3">
-                      <div className="">{report.sender_name}</div>
-                      <div className="fw-light text-muted">
-                        {report.sender_email}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))} */}
             </div>
           </div>
         )}
@@ -495,7 +410,7 @@ function Jobs({ employerId }) {
         Array.isArray(response) ? response : Promise.reject()
       )
       .then((data) => {
-        console.log(data);
+
         setJobs(data);
       })
       .catch(fireErrorMessage);

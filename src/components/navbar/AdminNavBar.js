@@ -42,11 +42,6 @@ export default function AdminNavBar() {
                   Nhận xét
                 </NavLink>
               </li>
-              {/* <li className="nav-item">
-                <NavLink className="nav-link px-2" to="/account">
-                  Cài đặt
-                </NavLink>
-              </li> */}
             </ul>
           </div>
 
@@ -57,7 +52,7 @@ export default function AdminNavBar() {
           >
             Đăng xuất
           </NavLink>
-         
+
         </div>
       </nav>
     </div>

@@ -45,13 +45,13 @@ const NotificationPage = () => {
         const response = await notifiactionAPI.showUserNoti(unseenParams);
         notiUnSeenListRef.current = response.data;
         setNotiUnSeenList(notiUnSeenListRef.current);
-        console.log(response.data);
+
 
         for (var i = 0; i < response.data.length; i++) {
           updateStatusMessage("unseen", response.data[i].notification_id);
         }
       } catch (error) {
-        console.log("Failed to fetch unseen list: ", error);
+
       }
     }
 
@@ -69,7 +69,7 @@ const NotificationPage = () => {
           Array.from(new Set([...notiSeenList, ...response.data]))
         );
       } catch (error) {
-        console.log("Failed to fetch seen list: ", error);
+
       }
     }
 
