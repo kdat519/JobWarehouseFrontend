@@ -76,7 +76,7 @@ function Notification(props) {
         <span
           className={`rounded ${styles[`mr-1`]} ${styles[`square`]} bg-primary`}
         />
-        <strong className={`${styles[`mr-auto`]}`}>{Title} NOTIFICATION</strong>
+        <strong className={`${styles[`mr-auto`]}`}>{Title}</strong>
         <small>{time}</small>
       </div>
       <div className="toast-body bg-light text-dark">{detail}</div>
