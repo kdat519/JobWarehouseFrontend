@@ -63,14 +63,14 @@ const NotificationPage = () => {
         if (response.data.length === 0) {
           sethasMore(false);
         }
-        setNotiSeenList(
+        setNotiSeenList((notiSeenList) =>
           Array.from(new Set([...notiSeenList, ...response.data]))
         );
       } catch (error) {}
     }
 
     fetchSeenNotiList();
-  }, [filters, notiSeenList]);
+  }, [filters]);
 
   const authContext = useAuth();
 
