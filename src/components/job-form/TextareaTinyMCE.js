@@ -33,7 +33,6 @@ const mimicBoostrap = (editor) => {
   });
 };
 
-// TODO: use env
 const TextareaTinyMCE = ({ name, label }) => {
   const { initialValues, handleChange, errors, values } = useFormikContext();
   const editorRef = useRef();
@@ -45,7 +44,7 @@ const TextareaTinyMCE = ({ name, label }) => {
           {label}
         </label>
         <Editor
-          apiKey="up56sg6htn5p09a2x4ut7hzguy5p1i7qba1ulc3y0wwxoauz"
+          apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
           onInit={(_, editor) => {
             editorRef.current = editor;
           }}

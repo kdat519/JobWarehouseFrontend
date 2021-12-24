@@ -21,9 +21,9 @@ npm start
 npm run build
 ```
 
-Đặt biến môi trường `REACT_APP_API_URL` là đường dẫn đến API trong file `.env`.
+Tạo file `.env` theo ví dụ trong `.env.example`.
 
 ## Git workflow
 
 Tách branch `feature/feature-name` từ branch `dev`, làm xong thì merge lại vào `dev`. \
-Chuẩn bị release version tiếp theo thì tách branch `release/v-#` từ branch `dev`, hoàn thiện thì merge vào `master`
+Chuẩn bị release version tiếp theo thì tách branch `release/#` từ branch `dev`, hoàn thiện thì merge vào `master`

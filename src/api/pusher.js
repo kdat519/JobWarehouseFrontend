@@ -11,12 +11,11 @@ function getToken() {
 
 const t = getToken();
 
-// TODO: use env
 Pusher.logToConsole = false;
-const pusher = new Pusher("a13024e4824fe0c8b79c", {
-  app_id: "1315519",
-  cluster: "ap1",
-  authEndpoint: "http://127.0.0.1:8000/broadcasting/auth",
+const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
+  app_id: process.env.REACT_APP_PUSHER_APP_ID,
+  cluster: process.env.REACT_APP_PUSHER_CLUSTER,
+  authEndpoint: process.env.REACT_APP_PUSHER_AUTH_ENDPOINT,
   // neu khong dien gi vao phan ten mien backend sever thi se mac dinh la ip cua localhost, code se hoan toan chay tren may local
   auth: {
     headers: {
