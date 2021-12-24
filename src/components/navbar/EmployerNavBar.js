@@ -16,11 +16,7 @@ const BrandName = () => (
 );
 
 const AuthUserNav = ({ username, logout }) => (
-  <AuthUserNavLayout
-    username={username}
-    logout={logout}
-    dropdownTheme="dropdown-menu-dark"
-  >
+  <AuthUserNavLayout username={username} logout={logout} dark>
     <li>
       <Link className="dropdown-item" to="/account">
         Tài khoản
@@ -42,8 +38,8 @@ const GuestNav = () => (
 
 const NavItems = () => {
   const authContext = useAuth();
-  return authContext.username && authContext.role === Role.Employer ? (
-    <AuthUserNav username={authContext.username} logout={authContext.logout} />
+  return authContext.name && authContext.role === Role.Employer ? (
+    <AuthUserNav username={authContext.name} logout={authContext.logout} />
   ) : (
     <GuestNav />
   );
@@ -53,7 +49,7 @@ const NavCollapse = () => (
   <div className="collapse navbar-collapse" id="nav-collapse">
     <ul className="navbar-nav ms-auto">
       <NavItem to="/for-employers/post-job">Đăng việc làm</NavItem>
-      <NavItem to="/for-employers/candidates">Tìm ứng viên</NavItem>
+      {/* <NavItem to="/for-employers/candidates">Tìm ứng viên</NavItem> */}
       <NavItems />
       <div className="vr text-light d-none d-lg-block" />
       <NavItem to="/">Tìm việc</NavItem>

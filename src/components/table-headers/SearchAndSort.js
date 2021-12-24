@@ -42,30 +42,28 @@ const Select = ({ name, title, options }) => {
   );
 };
 
-const SearchBox = ({ placeholder }) => {
-  return (
-    <div className="input-group">
-      <Field
-        type="text"
-        name="search"
-        className="form-control"
-        placeholder={placeholder}
-      />
-      <button className="btn btn-outline-secondary" type="submit">
-        Tìm kiếm
-      </button>
-    </div>
-  );
-};
+const SearchBox = ({ placeholder }) => (
+  <div className="input-group">
+    <Field
+      type="text"
+      name="search"
+      className="form-control"
+      placeholder={placeholder}
+    />
+    <button className="btn btn-outline-secondary" type="submit">
+      Tìm kiếm
+    </button>
+  </div>
+);
 
-const SearchAndSort = ({ searchPlaceholder, orderOptions, submitHandle }) => (
+const SearchAndSort = ({ searchPlaceholder, orderOptions, handleSubmit }) => (
   <Formik
     initialValues={{
       search: "",
       orderBy: orderOptions[0].value,
       order: Order.Asc,
     }}
-    onSubmit={submitHandle}
+    onSubmit={handleSubmit}
   >
     <Form>
       <div className="row mb-4">

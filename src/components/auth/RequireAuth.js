@@ -6,11 +6,11 @@ const RequireAuth = ({ requireRole, children }) => {
   const authContext = useAuth();
   const location = useLocation();
 
-  if (authContext.username && authContext.role === requireRole) {
+  if (authContext.email && authContext.role === requireRole) {
     return children;
   }
 
-  return <Navigate to="/login" state={{ from: location }} />;
+  return <Navigate to="/login" replace state={{ from: location }} />;
 };
 
 export default RequireAuth;

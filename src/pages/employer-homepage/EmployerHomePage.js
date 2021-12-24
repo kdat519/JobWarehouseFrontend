@@ -13,7 +13,7 @@ const EmployerHomePage = () => (
         <h3 className="display-3 fw-bold text-light text-center">
           Giúp việc tuyển dụng lần tới trở nên tốt&nbsp;hơn.
         </h3>
-        <p className="lead text-light text-center">
+        <p className="lead text-light text-center fs-4">
           Bạn biết bạn đang tìm kiếm ai. Chúng tôi sẽ giúp bạn tìm&nbsp;họ.
         </p>
         <div className={`mx-auto ${styles["fit-content"]}`}>

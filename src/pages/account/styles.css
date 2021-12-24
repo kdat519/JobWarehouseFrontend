@@ -1,0 +1,108 @@
+#profile {
+  max-width: 992px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+.pre-line {
+  white-space: pre-line;
+}
+
+#profile .profile-avatar {
+  width: 150px;
+  height: 150px;
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  overflow: hidden;
+}
+
+#profile .box p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#profile .profile-avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+#profile .report-avatar {
+  width: 50px;
+  height: 50px;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+#profile .report-avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+#account .preview {
+  max-width: 100%;
+  width: 150px;
+  height: 150px;
+}
+
+#account .preview img {
+  width: 100%;
+  display: block;
+}
+
+#account {
+  max-width: 992px;
+  margin: auto;
+}
+
+#account .box {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+}
+
+#account .info hr {
+  width: 30px;
+}
+
+@media screen and (max-width: 1000px) {
+  #profile {
+    display: block;
+  }
+}
+
+
+#name-in-block {
+  display: none;
+}
+
+.attr-not-in-block {
+  display: block;
+}
+
+@media screen and (max-width: 1000px) {
+  #profile {
+    display: block;
+  }
+
+  #name-in-block {
+    display: block;
+  }
+
+  .attr-not-in-block {
+    display: none;
+  }
+
+  #account .box {
+    display: block;
+  }
+
+  #account .info {
+    display: none;
+  }
+}
+
+#account .hidden {
+  display: none !important;
+}

@@ -1,19 +1,32 @@
 import "bootstrap";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AuthProvider, { Role } from "./components/auth/AuthProvider";
 import RequireAuth from "./components/auth/RequireAuth";
 import NavBar from "./components/navbar/NavBar";
+import Account from "./pages/account/Account";
+import Profile from "./pages/account/Profile";
+import Admin from "./pages/admin/Admin";
+import Reports from "./pages/admin/Reports";
+import User from "./pages/admin/User";
+import Users from "./pages/admin/Users";
+import Login from "./pages/authentication/Login";
+import Logout from "./pages/authentication/Logout";
+import Register from "./pages/authentication/Register";
 import EmployerHomePage from "./pages/employer-homepage/EmployerHomePage";
 import CandidatesForJob from "./pages/employer-jobs/CandidatesForJob";
 import EmployerJobs from "./pages/employer-jobs/EmployerJobs";
 import Employers from "./pages/Employers";
+import ForEmployersLayout from "./pages/ForEmployersLayout";
 import HomePage from "./pages/homepage/HomePage";
-import Login from "./pages/Login";
+import MessagePage from "./pages/message/MessagePage";
+import NotificationPage from "./pages/notifications/Notification";
 import EditJob from "./pages/post-job/EditJob";
 import PostJob from "./pages/post-job/PostJob";
 import PostJobLayout from "./pages/post-job/PostJobLayout";
+import JobDescriptionPage from "./pages/search-jobs/JobDescriptionPage";
+import JobsPage from "./pages/search-jobs/JobsPage";
 import "./styles.scss";
 
 const EmptyPage = () => (
@@ -31,28 +44,49 @@ const RequireEmployer = ({ element }) => (
   <RequireAuth requireRole={Role.Employer}>{element}</RequireAuth>
 );
 
+const RequireAdmin = ({ element }) => (
+  <RequireAuth requireRole={Role.Admin}>{element}</RequireAuth>
+);
+
 const App = () => (
   <AuthProvider>
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="login" element={<Login />} />
-      <Route path="/employers" element={<Employers />} />
-      <Route path="/for-employers" element={<EmployerHomePage />} />
-      <Route
-        path="/for-employers/post-job"
-        element={<RequireEmployer element={<PostJobLayout />} />}
-      >
-        <Route index element={<PostJob />} />
-        <Route path=":id" element={<EditJob />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route path="/admin" element={<RequireAdmin element={<Admin />} />}>
+        <Route index element={<Users />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="users" element={<Users />} />
+        <Route path="users/:userId" element={<User />} />
       </Route>
-      <Route
-        path="/for-employers/jobs"
-        element={<RequireEmployer element={<EmployerJobs />} />}
-      />
-      <Route
-        path="/for-employers/jobs/:id"
-        element={<RequireEmployer element={<CandidatesForJob />} />}
-      />
+
+      <Route path="profile/:userId" element={<Profile />} />
+      <Route path="account" element={<Account />} />
+
+      <Route path="/jobs" element={<JobsPage />} />
+      <Route path="/jobs/:jobId" element={<JobDescriptionPage />} />
+      <Route path="/notifications" element={<NotificationPage />} />
+
+      <Route path="/following" element={<JobsPage interestOnly />} />
+      <Route path="/messages" element={<MessagePage />} />
+
+      <Route path="/employers" element={<Employers />} />
+
+      <Route path="/for-employers" element={<ForEmployersLayout />}>
+        <Route index element={<EmployerHomePage />} />
+        <Route path="*" element={<RequireEmployer element={<Outlet />} />}>
+          <Route path="post-job" element={<PostJobLayout />}>
+            <Route index element={<PostJob />} />
+            <Route path=":jobId" element={<EditJob />} />
+          </Route>
+          <Route path="jobs" element={<EmployerJobs />} />
+          <Route path="jobs/:jobId" element={<CandidatesForJob />} />
+        </Route>
+      </Route>
+
       <Route path="*" element={<EmptyPage />} />
     </Routes>
   </AuthProvider>

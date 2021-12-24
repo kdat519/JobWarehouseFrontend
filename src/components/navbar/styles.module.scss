@@ -1,0 +1,21 @@
+@use "sass:math";
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+.top-5 {
+  top: 5px;
+}
+
+.mr-2 {
+  margin-right: 1rem;
+}
+
+.w-23 {
+  width: 23px;
+}
+
+.h-20 {
+  height: 20px;
+}
