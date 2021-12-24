@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 const messageAPI = {
   showAll: (params) => {
@@ -46,7 +46,7 @@ const messageAPI = {
   countUnseen: () => {
     const url = "chat/count/unseen";
     return axiosClient.get(url);
-  }
-}
+  },
+};
 
 export default messageAPI;

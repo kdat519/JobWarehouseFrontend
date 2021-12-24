@@ -66,7 +66,6 @@ const authApi = {
 
   updateAvatar: (params) => {
     const url = "/auth/upload-image";
-    //
 
     const formData = new FormData();
     formData.append("image", params.avatar[0]);

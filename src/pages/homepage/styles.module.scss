@@ -3,7 +3,12 @@
 @import "../../../node_modules/bootstrap/scss/mixins";
 
 @mixin bg-im($img-url) {
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url($img-url);
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.6)
+    ),
+    url($img-url);
   background-size: cover;
   background-position: center;
 }

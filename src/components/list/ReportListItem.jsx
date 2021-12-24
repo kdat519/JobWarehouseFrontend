@@ -7,7 +7,8 @@ export default function ReportListItem({ report }) {
         <Link
           className="text-decoration-none text-dark"
           to={`/admin/users/${report.receiver_id}`}
-        ><span className="fw-bold">{report.receiver_name},</span>
+        >
+          <span className="fw-bold">{report.receiver_name},</span>
           <span> {report.receiver_email} </span>
         </Link>
       </p>
@@ -21,7 +22,10 @@ export default function ReportListItem({ report }) {
           <span> {report.sender_email} </span>
         </Link>
         nhận xét vào
-        <span> {new Date(Date.parse(report?.updated_at)).toLocaleString()}</span>
+        <span>
+          {" "}
+          {new Date(Date.parse(report?.updated_at)).toLocaleString()}
+        </span>
       </p>
     </div>
   );

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useRef } from "react/cjs/react.development";
 import notifiactionAPI from "../../api/notificationAPI";
-import NavBar from "../../components/navbar/NavBar";
-import Notification from "../../components/notifications/Notification";
 import pusher from "../../api/pusher";
 import { Role, useAuth } from "../../components/auth/AuthProvider";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Loader from "./Loader";
-import EndMsg from "./EndMsg";
-import { useRef } from "react/cjs/react.development";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import NavBar from "../../components/navbar/NavBar";
+import Notification from "../../components/notifications/Notification";
+import EndMsg from "./EndMsg";
+import Loader from "./Loader";
 
 const NotificationPage = () => {
   const [notiUnSeenList, setNotiUnSeenList] = useState([]);
@@ -46,13 +46,10 @@ const NotificationPage = () => {
         notiUnSeenListRef.current = response.data;
         setNotiUnSeenList(notiUnSeenListRef.current);
 
-
         for (var i = 0; i < response.data.length; i++) {
           updateStatusMessage("unseen", response.data[i].notification_id);
         }
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchUnSeenNotiList();
@@ -68,9 +65,7 @@ const NotificationPage = () => {
         setNotiSeenList(
           Array.from(new Set([...notiSeenList, ...response.data]))
         );
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchSeenNotiList();

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import adminApi from "../../api/adminApi";
@@ -14,9 +14,7 @@ export default function User() {
       try {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
     fetchUser();
   }, [userId]);
@@ -49,9 +47,7 @@ export default function User() {
         setLastPage(response.data.last_page);
         setCurrentPage(response.data.current_page);
         setTotal(response.data.total);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchReports();
@@ -76,9 +72,7 @@ export default function User() {
         setLastPageFrom(response.data.last_page);
         setCurrentPageFrom(response.data.current_page);
         setTotalFrom(response.data.total);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchReportsFrom();

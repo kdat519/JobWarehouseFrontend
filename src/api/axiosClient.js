@@ -18,7 +18,6 @@ axiosClient.interceptors.request.use(
     return config;
   },
   function (error) {
-
     return Promise.reject(error);
   }
 );
@@ -31,7 +30,6 @@ axiosClient.interceptors.response.use(
     return response;
   },
   function (error) {
-
     return Promise.reject(error);
   }
 );

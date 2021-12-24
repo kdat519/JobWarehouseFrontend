@@ -2,8 +2,8 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Role, useAuth } from "../auth/AuthProvider";
 import AuthUserNavLayout from "./AuthUserNavLayout";
-import brandNameLogo from "./brandname.svg";
 import brandNameLogoWhite from "./brandname-white.svg";
+import brandNameLogo from "./brandname.svg";
 import GenericNavBar, {
   jobSeekerDark,
   NavItem,

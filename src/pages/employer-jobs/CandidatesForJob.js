@@ -102,6 +102,5 @@ const CandidatesForJob = () => {
     </main>
   );
 };
-//#endregion
 
 export default CandidatesForJob;

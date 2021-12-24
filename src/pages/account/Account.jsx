@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { Role, useAuth } from "../../components/auth/AuthProvider";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
-import authApi from "../../api/authApi";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import authApi from "../../api/authApi";
+import { Role, useAuth } from "../../components/auth/AuthProvider";
 import AdminNavBar from "../../components/navbar/AdminNavBar";
-import "./styles.css";
-import ImageCropperForm from "./ImageCropperForm";
-import NavBar from "../../components/navbar/NavBar";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
+import NavBar from "../../components/navbar/NavBar";
+import ImageCropperForm from "./ImageCropperForm";
+import "./styles.css";
 
 export default function Account() {
   const auth = useAuth();
@@ -23,9 +23,7 @@ export default function Account() {
       try {
         const response = await authApi.getProfile();
         if (!response.error) setProfile(response);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchProfile();
@@ -240,86 +238,6 @@ function ChangePasswordForm() {
   );
 }
 
-// function AvatarUpload() {
-//   const schema = Yup.object().shape({
-//     avatar: Yup.mixed()
-//       .required("Chưa chọn ảnh đại diện.")
-//       .test("fileSize", "Kích thước tối đa 2 MB", (value) => {
-//         return value && value[0]?.size <= 20000000;
-//       }),
-//   });
-
-//   const {
-//     register,
-//     handleSubmit,
-//     setValue,
-//     clearErrors,
-//     formState: { errors },
-//   } = useForm({ resolver: yupResolver(schema) });
-
-//   const [edit, setEdit] = useState(false);
-//   const [message, setMessage] = useState("");
-
-//   async function onSubmit(data) {
-//     try {
-//
-//       const response = await authApi.updateAvatar(data);
-//       setEdit(false);
-//       if (response.success) {
-//         setMessage("Cập nhật ảnh đại diện thành công.");
-//       } else {
-//         setMessage("Cập nhật ảnh đại diện thất bại.");
-//       }
-//     } catch (error) {
-//       setEdit(false);
-//       setMessage("Cập nhật ảnh đại diện thất bại.");
-//     }
-//   }
-
-//   return (
-//     <div>
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <div className="">
-//           <div className="d-flex align-items-center justify-content-between mb-2">
-//             <div className="">Ảnh đại diện</div>
-//             <button
-//               type="button"
-//               className="btn btn-link shadow-none text-decoration-none "
-//               onClick={() => {
-//                 setEdit(!edit);
-//                 setValue("avatar", []);
-//                 setMessage("");
-//                 clearErrors("avatar");
-//               }}
-//             >
-//               {edit ? "Hủy" : "Cập nhật"}
-//             </button>
-//           </div>
-//           <div className={` ${edit ? "" : "hidden"}`}>
-//             <div className="mb-3">
-//               <input
-//                 {...register("avatar")}
-//                 type="file"
-//                 name="avatar"
-//                 className={`form-control mb-3 ${
-//                   errors.avatar ? "is-invalid" : ""
-//                 }`}
-//               />
-//               <div className="invalid-feedback">{errors.avatar?.message}</div>
-//             </div>
-
-//             <button type="submit" className="btn btn-primary ms-auto">
-//               Lưu
-//             </button>
-//           </div>
-//           <div className="mb-3">{message}</div>
-//           <hr />
-//         </div>
-//       </form>
-//     </div>
-//   );
-// }
-
 function JobseekerEdit({ reload, setReload, profile }) {
   async function handleSave(data) {
     try {
@@ -333,9 +251,7 @@ function JobseekerEdit({ reload, setReload, profile }) {
         setEditGender(false);
         setEditBirthday(false);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
   const validationSchema = Yup.object().shape({
     birthday: Yup.string(),
@@ -677,9 +593,7 @@ function EmployerEdit({ reload, setReload, profile }) {
         setEditAboutUs(false);
         setEditNumEmployee(false);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
   const validationSchema = Yup.object().shape({
     num_employee: Yup.string(),

@@ -110,13 +110,11 @@ function JobDescription(props) {
     if (detail !== "") {
       const response = await reportAPI.createReport(params);
       if (response.success) {
-
       }
     }
   }
 
   function submitReport() {
-
     createReport(value);
     handleOnClickReport();
   }
@@ -200,12 +198,14 @@ function JobDescription(props) {
             >
               <i className={`bi ${getFill(isFollowing)} px-1 mt-1`}></i>
             </button>
-            {editable && <Link
-              className={`btn btn-outline-secondary mt-1 ${styles["ml-1"]}`}
-              to={`/for-employers/post-job/${recruitment.recruitment_id}`}
-            >
-              <i className="bi bi-pencil-square" />
-            </Link>}
+            {editable && (
+              <Link
+                className={`btn btn-outline-secondary mt-1 ${styles["ml-1"]}`}
+                to={`/for-employers/post-job/${recruitment.recruitment_id}`}
+              >
+                <i className="bi bi-pencil-square" />
+              </Link>
+            )}
           </div>
         </div>
         <div className="overflow-auto">

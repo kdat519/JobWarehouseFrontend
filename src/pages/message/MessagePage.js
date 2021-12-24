@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 import messageAPI from "../../api/messageAPI";
 import pusher from "../../api/pusher";
@@ -7,7 +8,6 @@ import ChatLine from "../../components/message/ChatLine";
 import UserList from "../../components/message/UserList";
 import EmployerNavBar from "../../components/navbar/EmployerNavBar";
 import NavBar from "../../components/navbar/NavBar";
-import { Link } from "react-router-dom";
 
 const MessagePage = () => {
   const authContext = useAuth();
@@ -173,9 +173,7 @@ const MessagePage = () => {
           userListRef.current = res.data;
           setUserList(res.data);
         });
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchUserList();
@@ -191,9 +189,7 @@ const MessagePage = () => {
           setMessageList(messageListRef.current);
           scrollToBottom();
         });
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchChatList();
@@ -206,9 +202,7 @@ const MessagePage = () => {
       if (response.success) {
         userRef.current = response.data;
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -250,7 +244,6 @@ const MessagePage = () => {
       mounted = false;
     };
   }, []);
-
 
   return (
     <div className="d-flex flex-column vh-100">
@@ -304,7 +297,12 @@ const MessagePage = () => {
                   />
                 </div>
                 <div className="col">
-                  <Link className="fw-bold m-0 h6 text-decoration-none" to={`/profile/${filterMessageListRef.current.other_id}`}>{chatName}</Link>
+                  <Link
+                    className="fw-bold m-0 h6 text-decoration-none"
+                    to={`/profile/${filterMessageListRef.current.other_id}`}
+                  >
+                    {chatName}
+                  </Link>
                 </div>
               </div>
             </div>

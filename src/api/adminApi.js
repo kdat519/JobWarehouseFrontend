@@ -13,14 +13,14 @@ const adminApi = {
 
   banUser: (id) => {
     const formData = new FormData();
-    formData.append("status", 'banned');
+    formData.append("status", "banned");
     const url = `admin/user/${id}`;
     return axiosClient.post(url, formData);
   },
 
   unbanUser: (id) => {
     const formData = new FormData();
-    formData.append("status", 'active');
+    formData.append("status", "active");
 
     const url = `admin/user/${id}`;
     return axiosClient.post(url, formData);

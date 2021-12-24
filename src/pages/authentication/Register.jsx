@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../components/auth/AuthProvider";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { useAuth } from "../../components/auth/AuthProvider";
 import "./styles.css";
 
 export default function Register() {
@@ -37,7 +37,11 @@ export default function Register() {
 
   return (
     <div className="register">
-      <form onSubmit={handleSubmit(onSubmit)} onChange={() => auth.setRegisterError("")} className="card form-login">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onChange={() => auth.setRegisterError("")}
+        className="card form-login"
+      >
         <h1 className="text-center h3">Đăng ký</h1>
         <p className="text-center fw-light mb-5">
           Đã có tài khoản?{" "}
@@ -80,7 +84,9 @@ export default function Register() {
             {...register("email")}
             placeholder="Nhập email"
             className={`form-control ${
-              errors.email || auth.registerError === "Email đã tồn tại" ? "is-invalid" : ""
+              errors.email || auth.registerError === "Email đã tồn tại"
+                ? "is-invalid"
+                : ""
             }`}
           />
           <label htmlFor="email">Email</label>
@@ -140,12 +146,20 @@ export default function Register() {
             type="text"
             {...register("phonenumber")}
             placeholder="Nhập số điện thoại"
-            className={`form-control ${errors.phonenumber || auth.registerError === "Số điện thoại đã được sử dụng"  ? "is-invalid" : ""}`}
+            className={`form-control ${
+              errors.phonenumber ||
+              auth.registerError === "Số điện thoại đã được sử dụng"
+                ? "is-invalid"
+                : ""
+            }`}
           />
           <label htmlFor="phonenumber">Số điện thoại</label>
-          <div className="invalid-feedback">{!errors.phonenumber && auth.registerError === "Số điện thoại đã được sử dụng"
+          <div className="invalid-feedback">
+            {!errors.phonenumber &&
+            auth.registerError === "Số điện thoại đã được sử dụng"
               ? auth.registerError
-              : errors.phonenumber?.message}</div>
+              : errors.phonenumber?.message}
+          </div>
         </div>
         <button id="submit" type="submit" className="mb-3 btn btn-primary">
           Đăng ký

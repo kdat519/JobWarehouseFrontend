@@ -11,7 +11,6 @@
   justify-content: center;
 }
 
-
 .auth-wrapper {
   display: flex;
   justify-content: center;
@@ -26,7 +25,7 @@
   box-shadow: 0px 14px 80px rgba(208, 208, 218, 0.2);
   padding: 40px 15px 45px 15px;
   border-radius: 15px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .ab {
@@ -88,8 +87,6 @@ div .auth-inner form button {
   padding: 0px 0px 0px 10px;
 }
 
-
 .red {
   color: red;
 }
-

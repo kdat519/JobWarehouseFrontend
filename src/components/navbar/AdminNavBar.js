@@ -13,7 +13,6 @@ export default function AdminNavBar() {
           <NavLink
             to="/logout"
             id="logout2"
-
             className=" ms-auto px-2 btn fw-bold mx-2 btn-primary text-white"
           >
             Đăng xuất
@@ -52,7 +51,6 @@ export default function AdminNavBar() {
           >
             Đăng xuất
           </NavLink>
-
         </div>
       </nav>
     </div>

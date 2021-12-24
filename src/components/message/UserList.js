@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import messageAPI from "../../api/messageAPI";
+import React, { useEffect, useState } from "react";
 import authApi from "../../api/authApi";
+import messageAPI from "../../api/messageAPI";
 
 UserList.propTypes = {
   user: PropTypes.object,
@@ -22,7 +22,6 @@ function UserList(props) {
     async function CountUnseen() {
       const params = { other_id: other_id, status: "unseen" };
       if (other_id) {
-
         try {
           const response = await messageAPI.checkUnseen(params);
           if (response.data > 0) {
@@ -30,9 +29,7 @@ function UserList(props) {
           } else {
             setUnSeen("seen");
           }
-        } catch (error) {
-
-        }
+        } catch (error) {}
       }
     }
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import messageApi from "../../api/messageAPI";
 import notificationApi from "../../api/notificationAPI";
+import pusher from "../../api/pusher";
 import { useAuth } from "../auth/AuthProvider";
 import { NavItem } from "./GenericNavBar";
-import pusher from "../../api/pusher";
 import styles from "./styles.module.scss";
 
 const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
@@ -27,21 +27,21 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
 
   function getwidth(id) {
     if (id === 0) {
-      return '';
+      return "";
     }
     return "w-23";
   }
 
   function getheight(id) {
     if (id === 0) {
-      return '';
+      return "";
     }
     return "h-20";
   }
 
   function getmargin(id) {
     if (id === 0) {
-      return '';
+      return "";
     }
     return "mr-2";
   }
@@ -51,13 +51,10 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       try {
         const response = await messageApi.countUnseen();
         if (response.success) {
-
           countUnseenRef.current = response.data;
           setCountUnseen(response.data);
         }
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     getUnseen();
@@ -69,13 +66,10 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
         const params = { status: "unseen" };
         const response = await notificationApi.countNoti(params);
         if (response.success) {
-
           setCountUnseenNoti(response.data);
           countUnseenNotiRef.current = response.data;
         }
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     getUnseenNoti();
@@ -126,16 +120,20 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
 
   return (
     <>
-      <NavItem to="/messages" className={`position-relative ${styles[getmargin(countUnseen)]}`}>
+      <NavItem
+        to="/messages"
+        className={`position-relative ${styles[getmargin(countUnseen)]}`}
+      >
         Tin nhắn
         <span
-          className={`position-absolute ${styles["top-5"]
-            } ${styles[getwidth(countUnseen)]} ${styles[getheight(countUnseen)]} start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
-              countUnseen
-            )}`}
-        >
-
-        </span>
+          className={`position-absolute ${styles["top-5"]} ${
+            styles[getwidth(countUnseen)]
+          } ${
+            styles[getheight(countUnseen)]
+          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+            countUnseen
+          )}`}
+        ></span>
       </NavItem>
       <NavItem
         to="/notifications"
@@ -143,10 +141,11 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       >
         Thông báo
         <span
-          className={`position-absolute ${styles["top-5"]
-            } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
-              countUnseenNoti
-            )}`}
+          className={`position-absolute ${
+            styles["top-5"]
+          } start-100 translate-middle badge rounded-pill bg-danger ${getDisplay(
+            countUnseenNoti
+          )}`}
         >
           {countUnseenNoti}
         </span>

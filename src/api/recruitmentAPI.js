@@ -9,7 +9,7 @@ const recruitAPI = {
   showOne: (id) => {
     const url = `recruitment/${id}`;
     return axiosClient.get(url);
-  }
-}
+  },
+};
 
 export default recruitAPI;

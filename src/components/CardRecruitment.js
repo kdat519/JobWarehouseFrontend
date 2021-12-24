@@ -1,7 +1,7 @@
+import DOMPurify from "dompurify";
+import PropTypes from "prop-types";
 import React from "react";
 import styles from "./cardRecruitment.module.scss";
-import PropTypes from "prop-types";
-import DOMPurify from "dompurify";
 
 CardRecruit.propTypes = {
   recruit: PropTypes.object,

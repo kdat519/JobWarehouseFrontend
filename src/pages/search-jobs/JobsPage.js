@@ -42,7 +42,6 @@ function RecruitmentPage({ interestOnly = false }) {
   }
 
   function handleChooseJob(value) {
-
     if (window.innerWidth <= 992) {
       navigate(`/jobs/${value.recruitment.recruitment_id}`);
     }
@@ -63,7 +62,6 @@ function RecruitmentPage({ interestOnly = false }) {
           : await recruitAPI.showAll(filter);
         if (response) setRecruitList(response);
         else setRecruitList([]);
-        //
         setPage(1);
         setJobDetail(response[0]);
         setListByPage(response.slice(0, 5));
@@ -71,7 +69,6 @@ function RecruitmentPage({ interestOnly = false }) {
         setTotalRecruit(response.length);
       } catch (error) {
         fireErrorMessage();
-        //
       }
     }
 

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import adminApi from "../../api/adminApi";
 import Pagination from "../../components/list/Pagination";
-import UserListItem from "../../components/list/UserListItem";
 import SearchForm from "../../components/list/SearchForm";
+import UserListItem from "../../components/list/UserListItem";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -43,9 +43,7 @@ export default function Users() {
         setUsers(response.users.data);
         setLastPage(response.users.last_page);
         setCurrentPage(response.users.current_page);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
 
     fetchUsers();
@@ -56,7 +54,11 @@ export default function Users() {
       <h1 className="mt-5 h2">Quản lý tài khoản</h1>
       <SearchForm onSubmit={handleFiltersChange} />
       {users.map((user) => (
-        <UserListItem key={user.user_id} user={user} handleBanChange={handleBanChange} />
+        <UserListItem
+          key={user.user_id}
+          user={user}
+          handleBanChange={handleBanChange}
+        />
       ))}
       <Pagination
         last_page={lastPage}
@@ -66,4 +68,3 @@ export default function Users() {
     </div>
   );
 }
-

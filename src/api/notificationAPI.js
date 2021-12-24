@@ -17,7 +17,6 @@ const notifiactionAPI = {
 
     formData.append("status", params.status);
     formData.append("notification_id", params.notification_id);
-    //
     return axiosClient.post(url, formData);
   },
 
@@ -29,7 +28,7 @@ const notifiactionAPI = {
   countNoti: (params) => {
     const url = "notification/user/status/count";
     return axiosClient.get(url, { params });
-  }
-}
+  },
+};
 
 export default notifiactionAPI;

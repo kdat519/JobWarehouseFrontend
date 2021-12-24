@@ -3,17 +3,17 @@ import axiosClient from "./axiosClient";
 const adminReportApi = {
   getReports: (params) => {
     const url = "/review";
-    return axiosClient.get(url, {params});
+    return axiosClient.get(url, { params });
   },
 
   getReportsTo: (id, params) => {
     const url = `review/to/${id}`;
-    return axiosClient.get(url, {params});
+    return axiosClient.get(url, { params });
   },
 
   getReportsFrom: (id, params) => {
     const url = `review/from/${id}`;
-    return axiosClient.get(url, {params});
+    return axiosClient.get(url, { params });
   },
 
   creatReport: (params) => {

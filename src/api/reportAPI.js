@@ -10,6 +10,6 @@ const reportAPI = {
 
     return axiosClient.post(url, formData);
   },
-}
+};
 
 export default reportAPI;

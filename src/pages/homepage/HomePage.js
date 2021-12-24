@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import NavBar from "../../components/navbar/NavBar";
 import styles from "./styles.module.scss";
-import { Link } from "react-router-dom";
 
 const HomePage = () => (
   <div className="d-flex flex-column vh-100">

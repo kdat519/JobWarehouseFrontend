@@ -1,9 +1,9 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../../components/auth/AuthProvider";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation } from "react-router-dom";
 import * as yup from "yup";
+import { useAuth } from "../../components/auth/AuthProvider";
 import "./styles.css";
 
 export default function Login() {
@@ -32,7 +32,11 @@ export default function Login() {
 
   return (
     <div className="login">
-      <form onSubmit={handleSubmit(onSubmit)} onChange={() => auth.setLoginError("")} className="card form-login">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onChange={() => auth.setLoginError("")}
+        className="card form-login"
+      >
         <h1 className="text-center h3">Đăng nhập</h1>
         <p className="text-center fw-light mb-5">
           Chưa có tài khoản?{" "}

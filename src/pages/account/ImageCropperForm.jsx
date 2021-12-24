@@ -116,7 +116,6 @@ export default function ImageCropperForm() {
       async function createFile() {
         var file = new File([blob], blob?.name, { type: blob?.type });
         if (file.size < 20000) {
-          
           const response = await authApi.updateAvatar({ avatar: [file] });
           setEdit(false);
           if (response.success) {
@@ -124,8 +123,7 @@ export default function ImageCropperForm() {
           } else {
             setMessage("Cập nhật ảnh đại diện thất bại.");
           }
-        }
-        else {
+        } else {
           setEdit(false);
           setMessage("Kích thước ảnh tối đa là 20 KB.");
         }

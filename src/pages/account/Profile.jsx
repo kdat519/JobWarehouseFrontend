@@ -25,9 +25,7 @@ export default function Profile() {
       try {
         const response = await adminApi.getUser(userId);
         if (response.success) setUser(response.data[0]);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
     fetchUser();
   }, [userId]);
@@ -42,9 +40,7 @@ export default function Profile() {
         const response = await adminReportApi.getReportsTo(userId);
         setReports(response.data.data);
         setTotal(response.data.total);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
     fetchReports();
   }, [userId, reload]);
@@ -84,9 +80,7 @@ export default function Profile() {
         setReload(!reload);
         setValue("detail", "");
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
   return (
     <>
@@ -110,7 +104,9 @@ export default function Profile() {
                 <div className="rounded-circle mb-5 profile-avatar border">
                   <img src={authApi.imageURL(user.user_id)} alt="avatar" />
                 </div>
-                <p className="h2" id="name-in-block">{user.name}</p>
+                <p className="h2" id="name-in-block">
+                  {user.name}
+                </p>
                 <p className="h5  mb-3 ">
                   {user.role === "jobseeker"
                     ? "Người tìm việc"
@@ -410,7 +406,6 @@ function Jobs({ employerId }) {
         Array.isArray(response) ? response : Promise.reject()
       )
       .then((data) => {
-
         setJobs(data);
       })
       .catch(fireErrorMessage);

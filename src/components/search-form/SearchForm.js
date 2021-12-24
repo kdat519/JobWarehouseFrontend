@@ -1,8 +1,8 @@
+import { Field, Form, Formik } from "formik";
+import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Field, Form, Formik } from "formik";
 import styles from "./styles.module.scss";
-import PropTypes from "prop-types";
 
 SearchForm.propTypes = {
   onSearchFormChange: PropTypes.func,
