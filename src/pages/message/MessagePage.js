@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 import messageAPI from "../../api/messageAPI";
@@ -15,7 +15,7 @@ const MessagePage = () => {
 
   const [userList, setUserList] = useState([]);
   const [messageList, setMessageList] = useState([]);
-  const [filteruserList, setFilterUserList] = useState({
+  const [filteruserList] = useState({
     user_id: authContext.user_id,
     get: 10,
   });
@@ -50,23 +50,26 @@ const MessagePage = () => {
     getUserList(e.target.value);
   }
 
-  async function getUserList(name) {
-    if (name === "") {
-      nameRef.current = "";
-      const response = await messageAPI.showLatestChat(filteruserList);
-      userListRef.current = response.data;
-      setUserList(response.data);
-    } else {
-      nameRef.current = name;
+  const getUserList = useCallback(
+    async function (name) {
+      if (name === "") {
+        nameRef.current = "";
+        const response = await messageAPI.showLatestChat(filteruserList);
+        userListRef.current = response.data;
+        setUserList(response.data);
+      } else {
+        nameRef.current = name;
 
-      const params = {
-        searchContent: name,
-      };
-      const response = await authApi.getUsers(params);
-      userListRef.current = response.users;
-      setUserList(response.users);
-    }
-  }
+        const params = {
+          searchContent: name,
+        };
+        const response = await authApi.getUsers(params);
+        userListRef.current = response.users;
+        setUserList(response.users);
+      }
+    },
+    [filteruserList]
+  );
 
   function handleClickUserList(id, name, email) {
     filterMessageListRef.current = { other_id: id, get: 20 };
@@ -134,25 +137,28 @@ const MessagePage = () => {
     }
   }
 
-  async function UpdateMessage() {
-    for (let i = 0; i < messageListRef.current.length; i++) {
-      if (
-        messageListRef.current[i].status === "unseen" &&
-        messageListRef.current[i].receiver_id === authContext.user_id
-      ) {
-        const params = {
-          status: "seen",
-          message_id: messageListRef.current[i].message_id,
-        };
-        const response = await messageAPI.updateChat(params);
+  const UpdateMessage = useCallback(
+    async function () {
+      for (let i = 0; i < messageListRef.current.length; i++) {
+        if (
+          messageListRef.current[i].status === "unseen" &&
+          messageListRef.current[i].receiver_id === authContext.user_id
+        ) {
+          const params = {
+            status: "seen",
+            message_id: messageListRef.current[i].message_id,
+          };
+          const response = await messageAPI.updateChat(params);
 
-        if (response.success) {
-          messageListRef.current[i].status = "seen";
+          if (response.success) {
+            messageListRef.current[i].status = "seen";
+          }
         }
       }
-    }
-    setMessageList(messageListRef.current);
-  }
+      setMessageList(messageListRef.current);
+    },
+    [authContext.user_id]
+  );
 
   useEffect(() => {
     async function fetchUserList() {
@@ -193,7 +199,7 @@ const MessagePage = () => {
     }
 
     fetchChatList();
-  }, [filterMessageList]);
+  }, [UpdateMessage, filterMessageList]);
 
   async function getUser(id) {
     try {
@@ -243,39 +249,39 @@ const MessagePage = () => {
       );
       mounted = false;
     };
-  }, []);
+  }, [UpdateMessage, authContext.user_id, getUserList]);
 
   return (
     <div className="d-flex flex-column vh-100">
       <header>{role === "jobseeker" ? <NavBar /> : <EmployerNavBar />}</header>
       <main className="d-flex align-items-center" style={{ flex: "0 1 100%" }}>
         <div className="container">
-          <div class="d-flex d-md-none input-group mb-2">
-            <span class="input-group-text">
-              <i class="bi bi-search"></i>
+          <div className="d-flex d-md-none input-group mb-2">
+            <span className="input-group-text">
+              <i className="bi bi-search"></i>
             </span>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Tìm kiếm người dùng..."
               onChange={handleSearchChange}
             />
           </div>
-          <div class="row align-items-center">
-            <div class="col-2 col-md-4">
-              <div class="d-none d-md-flex input-group mb-2">
-                <span class="input-group-text">
-                  <i class="bi bi-search"></i>
+          <div className="row align-items-center">
+            <div className="col-2 col-md-4">
+              <div className="d-none d-md-flex input-group mb-2">
+                <span className="input-group-text">
+                  <i className="bi bi-search"></i>
                 </span>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Tìm kiếm người dùng..."
                   onChange={handleSearchChange}
                 />
               </div>
             </div>
-            <div class="col-10 col-md-8 border-start">
+            <div className="col-10 col-md-8 border-start">
               <h6
                 className={
                   "display-6 border-bottom " + (userList.length ? "d-none" : "")
@@ -284,7 +290,7 @@ const MessagePage = () => {
                 Bắt đầu nhắn tin
               </h6>
               <div
-                class={
+                className={
                   "row border-bottom align-items-center py-2 " +
                   (userList.length ? "" : "d-none")
                 }
@@ -307,8 +313,8 @@ const MessagePage = () => {
               </div>
             </div>
           </div>
-          <div class="row" style={{ height: "70vh" }}>
-            <div class="col-2 col-md-4 h-100" style={{ overflowY: "auto" }}>
+          <div className="row" style={{ height: "70vh" }}>
+            <div className="col-2 col-md-4 h-100" style={{ overflowY: "auto" }}>
               {userList.map((user) => (
                 <UserList
                   key={user.other_id}
@@ -318,33 +324,33 @@ const MessagePage = () => {
                 />
               ))}
             </div>
-            <div class="col-10 col-md-8 overflow-auto border-start h-100">
+            <div className="col-10 col-md-8 overflow-auto border-start h-100">
               {messageList.map((message) => (
                 <ChatLine key={message.message_id} message={message} />
               ))}
               <div ref={messagesEndRef} />
             </div>
           </div>
-          <div class="row">
-            <div class="col-2 col-md-4" />
-            <div class="col-10 col-md-8 border-start">
-              <div class="input-group py-2">
+          <div className="row">
+            <div className="col-2 col-md-4" />
+            <div className="col-10 col-md-8 border-start">
+              <div className="input-group py-2">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Nhập tin nhắn..."
                   onKeyPress={handleSubmitText}
                   ref={newMessageRef}
                 />
                 <button
-                  class="btn btn-outline-primary"
+                  className="btn btn-outline-primary"
                   onClick={(e) => {
                     e.preventDefault();
                     CreateMessage(newMessageRef.current.value);
                     newMessageRef.current.value = "";
                   }}
                 >
-                  <i class="bi bi-send" />
+                  <i className="bi bi-send" />
                 </button>
               </div>
             </div>

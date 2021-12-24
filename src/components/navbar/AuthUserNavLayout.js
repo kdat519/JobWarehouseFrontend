@@ -94,7 +94,7 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       );
       mounted = false;
     };
-  }, []);
+  }, [authContext.user_id]);
 
   useEffect(() => {
     let mounted = true;
@@ -116,7 +116,7 @@ const AuthUserNavLayout = ({ logout, username, dark = false, children }) => {
       );
       mounted = false;
     };
-  }, []);
+  }, [authContext.user_id]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRef } from "react/cjs/react.development";
 import notifiactionAPI from "../../api/notificationAPI";
@@ -30,12 +30,13 @@ const NotificationPage = () => {
     }
   }
 
-  const unseenParams = { status: "unseen", get: 1000 };
+  const unseenParams = useMemo(() => ({ status: "unseen", get: 1000 }), []);
 
   async function updateStatusMessage(status, id) {
     if (status === "unseen") {
       const params = { status: "seen", notification_id: id };
-      const response = await notifiactionAPI.update(params);
+      // const response =
+      await notifiactionAPI.update(params);
     }
   }
 
@@ -53,7 +54,7 @@ const NotificationPage = () => {
     }
 
     fetchUnSeenNotiList();
-  }, []);
+  }, [unseenParams]);
 
   useEffect(() => {
     async function fetchSeenNotiList() {
@@ -69,7 +70,7 @@ const NotificationPage = () => {
     }
 
     fetchSeenNotiList();
-  }, [filters]);
+  }, [filters, notiSeenList]);
 
   const authContext = useAuth();
 
@@ -91,7 +92,7 @@ const NotificationPage = () => {
       );
       mounted = false;
     };
-  }, []);
+  }, [authContext.user_id]);
 
   return (
     <>

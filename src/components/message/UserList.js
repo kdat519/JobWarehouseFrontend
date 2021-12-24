@@ -61,7 +61,7 @@ function UserList(props) {
         <img className="rounded-circle w-100" src={getImage()} alt="avatar" />
       </div>
       <div className="d-none d-md-block col-10">
-        <div>{name}</div>
+        <div className="text-truncate">{name}</div>
         <div
           className={
             "text-truncate text-" + (unSeen === "unseen" ? "light" : "muted")

@@ -103,7 +103,7 @@ const CancelButton = () => {
 };
 
 const SubmitButton = () => {
-  const { initialValues, values, dirty } = useFormikContext();
+  const { initialValues, dirty } = useFormikContext();
 
   const btnColor = !dirty ? "btn-secondary" : "btn-primary";
   return (
